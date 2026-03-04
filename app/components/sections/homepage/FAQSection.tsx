@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { useScrollAnimation } from "@/app/components/hooks/useScrollAnimation";
-import { PrimaryButton } from "../shared/Buttons";
-import { ChevronDownIcon } from "../shared/Icons";
+import { PrimaryButton } from "../../shared/Buttons";
+import { ChevronDownIcon } from "../../shared/Icons";
 import { CircleHelp } from "lucide-react";
 interface FAQ {
   question: string;

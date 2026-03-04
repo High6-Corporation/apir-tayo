@@ -1,7 +1,7 @@
 "use client";
 
 import { useScrollAnimation } from "@/app/components/hooks/useScrollAnimation";
-import { PrimaryButton } from "../shared/Buttons";
+import { PrimaryButton } from "../../shared/Buttons";
 import { Tag, Layout, Settings, Headset, Zap } from "lucide-react";
 
 export function PricingSection() {

@@ -1,7 +1,7 @@
 "use client";
 
 import { useScrollAnimation } from "@/app/components/hooks/useScrollAnimation";
-import { PrimaryButton } from "../shared/Buttons";
+import { PrimaryButton } from "../../shared/Buttons";
 import { Info, ShieldCheck, CalendarCheck, Zap, type LucideIcon } from "lucide-react";
 interface Benefit {
   icon: string;

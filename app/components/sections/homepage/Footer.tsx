@@ -11,7 +11,7 @@ export function Footer() {
         <div className="hidden min-[981px]:grid grid-cols-2 gap-12 lg:gap-24 items-start">
           {/* Left Column - Logo and Contact */}
           <div>
-            <a href="#top" className="h-[75px] w-[294px] mb-12 block cursor-pointer">
+            <a href="/" className="h-[75px] w-[294px] mb-12 block cursor-pointer">
               <img src={'/assets/21d4ce298801e0be4817d2f654476dd5b3cbcb08.png'} alt="Logo" className="h-full w-auto object-cover" />
             </a>
             <div className="font-medium text-[15px] leading-[normal] tracking-[-0.3px] text-[#59646b]">
@@ -61,7 +61,7 @@ export function Footer() {
         {/* Mobile Layout (980px and below) - Single Centered Column */}
         <div className="flex flex-col items-center text-center gap-8 min-[981px]:hidden">
           {/* Logo */}
-          <a href="#top" className="h-[75px] w-[294px] cursor-pointer">
+          <a href="/" className="h-[75px] w-[294px] cursor-pointer">
             <img src={'/assets/21d4ce298801e0be4817d2f654476dd5b3cbcb08.png'} alt="Logo" className="h-full w-auto object-cover" />
           </a>
 

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useScrollAnimation } from "@/app/components/hooks/useScrollAnimation";
-import { StarIcon } from "../shared/Icons";
+import { StarIcon } from "../../shared/Icons";
 import { MessageSquare } from "lucide-react";
 interface Testimonial {
   image: string;

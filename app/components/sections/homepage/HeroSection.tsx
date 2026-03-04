@@ -1,7 +1,7 @@
 "use client";
 
-import { PortfolioGallery } from "../PortfolioGallery";
-import { PrimaryButton } from "../shared/Buttons";
+import { PortfolioGallery } from "./PortfolioGallery";
+import { PrimaryButton } from "../../shared/Buttons";
 import { Timer } from "lucide-react";
 export function HeroSection() {
   return (

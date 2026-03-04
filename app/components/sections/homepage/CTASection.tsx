@@ -1,7 +1,7 @@
 "use client";
 
 import { useScrollAnimation } from "@/app/components/hooks/useScrollAnimation";
-import { PrimaryButton, SecondaryButton } from "../shared/Buttons";
+import { PrimaryButton, SecondaryButton } from "../../shared/Buttons";
 
 export function CTASection() {
   const { elementRef: ctaRef, isVisible: ctaVisible } = useScrollAnimation();

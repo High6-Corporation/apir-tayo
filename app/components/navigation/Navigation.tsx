@@ -22,7 +22,7 @@ export function Navigation() {
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-20 py-6 lg:py-6">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <a href="#top" className="h-11 w-[174px] shrink-0 cursor-pointer">
+          <a href="/" className="h-11 w-[174px] shrink-0 cursor-pointer">
             <img src={'/assets/21d4ce298801e0be4817d2f654476dd5b3cbcb08.png'} alt="Logo" className="h-full w-full object-cover" />
           </a>
 
@@ -36,9 +36,9 @@ export function Navigation() {
           </nav>
 
           {/* CTA Button */}
-          <button className="hidden min-[1180px]:flex bg-[#5757ff] items-center justify-center px-[18px] py-3.5 rounded-full text-white font-semibold text-[14px] tracking-[-0.28px] hover:bg-[#24247d] transition-colors duration-300">
+          <a href="/contact" className="hidden min-[1180px]:flex bg-[#5757ff] items-center justify-center px-[18px] py-3.5 rounded-full text-white font-semibold text-[14px] tracking-[-0.28px] hover:bg-[#24247d] transition-colors duration-300">
             Contact Us
-          </button>
+          </a>
 
           {/* Mobile Menu Button */}
           <button
@@ -81,9 +81,9 @@ export function Navigation() {
                 {link}
               </a>
             ))}
-            <button className="bg-[#5757ff] hover:bg-[#24247d] mt-2 w-full items-center justify-center px-[18px] py-3.5 rounded-full text-white font-semibold text-[14px] tracking-[-0.28px] transition-colors duration-300">
+            <a href="/contact" className="bg-[#5757ff] hover:bg-[#24247d] mt-2 w-full flex items-center justify-center px-[18px] py-3.5 rounded-full text-white font-semibold text-[14px] tracking-[-0.28px] transition-colors duration-300">
               Contact Us
-            </button>
+            </a>
           </nav>
         </div>
       </div>

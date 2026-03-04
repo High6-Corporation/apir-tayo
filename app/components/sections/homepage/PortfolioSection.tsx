@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useScrollAnimation } from "@/app/components/hooks/useScrollAnimation";
-import { PrimaryButton } from "../shared/Buttons";
+import { PrimaryButton } from "../../shared/Buttons";
 import { Briefcase, ExternalLink } from "lucide-react";
 interface Project {
   image: string;

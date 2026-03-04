@@ -1,7 +1,7 @@
 "use client";
 
 import { useScrollAnimation } from "@/app/components/hooks/useScrollAnimation";
-import { PrimaryButton } from "../shared/Buttons";
+import { PrimaryButton } from "../../shared/Buttons";
 export function TrustSection() {
   const { elementRef: contentRef, isVisible: contentVisible } = useScrollAnimation();
   const { elementRef: imagesRef, isVisible: imagesVisible } = useScrollAnimation();
