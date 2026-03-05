@@ -13,8 +13,8 @@ const steps: Step[] = [
   {
     number: "1",
     icon: "/assets/purchase-icon.svg",
-    title: "Purchase the Plan",
-    description: "Choose your plan and get instant access to start the process.",
+    title: "Choose Your Plan",
+    description: "Select the package that fits your business and complete your subscription.",
     numberPath: "1"
   },
   {

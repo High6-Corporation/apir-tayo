@@ -1,7 +1,8 @@
 "use client";
 
-import { PortfolioGallery } from "./PortfolioGallery";
-import { PrimaryButton } from "../../shared/Buttons";
+import Link from "next/link";
+import { PortfolioGallery } from "@/app/components/sections/homepage/PortfolioGallery";
+import { PrimaryButton } from "@/app/components/shared/Buttons";
 import { Timer } from "lucide-react";
 export function HeroSection() {
   return (
@@ -25,24 +26,26 @@ export function HeroSection() {
               <div className="inline-flex items-center gap-2 px-[10px] py-[8px] rounded-full border border-[rgba(0,0,0,0.05)] mb-6">
                 <Timer className="size-6 text-[#5757FF] shrink-0" />
                 <p className="font-normal text-[12px] tracking-[-0.24px] text-[#333]">
-                  <span>Limited Slots This Month — One-Page Websites from </span>
+                  <span>Professional Website — Starting at </span>
                   <span className="font-bold text-[#5757ff]">₱2,300/mo</span>
                 </p>
               </div>
 
               {/* Heading */}
               <h1 className="max-[981px]:max-w-[550px] font-semibold tracking-[-1.1px] mb-6">
-                <span className="text-[#333]">High-Converting Websites </span>
-                <span className="text-[#5757ff]">Designed to Launch Fast.</span>
+                <span className="text-[#333]">Professional Website. </span>
+                <span className="text-[#5757ff]">Launched Fast. <br/>Done For You.</span>
               </h1>
 
               {/* Description */}
               <p className="font-medium text-[15px] leading-[30px] tracking-[-0.3px] text-[#333] mb-8">
-                We design and build stunning one-page websites in Framer — optimized for speed, clarity, and conversions. Perfect for startups, services, and growing brands.
+                We build professional one-page websites that clearly present your business and make it easy for customers to contact you. Fast, affordable, and done for you.
               </p>
 
               {/* CTA Button */}
-              <PrimaryButton className="z-10">Get a High-Converting Page — ₱2,300/mo</PrimaryButton>
+              <Link href="/contact">
+                <PrimaryButton className="z-10">Get a High-Converting Page — ₱2,300/mo</PrimaryButton>
+              </Link>
             </div>
 
             {/* Right Column - Portfolio Preview Gallery */}
@@ -59,15 +62,16 @@ export function HeroSection() {
                 <div className="inline-flex items-center gap-2 px-[10px] py-[8px] rounded-full border border-[rgba(0,0,0,0.05)] bg-white shadow-lg mb-6">
                   <Timer className="size-6 text-[#5757FF] shrink-0" />
                   <p className="font-normal text-[12px] tracking-[-0.24px] text-[#333]">
-                    <span>Limited Slots This Month — One-Page Websites from </span>
+                    <span>Professional Website — Starting at </span>
                     <span className="font-bold text-[#5757ff]">₱2,300/mo</span>
                   </p>
                 </div>
 
                 {/* Heading */}
                 <h1 className="font-semibold tracking-[-1.1px] mb-6 text-[#333]">
-                  <span className="text-[#333]">High-Converting Websites </span>
-                  <span className="text-[#5757ff]">Designed to Launch Fast.</span>
+                  <span className="text-[#333]">Professional Website.</span><br/>
+                  <span className="text-[#5757ff]">Launched Fast.<br/></span>
+                  <span className="text-[#5757ff]">Done For You.</span>
                 </h1>
 
                 {/* Description */}
@@ -76,7 +80,9 @@ export function HeroSection() {
                 </p>
 
               {/* CTA Button */}
-              <PrimaryButton>Get a High-Converting Page — ₱2,300/mo</PrimaryButton>
+              <Link href="/contact">
+                <PrimaryButton>Get a High-Converting Page — ₱2,300/mo</PrimaryButton>
+              </Link>
             </div>
 
             {/* Portfolio Gallery Below Content */}

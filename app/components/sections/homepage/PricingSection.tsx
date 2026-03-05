@@ -2,7 +2,7 @@
 
 import { useScrollAnimation } from "@/app/components/hooks/useScrollAnimation";
 import { PrimaryButton } from "../../shared/Buttons";
-import { Tag, Layout, Settings, Headset, Zap } from "lucide-react";
+import Link from "next/link";
 
 export function PricingSection() {
   const { elementRef: headerRef, isVisible: headerVisible } = useScrollAnimation();
@@ -104,7 +104,7 @@ export function PricingSection() {
           </div>
 
           <div className="flex justify-center">
-            <PrimaryButton>Get Started Today</PrimaryButton>
+            <Link href="/contact"><PrimaryButton>Get Started Today</PrimaryButton></Link>
           </div>
         </div>
       </div>

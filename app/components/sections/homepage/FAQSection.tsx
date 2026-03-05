@@ -4,7 +4,8 @@ import { useState } from "react";
 import { useScrollAnimation } from "@/app/components/hooks/useScrollAnimation";
 import { PrimaryButton } from "../../shared/Buttons";
 import { ChevronDownIcon } from "../../shared/Icons";
-import { CircleHelp } from "lucide-react";
+import Link from "next/link";
+
 interface FAQ {
   question: string;
   answer: string;
@@ -72,7 +73,7 @@ export function FAQSection() {
             <h4 className="font-bold text-[#5757ff]">Can't Find Your Answer Here?</h4>
             <p className="font-medium text-[15px] leading-[16px] text-[#59646b]">We Can Help Out!</p>
           </div>
-          <PrimaryButton>Schedule a Call</PrimaryButton>
+          <Link href="/contact"><PrimaryButton>Schedule a Call</PrimaryButton></Link>
         </div>
       </div>
     </section>

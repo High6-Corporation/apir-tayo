@@ -2,6 +2,8 @@
 
 import { useScrollAnimation } from "@/app/components/hooks/useScrollAnimation";
 import { PrimaryButton } from "../../shared/Buttons";
+import Link from "next/link";
+
 export function TrustSection() {
   const { elementRef: contentRef, isVisible: contentVisible } = useScrollAnimation();
   const { elementRef: imagesRef, isVisible: imagesVisible } = useScrollAnimation();
@@ -55,7 +57,7 @@ export function TrustSection() {
               </p>
             </div>
             <div>
-              <PrimaryButton>Get a High-Converting Page — ₱2,300/mo</PrimaryButton>
+              <Link href="/contact"><PrimaryButton>Get a High-Converting Page — ₱2,300/mo</PrimaryButton></Link>
             </div>
           </div>
         </div>

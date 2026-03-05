@@ -2,7 +2,8 @@
 
 import { useScrollAnimation } from "@/app/components/hooks/useScrollAnimation";
 import { PrimaryButton } from "../../shared/Buttons";
-import { Info, ShieldCheck, CalendarCheck, Zap, type LucideIcon } from "lucide-react";
+import Link from "next/link";
+
 interface Benefit {
   icon: string;
   title: string;
@@ -56,7 +57,7 @@ export function WhyOnePageSection() {
             </p>
 
             {/* CTA Button */}
-            <PrimaryButton className="self-start max-[1023px]:self-center">Get Started Today</PrimaryButton>
+            <Link href="/contact"><PrimaryButton className="self-start max-[1023px]:self-center">Get Started Today</PrimaryButton></Link>
           </div>
 
           {/* Right Column - Benefits Grid */}
