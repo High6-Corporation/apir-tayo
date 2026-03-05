@@ -96,9 +96,24 @@ export function ContactForm() {
             placeholder={`${field.label}${field.required ? "*" : ""}`}
             required={field.required}
             value={formData[field.id] || ""}
-            onChange={(e) =>
-              setFormData({ ...formData, [field.id]: e.target.value })
-            }
+            onChange={(e) => {
+              // Phone field specific logic
+              if (field.type === "phone" || field.type === "tel") {
+                let value = e.target.value;
+
+                if ((value.match(/\+/g) || []).length > 1) {
+                  return;
+                }
+
+                value = value.replace(/[^\d\s\+\-\(\)]/g, "");
+
+                setFormData({ ...formData, [field.id]: value });
+                return;
+              }
+
+              // Default behavior for other fields
+              setFormData({ ...formData, [field.id]: e.target.value });
+            }}
             className="bg-white border border-[rgba(0,0,0,0.1)] rounded-[5px] h-[48px] w-full px-[14px] text-[15px] tracking-[-0.45px] placeholder:text-[rgba(0,0,0,0.5)] focus:outline-none focus:border-[#5757ff] transition-colors"
           />
         )
