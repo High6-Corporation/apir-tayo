@@ -18,9 +18,8 @@ export async function POST(request: NextRequest) {
   const { query, variables } = await request.json();
   
   const baseUrl = process.env.WORDPRESS_URL;
-  const credentials = Buffer.from(
-    `${process.env.GFORM_CONSUMER_KEY}:${process.env.GFORM_CONSUMER_SECRET}`
-  ).toString("base64");
+
+  const credentials = Buffer.from(`${process.env.GFORM_CONSUMER_KEY}:${process.env.GFORM_CONSUMER_SECRET}`).toString('base64');
 
   // GraphQL Schema
   if (query.includes("form {")) {
@@ -47,13 +46,13 @@ export async function POST(request: NextRequest) {
   if (query.includes("submitForm")) {
     const { input } = variables;
     
-    // input contains field IDs as keys (e.g., {"1": "John", "3": "john@email.com"})
-    const entryData = {
-      form_id: 1,
-      ...input,
-    };
+    const entryData = Object.fromEntries(
+      Object.entries(input).map(([fieldId, value]) => [`input_${fieldId}`, value])
+    );
 
-    const res = await fetch(`${baseUrl}/wp-json/gf/v2/entries`, {
+    const formId = process.env.WP_GRAVITY_FORM_CONTACT_ID;
+
+    const res = await fetch(`${baseUrl}/wp-json/gf/v2/forms/${formId}/submissions`, {
       method: "POST",
       headers: {
         Authorization: `Basic ${credentials}`,

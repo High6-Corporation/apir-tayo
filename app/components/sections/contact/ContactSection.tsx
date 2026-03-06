@@ -24,7 +24,7 @@ export function ContactSection() {
           </div>
 
           {/* Right - GraphQL Form */}
-          <div className="w-full lg:w-[630px] bg-white rounded-[20px] shadow-[0px_4px_25px_0px_rgba(0,0,0,0.25)] p-[20px] md:p-[30px] overflow-hidden">
+          <div className="w-full lg:w-[630px] max-w-[630px] m-auto bg-white rounded-[20px] shadow-[0px_4px_25px_0px_rgba(0,0,0,0.25)] p-[20px] md:p-[30px] overflow-hidden">
             <ContactForm />
           </div>
         </div>

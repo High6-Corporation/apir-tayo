@@ -10,6 +10,7 @@ async function graphql(query: string, variables?: any) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ query, variables }),
   });
+  console.log(res);
   return res.json();
 }
 
@@ -38,6 +39,7 @@ export function ContactForm() {
         }
       }
     `).then((data) => {
+      console.log(data);
       const formFields = data.data?.form?.fields || [];
       setFields(formFields);
       // Init form data
