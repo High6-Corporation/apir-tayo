@@ -24,18 +24,18 @@ export function TrustSection() {
               <div className="flex gap-4 items-end max-[1023px]:items-center">
                 {/* Large Square - 325x325px */}
                 <div className="w-[325px] h-[325px] max-[1023px]:w-[calc(50%-8px)] max-[1023px]:h-auto max-[1023px]:aspect-square rounded-[6px] overflow-hidden shadow-lg">
-                  <img src={'/assets/team-image1.png'} alt="" className="w-full h-full object-cover" />
+                  <img src={'/assets/high6 team-3.jpg'} alt="" className="w-full h-full object-cover" />
                 </div>
                 {/* Small Square - 230x230px */}
                 <div className="w-[230px] h-[230px] max-[1023px]:w-[calc(50%-8px)] max-[1023px]:h-auto max-[1023px]:aspect-square rounded-[6px] overflow-hidden shadow-lg">
-                  <img src={'/assets/team-image2.png'} alt="" className="w-full h-full object-cover" />
+                  <img src={'/assets/high6 team-2.jpg'} alt="" className="w-full h-full object-cover" />
                 </div>
               </div>
               
               {/* 2nd Container: Bottom row with rectangle - 463x230px */}
               <div className="w-full flex justify-start max-[1023px]:justify-center">
                 <div className="w-[463px] h-[230px] max-[1023px]:w-full max-[1023px]:h-auto max-[1023px]:aspect-[463/230] rounded-[6px] overflow-hidden shadow-lg">
-                  <img src={'/assets/team-image3.png'} alt="" className="w-full h-full object-cover" />
+                  <img src={'/assets/high6 team-4.jpg'} alt="" className="w-full h-full object-cover" />
                 </div>
               </div>
             </div>
