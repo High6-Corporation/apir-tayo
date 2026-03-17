@@ -29,7 +29,7 @@ export function CTASection() {
               </div>
 
               <div className="flex flex-col min-[661px]:flex-row gap-4 items-center shadow-[0px_4px_25px_0px_rgba(0,0,0,0.05)]">
-                <Link href="/contact"><PrimaryButton>Get a High… Get a Professional Web Page - ₱2,300/mo</PrimaryButton></Link>
+                <Link href="/contact"><PrimaryButton>Get a Professional Web Page - ₱2,300/mo</PrimaryButton></Link>
                 <Link href="/contact"><SecondaryButton>Schedule a Call</SecondaryButton></Link>
               </div>
 
