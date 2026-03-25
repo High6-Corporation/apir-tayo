@@ -12,28 +12,22 @@ interface Testimonial {
 }
 const testimonials: Testimonial[] = [
   {
-    image: "/assets/fe469b185e22c22c52d0ffd1f48cc2456391a87f.png",
-    quote: "They delivered a beautiful one-page website that clearly explains our service and converts visitors into leads. Fast, professional, and easy to work with.",
-    name: "Alex Young",
-    position: "Founder, Mac Aire"
+    image: "/assets/gtgo.png",
+    quote: "High6 delivered a clean, modern website that perfectly reflects our brand. The process was smooth, fast, and very well-managed from start to finish.",
+    name: "Jason Go",
+    position: "Vice President, GTGO Enterprises Inc."
   },
   {
-    image: "/assets/fe469b185e22c22c52d0ffd1f48cc2456391a87f.png",
-    quote: "Working with them was seamless. Our new website perfectly captures our brand and has significantly improved our online presence.",
-    name: "Sarah Chen",
-    position: "CEO, Tech Solutions"
+    image: "/assets/premiere-builders-corp.png",
+    quote: "Working with High6 was seamless. They understood our requirements clearly and delivered a website that looks professional and performs well across all devices.",
+    name: "Gene Nicolas",
+    position: "Founder, Premiere Builders Corp."
   },
   {
-    image: "/assets/fe469b185e22c22c52d0ffd1f48cc2456391a87f.png",
-    quote: "Exceptional quality and attention to detail. They understood our vision and brought it to life better than we imagined.",
-    name: "Michael Rodriguez",
-    position: "Director, Creative Agency"
-  },
-  {
-    image: "/assets/fe469b185e22c22c52d0ffd1f48cc2456391a87f.png",
-    quote: "The process was smooth and efficient. Our clients love the new website, and we've seen a noticeable increase in inquiries.",
-    name: "Emily Watson",
-    position: "Founder, Design Studio"
+    image: "/assets/all-about-people.png",
+    quote: "High6 transformed our ideas into a functional and engaging website. Their attention to detail and responsiveness made the entire collaboration easy and efficient.",
+    name: "Claudia Soriano",
+    position: "CEO, All About People"
   }
 ];
 
