@@ -10,19 +10,12 @@ interface Project {
   url: string;
 }
 const projects: Project[] = [
+  { image: "/assets/soding-bros.png", title: "Soding Bros", category: "Technology", url: "https://sodingbros.com/" },
+  { image: "/assets/tipping-point-ph.png", title: "Tipping Point PH", category: "Services", url: "https://tippingpoint.ph/" },
+  { image: "/assets/adhaven.png", title: "Ad-Haven", category: "Maintenance", url: "https://ad-haven.com/" },
+  { image: "/assets/mjl.png", title: "Michael James Love", category: "Education", url: "https://michaeljameslove.com/" },
   { image: "/assets/69608c73f7374bc0cc7e836fb4d87a10f6e2c208.png", title: "City Tech", category: "Construction", url: "https://citytech.com.ph/" },
   { image: "/assets/3f5a380ce7d9387320c7ce2309ba10a3a368ee9a.png", title: "Edgetech", category: "Industrial", url: "https://edgetech-ph.com/" },
-  { image: "/assets/1b9fc4abfa19b607bd7ecbd8cdaf9def5b7c2a8c.png", title: "Innovative Solutions", category: "Technology", url: "https://innovative-sti.com/" },
-  { image: "/assets/700c98198e7af7cb1dd20e06205d51fc88aed9dd.png", title: "Corporate Gifts", category: "Importer", url: "https://corporategifts.com.ph/" },
-  { image: "/assets/dadb5498f0e11be6e776b80311e2c82a3e141381.png", title: "Alusys", category: "Construction", url: "https://alusysalum.com/" },
-  { image: "/assets/c09bce6ed0251c17ec6cc173331395d91b242d4a.png", title: "Filnippon", category: "Technology", url: "https://filnippon.com/" },
-  // Additional hidden projects (duplicates for demo)
-  { image: "/assets/69608c73f7374bc0cc7e836fb4d87a10f6e2c208.png", title: "City Tech", category: "Construction", url: "https://citytech.com.ph/" },
-  { image: "/assets/3f5a380ce7d9387320c7ce2309ba10a3a368ee9a.png", title: "Edgetech", category: "Industrial", url: "https://edgetech-ph.com/" },
-  { image: "/assets/1b9fc4abfa19b607bd7ecbd8cdaf9def5b7c2a8c.png", title: "Innovative Solutions", category: "Technology", url: "https://innovative-sti.com/" },
-  { image: "/assets/700c98198e7af7cb1dd20e06205d51fc88aed9dd.png", title: "Corporate Gifts", category: "Importer", url: "https://corporategifts.com.ph/" },
-  { image: "/assets/dadb5498f0e11be6e776b80311e2c82a3e141381.png", title: "Alusys", category: "Construction", url: "https://alusysalum.com/" },
-  { image: "/assets/c09bce6ed0251c17ec6cc173331395d91b242d4a.png", title: "Filnippon", category: "Technology", url: "https://filnippon.com/" }
 ];
 
 export function PortfolioSection() {
