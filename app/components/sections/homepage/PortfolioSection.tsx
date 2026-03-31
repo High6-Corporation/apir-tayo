@@ -2,8 +2,7 @@
 
 import { useState } from "react";
 import { useScrollAnimation } from "@/app/components/hooks/useScrollAnimation";
-import { PrimaryButton } from "../../shared/Buttons";
-import { Briefcase, ExternalLink } from "lucide-react";
+import { Briefcase } from "lucide-react";
 interface Project {
   image: string;
   title: string;
@@ -74,22 +73,15 @@ export function PortfolioSection() {
                   className="w-full h-auto object-cover object-top absolute top-0 left-0 transition-transform duration-[3000ms] ease-linear group-hover:translate-y-[calc(-100%+223px)]" 
                 />
               </div>
-              <div className="h-[64px] rounded-b-[16px] px-[18px] flex items-center justify-between">
+              <div className="h-[64px] rounded-b-[16px] px-[18px] flex items-center">
                 <div>
                   <h4 className="font-bold tracking-[-0.6px] text-[#5757ff]">{project.title}</h4>
                   <p className="font-medium text-[15px] tracking-[-0.45px] text-[#59646b]">{project.category}</p>
                 </div>
-                <ExternalLink className="size-7 text-[#5757ff] shrink-0" />
               </div>
             </a>
           ))}
         </div>
-
-        {!showAll && (
-          <div className="flex justify-center">
-            <PrimaryButton onClick={() => setShowAll(true)}>View All Projects</PrimaryButton>
-          </div>
-        )}
       </div>
     </section>
   );
