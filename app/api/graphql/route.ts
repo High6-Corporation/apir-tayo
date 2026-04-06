@@ -62,7 +62,6 @@ export async function POST(request: NextRequest) {
     });
 
     const result = await res.json();
-    console.log(result);
     
     if (result.is_valid === false) {
       return NextResponse.json({

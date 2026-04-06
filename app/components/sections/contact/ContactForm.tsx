@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { getGForms } from "@/app/library/wordpress/contact-us/action";
 
 // Simple GraphQL client
 async function graphql(query: string, variables?: any) {
@@ -11,38 +10,26 @@ async function graphql(query: string, variables?: any) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ query, variables }),
   });
-  console.log(res);
   return res.json();
 }
 
-export function ContactForm() {
+export function ContactForm({ formFields }: { formFields: any[] }) {
   const router = useRouter();
-  const [fields, setFields] = useState<any[]>([]);
+  const [fields, setFields] = useState<any[]>(formFields);
   const [formData, setFormData] = useState<Record<string, string>>({});
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<{
     type: "success" | "error" | null;
     message: string;
   }>({ type: null, message: "" });
 
-  // Fetch form fields
+  // Init form data
   useEffect(() => {
-    getGForms().then((data: any) => {
-      const formFields = data.gfForm?.formFields?.nodes || [];
-      const mappedFields = formFields.map((f: any) => ({
-        id: f.databaseId,
-        type: f.type.toLowerCase(),
-        label: f.label,
-        required: false,
-      }));
-      setFields(mappedFields);
-      const empty: Record<string, string> = {};
-      mappedFields.forEach((f: any) => (empty[f.id] = ""));
-      setFormData(empty);
-      setLoading(false);
-    });
-  }, []);
+    const empty: Record<string, string> = {};
+    formFields.forEach((f: any) => (empty[f.id] = ""));
+    setFormData(empty);
+  }, [formFields]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

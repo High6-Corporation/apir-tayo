@@ -2,7 +2,11 @@
 
 import { ContactForm } from "./ContactForm";
 
-export function ContactSection() {
+interface ContactSectionProps {
+  formFields: any[];
+}
+
+export function ContactSection({ formFields }: ContactSectionProps) {
   return (
     <section className="relative overflow-hidden bg-white py-12">
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-20 pt-16">
@@ -25,7 +29,7 @@ export function ContactSection() {
 
           {/* Right - GraphQL Form */}
           <div className="w-full lg:w-[630px] max-w-[630px] m-auto bg-white rounded-[20px] shadow-[0px_4px_25px_0px_rgba(0,0,0,0.25)] p-[20px] md:p-[30px] overflow-hidden">
-            <ContactForm />
+            <ContactForm formFields={formFields} />
           </div>
         </div>
       </div>
