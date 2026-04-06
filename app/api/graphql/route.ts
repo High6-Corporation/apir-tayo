@@ -62,7 +62,21 @@ export async function POST(request: NextRequest) {
     });
 
     const result = await res.json();
+    console.log(result);
     
+    if (result.is_valid === false) {
+      return NextResponse.json({
+        data: {
+          submitForm: {
+            success: false,
+            entryId: null,
+            message: "Validation failed.",
+            validationMessages: result.validation_messages || {},
+          },
+        },
+      });
+    }
+
     return NextResponse.json({
       data: {
         submitForm: {

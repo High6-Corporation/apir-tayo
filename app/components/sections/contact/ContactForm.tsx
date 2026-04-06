@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { getGForms } from "@/app/library/wordpress/contact-us/action";
 
 // Simple GraphQL client
 async function graphql(query: string, variables?: any) {
@@ -27,24 +28,17 @@ export function ContactForm() {
 
   // Fetch form fields
   useEffect(() => {
-    graphql(`
-      query {
-        form {
-          fields {
-            id
-            type
-            label
-            required
-          }
-        }
-      }
-    `).then((data) => {
-      console.log(data);
-      const formFields = data.data?.form?.fields || [];
-      setFields(formFields);
-      // Init form data
+    getGForms().then((data: any) => {
+      const formFields = data.gfForm?.formFields?.nodes || [];
+      const mappedFields = formFields.map((f: any) => ({
+        id: f.databaseId,
+        type: f.type.toLowerCase(),
+        label: f.label,
+        required: false,
+      }));
+      setFields(mappedFields);
       const empty: Record<string, string> = {};
-      formFields.forEach((f: any) => (empty[f.id] = ""));
+      mappedFields.forEach((f: any) => (empty[f.id] = ""));
       setFormData(empty);
       setLoading(false);
     });
