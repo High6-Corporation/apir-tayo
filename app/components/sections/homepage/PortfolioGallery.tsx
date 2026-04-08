@@ -71,7 +71,7 @@ export function PortfolioGallery() {
             <div className="bg-[rgba(255,255,255,0.17)] h-[301.025px] rounded-[20px] shadow-[0px_4px_45px_0px_rgba(0,0,0,0.17)] w-[256.108px]" />
             <div className="absolute h-[271.868px] left-[12.5px] rounded-[10px] top-[14.19px] w-[230.891px]">
               <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-[10px]">
-                <img alt="" className="absolute h-[228.7%] left-[-0.06%] max-w-none top-0 w-[100.13%] object-cover object-top" src={'/assets/tipping-point-ph.phpng'} />
+                <img alt="" className="absolute h-[228.7%] left-[-0.06%] max-w-none top-0 w-[100.13%] object-cover object-top" src={'/assets/tipping-point-ph.png'} />
               </div>
             </div>
           </div>
