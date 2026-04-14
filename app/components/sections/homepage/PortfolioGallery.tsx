@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export function PortfolioGallery() {
   return (
     <div className="relative w-[532px] h-[520px] overflow-hidden shrink-0">
@@ -10,7 +12,7 @@ export function PortfolioGallery() {
             <div className="bg-[rgba(255,255,255,0.17)] h-[301.025px] rounded-[20px] shadow-[0px_4px_45px_0px_rgba(0,0,0,0.17)] w-[256.108px]" />
             <div className="absolute h-[272.127px] left-[13px] rounded-[13px] top-[14px] w-[231.187px]">
               <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-[13px]">
-                <img alt="" className="absolute h-[224.27%] left-[-0.07%] max-w-none top-[-0.03%] w-full object-cover object-top" src={'/assets/mjl.png'} />
+                <Image alt="" src="/assets/mjl.png" fill loading="lazy" className="object-cover object-top" sizes="231px" />
               </div>
             </div>
           </div>
@@ -20,7 +22,7 @@ export function PortfolioGallery() {
             <div className="bg-[rgba(255,255,255,0.17)] h-[301.025px] rounded-[20px] shadow-[0px_4px_45px_0px_rgba(0,0,0,0.17)] w-[256.108px]" />
             <div className="absolute h-[271.868px] left-[12.5px] rounded-[10px] top-[14.18px] w-[230.891px]">
               <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-[10px]">
-                <img alt="" className="absolute h-[207.83%] left-[-0.1%] max-w-none top-0 w-[100.19%] object-cover object-top" src={'/assets/adhaven.png'} />
+                <Image alt="" src="/assets/adhaven.png" fill loading="lazy" className="object-cover object-top" sizes="231px" />
               </div>
             </div>
           </div>
@@ -30,7 +32,7 @@ export function PortfolioGallery() {
             <div className="bg-[rgba(255,255,255,0.17)] h-[301.025px] rounded-[20px] shadow-[0px_4px_45px_0px_rgba(0,0,0,0.17)] w-[256.108px]" />
             <div className="absolute h-[271.868px] left-[12.5px] rounded-[10px] top-[14.19px] w-[230.891px]">
               <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-[10px]">
-                <img alt="" className="absolute h-[228.7%] left-[-0.06%] max-w-none top-0 w-[100.13%] object-cover object-top" src={'/assets/tipping-point-ph.png'} />
+                <Image alt="" src="/assets/tipping-point-ph.png" fill loading="lazy" className="object-cover object-top" sizes="231px" />
               </div>
             </div>
           </div>
@@ -40,7 +42,7 @@ export function PortfolioGallery() {
             <div className="bg-[rgba(255,255,255,0.17)] h-[301.025px] rounded-[20px] shadow-[0px_4px_45px_0px_rgba(0,0,0,0.17)] w-[256.108px]" />
             <div className="absolute h-[272px] left-[13.5px] rounded-[10px] top-[14px] w-[229px]">
               <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-[10px]">
-                <img alt="" className="absolute h-[232.59%] left-[-0.07%] max-w-none top-0 w-[100.15%] object-cover object-top" src={'/assets/soding-bros.png'} />
+                <Image alt="" src="/assets/soding-bros.png" fill loading="lazy" className="object-cover object-top" sizes="229px" />
               </div>
             </div>
           </div>
@@ -51,7 +53,7 @@ export function PortfolioGallery() {
             <div className="bg-[rgba(255,255,255,0.17)] h-[301.025px] rounded-[20px] shadow-[0px_4px_45px_0px_rgba(0,0,0,0.17)] w-[256.108px]" />
             <div className="absolute h-[272.127px] left-[13px] rounded-[13px] top-[14px] w-[231.187px]">
               <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-[13px]">
-                <img alt="" className="absolute h-[224.27%] left-[-0.07%] max-w-none top-[-0.03%] w-full object-cover object-top" src={'/assets/mjl.png'} />
+                <Image alt="" src="/assets/mjl.png" fill loading="lazy" className="object-cover object-top" sizes="231px" />
               </div>
             </div>
           </div>
@@ -61,7 +63,7 @@ export function PortfolioGallery() {
             <div className="bg-[rgba(255,255,255,0.17)] h-[301.025px] rounded-[20px] shadow-[0px_4px_45px_0px_rgba(0,0,0,0.17)] w-[256.108px]" />
             <div className="absolute h-[271.868px] left-[12.5px] rounded-[10px] top-[14.18px] w-[230.891px]">
               <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-[10px]">
-                <img alt="" className="absolute h-[207.83%] left-[-0.1%] max-w-none top-0 w-[100.19%] object-cover object-top" src={'/assets/adhaven.png'} />
+                <Image alt="" src="/assets/adhaven.png" fill loading="lazy" className="object-cover object-top" sizes="231px" />
               </div>
             </div>
           </div>
@@ -71,7 +73,7 @@ export function PortfolioGallery() {
             <div className="bg-[rgba(255,255,255,0.17)] h-[301.025px] rounded-[20px] shadow-[0px_4px_45px_0px_rgba(0,0,0,0.17)] w-[256.108px]" />
             <div className="absolute h-[271.868px] left-[12.5px] rounded-[10px] top-[14.19px] w-[230.891px]">
               <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-[10px]">
-                <img alt="" className="absolute h-[228.7%] left-[-0.06%] max-w-none top-0 w-[100.13%] object-cover object-top" src={'/assets/tipping-point-ph.png'} />
+                <Image alt="" src="/assets/tipping-point-ph.png" fill loading="lazy" className="object-cover object-top" sizes="231px" />
               </div>
             </div>
           </div>
@@ -81,7 +83,7 @@ export function PortfolioGallery() {
             <div className="bg-[rgba(255,255,255,0.17)] h-[301.025px] rounded-[20px] shadow-[0px_4px_45px_0px_rgba(0,0,0,0.17)] w-[256.108px]" />
             <div className="absolute h-[272px] left-[13.5px] rounded-[10px] top-[14px] w-[229px]">
               <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-[10px]">
-                <img alt="" className="absolute h-[232.59%] left-[-0.07%] max-w-none top-0 w-[100.15%] object-cover object-top" src={'/assets/soding-bros.png'} />
+                <Image alt="" src="/assets/soding-bros.png" fill loading="lazy" className="object-cover object-top" sizes="229px" />
               </div>
             </div>
           </div>
@@ -97,7 +99,7 @@ export function PortfolioGallery() {
             <div className="bg-[rgba(255,255,255,0.17)] h-[301.028px] rounded-[20px] shadow-[0px_4px_45px_0px_rgba(0,0,0,0.07)] w-[256.11px]" />
             <div className="absolute h-[273.447px] left-[12.5px] rounded-[10px] top-[13.77px] w-[230.893px]">
               <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-[10px]">
-                <img alt="" className="absolute h-[232.59%] left-0 max-w-none top-[-0.16%] w-full object-cover object-top" src={'/assets/soding-bros.png'} />
+                <Image alt="" src="/assets/soding-bros.png" fill loading="lazy" className="object-cover object-top" sizes="231px" />
               </div>
             </div>
           </div>
@@ -107,7 +109,7 @@ export function PortfolioGallery() {
             <div className="bg-[rgba(255,255,255,0.17)] h-[301.028px] rounded-[20px] shadow-[0px_4px_45px_0px_rgba(0,0,0,0.17)] w-[256.11px]" />
             <div className="absolute h-[269.078px] left-[13px] rounded-[10px] top-[16.21px] w-[230.175px]">
               <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-[10px]">
-                <img alt="" className="absolute h-[292.17%] left-[-12.79%] max-w-none top-0 w-[125.58%] object-cover object-top" src={'/assets/tipping-point-ph.png'} />
+                <Image alt="" src="/assets/tipping-point-ph.png" fill loading="lazy" className="object-cover object-top" sizes="231px" />
               </div>
             </div>
           </div>
@@ -117,7 +119,7 @@ export function PortfolioGallery() {
             <div className="bg-[rgba(255,255,255,0.17)] h-[301.028px] rounded-[20px] shadow-[0px_4px_45px_0px_rgba(0,0,0,0.17)] w-[256.11px]" />
             <div className="absolute h-[271.871px] left-[12.25px] rounded-[10px] top-[14.18px] w-[231.681px]">
               <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-[10px]">
-                <img alt="" className="absolute h-[263.83%] left-0 max-w-none top-[-0.18%] w-full object-cover object-top" src={'/assets/adhaven.png'} />
+                <Image alt="" src="/assets/adhaven.png" fill loading="lazy" className="object-cover object-top" sizes="231px" />
               </div>
             </div>
           </div>
@@ -127,7 +129,7 @@ export function PortfolioGallery() {
             <div className="bg-[rgba(255,255,255,0.17)] h-[301.028px] rounded-[20px] shadow-[0px_4px_45px_0px_rgba(0,0,0,0.17)] w-[256.11px]" />
             <div className="absolute h-[272px] left-[13px] rounded-[10px] top-[14px] w-[230px]">
               <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-[10px]">
-                <img alt="" className="absolute h-[284.93%] left-[-0.02%] max-w-none top-0 w-[100.03%] object-cover object-top" src={'/assets/mjl.png'} />
+                <Image alt="" src="/assets/mjl.png" fill loading="lazy" className="object-cover object-top" sizes="230px" />
               </div>
             </div>
           </div>
@@ -138,7 +140,7 @@ export function PortfolioGallery() {
             <div className="bg-[rgba(255,255,255,0.17)] h-[301.028px] rounded-[20px] shadow-[0px_4px_45px_0px_rgba(0,0,0,0.07)] w-[256.11px]" />
             <div className="absolute h-[273.447px] left-[12.5px] rounded-[10px] top-[13.77px] w-[230.893px]">
               <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-[10px]">
-                <img alt="" className="absolute h-[232.59%] left-0 max-w-none top-[-0.16%] w-full object-cover object-top" src={'/assets/soding-bros.png'} />
+                <Image alt="" src="/assets/soding-bros.png" fill loading="lazy" className="object-cover object-top" sizes="231px" />
               </div>
             </div>
           </div>
@@ -148,7 +150,7 @@ export function PortfolioGallery() {
             <div className="bg-[rgba(255,255,255,0.17)] h-[301.028px] rounded-[20px] shadow-[0px_4px_45px_0px_rgba(0,0,0,0.17)] w-[256.11px]" />
             <div className="absolute h-[269.078px] left-[13px] rounded-[10px] top-[16.21px] w-[230.175px]">
               <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-[10px]">
-                <img alt="" className="absolute h-[292.17%] left-[-12.79%] max-w-none top-0 w-[125.58%] object-cover object-top" src={'/assets/tipping-point-ph.png'} />
+                <Image alt="" src="/assets/tipping-point-ph.png" fill loading="lazy" className="object-cover object-top" sizes="231px" />
               </div>
             </div>
           </div>
@@ -158,7 +160,7 @@ export function PortfolioGallery() {
             <div className="bg-[rgba(255,255,255,0.17)] h-[301.028px] rounded-[20px] shadow-[0px_4px_45px_0px_rgba(0,0,0,0.17)] w-[256.11px]" />
             <div className="absolute h-[271.871px] left-[12.25px] rounded-[10px] top-[14.18px] w-[231.681px]">
               <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-[10px]">
-                <img alt="" className="absolute h-[263.83%] left-0 max-w-none top-[-0.18%] w-full object-cover object-top" src={'/assets/adhaven.png'} />
+                <Image alt="" src="/assets/adhaven.png" fill loading="lazy" className="object-cover object-top" sizes="231px" />
               </div>
             </div>
           </div>
@@ -168,7 +170,7 @@ export function PortfolioGallery() {
             <div className="bg-[rgba(255,255,255,0.17)] h-[301.028px] rounded-[20px] shadow-[0px_4px_45px_0px_rgba(0,0,0,0.17)] w-[256.11px]" />
             <div className="absolute h-[272px] left-[13px] rounded-[10px] top-[14px] w-[230px]">
               <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-[10px]">
-                <img alt="" className="absolute h-[284.93%] left-[-0.02%] max-w-none top-0 w-[100.03%] object-cover object-top" src={'/assets/mjl.png'} />
+                <Image alt="" src="/assets/mjl.png" fill loading="lazy" className="object-cover object-top" sizes="230px" />
               </div>
             </div>
           </div>

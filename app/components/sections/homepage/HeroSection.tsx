@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { PortfolioGallery } from "@/app/components/sections/homepage/PortfolioGallery";
 import { PrimaryButton } from "@/app/components/shared/Buttons";
 import { Timer } from "lucide-react";
@@ -9,10 +10,26 @@ export function HeroSection() {
     <section id="top" className="relative overflow-hidden bg-white py-12 max-[980px]:py-8 max-[767px]:py-6">
       {/* Background Decorative Images */}
       <div className="absolute left-0 top-0 w-[633px] h-[633px] scale-y-[-100%] opacity-[0.04] pointer-events-none max-[1180px]:hidden">
-        <img src={'/assets/62829c3128504d8a41beac802c538dc7fd781b84.png'} alt="" className="w-full h-full object-cover" />
+        <Image
+          src="/assets/62829c3128504d8a41beac802c538dc7fd781b84.png"
+          alt=""
+          fill
+          priority={false}
+          loading="lazy"
+          className="object-cover"
+          sizes="633px"
+        />
       </div>
       <div className="absolute right-0 top-0 w-[633px] h-[633px] rotate-180 opacity-[0.04] pointer-events-none">
-        <img src={'/assets/62829c3128504d8a41beac802c538dc7fd781b84.png'} alt="" className="w-full h-full object-cover" />
+        <Image
+          src="/assets/62829c3128504d8a41beac802c538dc7fd781b84.png"
+          alt=""
+          fill
+          priority={false}
+          loading="lazy"
+          className="object-cover"
+          sizes="633px"
+        />
       </div>
 
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-20 pt-16 lg:pt-16">
@@ -99,7 +116,7 @@ export function HeroSection() {
                           <div className="bg-[rgba(255,255,255,0.17)] h-[301.028px] rounded-[20px] shadow-[0px_4px_45px_0px_rgba(0,0,0,0.07)] w-[256.11px]" />
                           <div className="absolute h-[273.447px] left-[12.5px] rounded-[10px] top-[13.77px] w-[230.893px]">
                             <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-[10px]">
-                              <img alt="" className="absolute h-[232.59%] left-0 max-w-none top-[-0.16%] w-full object-cover object-top" src={'/assets/soding-bros.png'} />
+                              <Image alt="" src="/assets/soding-bros.png" fill loading="lazy" className="object-cover object-top" sizes="231px" />
                             </div>
                           </div>
                         </div>
@@ -107,7 +124,7 @@ export function HeroSection() {
                           <div className="bg-[rgba(255,255,255,0.17)] h-[301.028px] rounded-[20px] shadow-[0px_4px_45px_0px_rgba(0,0,0,0.17)] w-[256.11px]" />
                           <div className="absolute h-[269.078px] left-[13px] rounded-[10px] top-[16.21px] w-[230.175px]">
                             <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-[10px]">
-                              <img alt="" className="absolute h-[292.17%] left-[-12.79%] max-w-none top-0 w-[125.58%] object-cover object-top" src={'/assets/tipping-point-ph.png'} />
+                              <Image alt="" src="/assets/tipping-point-ph.png" fill loading="lazy" className="object-cover object-top" sizes="231px" />
                             </div>
                           </div>
                         </div>
@@ -115,7 +132,7 @@ export function HeroSection() {
                           <div className="bg-[rgba(255,255,255,0.17)] h-[301.028px] rounded-[20px] shadow-[0px_4px_45px_0px_rgba(0,0,0,0.17)] w-[256.11px]" />
                           <div className="absolute h-[271.871px] left-[12.25px] rounded-[10px] top-[14.18px] w-[231.681px]">
                             <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-[10px]">
-                              <img alt="" className="absolute h-[263.83%] left-0 max-w-none top-[-0.18%] w-full object-cover object-top" src={'/assets/adhaven.png'} />
+                              <Image alt="" src="/assets/adhaven.png" fill loading="lazy" className="object-cover object-top" sizes="231px" />
                             </div>
                           </div>
                         </div>
@@ -123,7 +140,7 @@ export function HeroSection() {
                           <div className="bg-[rgba(255,255,255,0.17)] h-[301.028px] rounded-[20px] shadow-[0px_4px_45px_0px_rgba(0,0,0,0.17)] w-[256.11px]" />
                           <div className="absolute h-[272px] left-[13px] rounded-[10px] top-[14px] w-[230px]">
                             <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-[10px]">
-                              <img alt="" className="absolute h-[284.93%] left-[-0.02%] max-w-none top-0 w-[100.03%] object-cover object-top" src={'/assets/mjl.png'} />
+                              <Image alt="" src="/assets/mjl.png" fill loading="lazy" className="object-cover object-top" sizes="231px" />
                             </div>
                           </div>
                         </div>
@@ -142,7 +159,7 @@ export function HeroSection() {
                           <div className="bg-[rgba(255,255,255,0.17)] h-[301.025px] rounded-[20px] shadow-[0px_4px_45px_0px_rgba(0,0,0,0.17)] w-[256.108px]" />
                           <div className="absolute h-[272.127px] left-[13px] rounded-[13px] top-[14px] w-[231.187px]">
                             <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-[13px]">
-                              <img alt="" className="absolute h-[224.27%] left-[-0.07%] max-w-none top-[-0.03%] w-full object-cover object-top" src={'/assets/mjl.png'} />
+                              <Image alt="" src="/assets/mjl.png" fill loading="lazy" className="object-cover object-top" sizes="231px" />
                             </div>
                           </div>
                         </div>
@@ -150,7 +167,7 @@ export function HeroSection() {
                           <div className="bg-[rgba(255,255,255,0.17)] h-[301.025px] rounded-[20px] shadow-[0px_4px_45px_0px_rgba(0,0,0,0.17)] w-[256.108px]" />
                           <div className="absolute h-[271.868px] left-[12.5px] rounded-[10px] top-[14.18px] w-[230.891px]">
                             <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-[10px]">
-                              <img alt="" className="absolute h-[207.83%] left-[-0.1%] max-w-none top-0 w-[100.19%] object-cover object-top" src={'/assets/adhaven.png'} />
+                              <Image alt="" src="/assets/adhaven.png" fill loading="lazy" className="object-cover object-top" sizes="231px" />
                             </div>
                           </div>
                         </div>
@@ -158,7 +175,7 @@ export function HeroSection() {
                           <div className="bg-[rgba(255,255,255,0.17)] h-[301.025px] rounded-[20px] shadow-[0px_4px_45px_0px_rgba(0,0,0,0.17)] w-[256.108px]" />
                           <div className="absolute h-[271.868px] left-[12.5px] rounded-[10px] top-[14.19px] w-[230.891px]">
                             <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-[10px]">
-                              <img alt="" className="absolute h-[228.7%] left-[-0.06%] max-w-none top-0 w-[100.13%] object-cover object-top" src={'/assets/tipping-point-ph.png'} />
+                              <Image alt="" src="/assets/tipping-point-ph.png" fill loading="lazy" className="object-cover object-top" sizes="231px" />
                             </div>
                           </div>
                         </div>
@@ -166,7 +183,7 @@ export function HeroSection() {
                           <div className="bg-[rgba(255,255,255,0.17)] h-[301.025px] rounded-[20px] shadow-[0px_4px_45px_0px_rgba(0,0,0,0.17)] w-[256.108px]" />
                           <div className="absolute h-[272px] left-[13.5px] rounded-[10px] top-[14px] w-[229px]">
                             <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-[10px]">
-                              <img alt="" className="absolute h-[102.57%] left-[-0.07%] max-w-none top-0 w-[100.15%]" src={'/assets/soding-bros.png'} />
+                              <Image alt="" src="/assets/soding-bros.png" fill loading="lazy" className="object-cover object-top" sizes="229px" />
                             </div>
                           </div>
                         </div>
@@ -185,18 +202,18 @@ export function HeroSection() {
           <div className="relative w-full overflow-hidden">
             <div className="animate-scroll-left flex items-center gap-8 sm:gap-13 whitespace-nowrap">
               {/* Original Set */}
-              <img src={'/assets/2a5273e5aed69ad3d4df4c829002d030fb6dd0f9.png'} alt="" className="h-[45px] w-auto inline-block saturate-0 hover:saturate-100 transition-all duration-300" />
-              <img src={'/assets/9082ff0bf260fb00c1181da0dee181c62313fe63.png'} alt="" className="h-[45px] w-auto inline-block saturate-0 hover:saturate-100 transition-all duration-300" />
-              <img src={'/assets/2745adfddd032591a885cd1b9e93be75770a2008.png'} alt="" className="h-[45px] w-auto inline-block saturate-0 hover:saturate-100 transition-all duration-300" />
-              <img src={'/assets/8acca7c83c2f4babcf44ec6af2dd1d14daf913ca.png'} alt="" className="h-[45px] w-auto inline-block saturate-0 hover:saturate-100 transition-all duration-300" />
-              <img src={'/assets/7b411cb32f491fb308a26e8a3230d10a43f4a8a0.png'} alt="" className="h-[45px] w-auto inline-block saturate-0 hover:saturate-100 transition-all duration-300" />
-              
+              <Image src="/assets/2a5273e5aed69ad3d4df4c829002d030fb6dd0f9.png" alt="" width={180} height={45} loading="lazy" className="h-[45px] w-auto inline-block saturate-0 hover:saturate-100 transition-all duration-300" />
+              <Image src="/assets/9082ff0bf260fb00c1181da0dee181c62313fe63.png" alt="" width={180} height={45} loading="lazy" className="h-[45px] w-auto inline-block saturate-0 hover:saturate-100 transition-all duration-300" />
+              <Image src="/assets/2745adfddd032591a885cd1b9e93be75770a2008.png" alt="" width={180} height={45} loading="lazy" className="h-[45px] w-auto inline-block saturate-0 hover:saturate-100 transition-all duration-300" />
+              <Image src="/assets/8acca7c83c2f4babcf44ec6af2dd1d14daf913ca.png" alt="" width={180} height={45} loading="lazy" className="h-[45px] w-auto inline-block saturate-0 hover:saturate-100 transition-all duration-300" />
+              <Image src="/assets/7b411cb32f491fb308a26e8a3230d10a43f4a8a0.png" alt="" width={180} height={45} loading="lazy" className="h-[45px] w-auto inline-block saturate-0 hover:saturate-100 transition-all duration-300" />
+
               {/* Duplicate Set for Seamless Loop */}
-              <img src={'/assets/2a5273e5aed69ad3d4df4c829002d030fb6dd0f9.png'} alt="" className="h-[45px] w-auto inline-block saturate-0 hover:saturate-100 transition-all duration-300" />
-              <img src={'/assets/9082ff0bf260fb00c1181da0dee181c62313fe63.png'} alt="" className="h-[45px] w-auto inline-block saturate-0 hover:saturate-100 transition-all duration-300" />
-              <img src={'/assets/2745adfddd032591a885cd1b9e93be75770a2008.png'} alt="" className="h-[45px] w-auto inline-block saturate-0 hover:saturate-100 transition-all duration-300" />
-              <img src={'/assets/8acca7c83c2f4babcf44ec6af2dd1d14daf913ca.png'} alt="" className="h-[45px] w-auto inline-block saturate-0 hover:saturate-100 transition-all duration-300" />
-              <img src={'/assets/7b411cb32f491fb308a26e8a3230d10a43f4a8a0.png'} alt="" className="h-[45px] w-auto inline-block saturate-0 hover:saturate-100 transition-all duration-300" />
+              <Image src="/assets/2a5273e5aed69ad3d4df4c829002d030fb6dd0f9.png" alt="" width={180} height={45} loading="lazy" className="h-[45px] w-auto inline-block saturate-0 hover:saturate-100 transition-all duration-300" />
+              <Image src="/assets/9082ff0bf260fb00c1181da0dee181c62313fe63.png" alt="" width={180} height={45} loading="lazy" className="h-[45px] w-auto inline-block saturate-0 hover:saturate-100 transition-all duration-300" />
+              <Image src="/assets/2745adfddd032591a885cd1b9e93be75770a2008.png" alt="" width={180} height={45} loading="lazy" className="h-[45px] w-auto inline-block saturate-0 hover:saturate-100 transition-all duration-300" />
+              <Image src="/assets/8acca7c83c2f4babcf44ec6af2dd1d14daf913ca.png" alt="" width={180} height={45} loading="lazy" className="h-[45px] w-auto inline-block saturate-0 hover:saturate-100 transition-all duration-300" />
+              <Image src="/assets/7b411cb32f491fb308a26e8a3230d10a43f4a8a0.png" alt="" width={180} height={45} loading="lazy" className="h-[45px] w-auto inline-block saturate-0 hover:saturate-100 transition-all duration-300" />
             </div>
           </div>
         </div>

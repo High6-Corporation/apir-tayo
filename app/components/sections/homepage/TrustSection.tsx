@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useScrollAnimation } from "@/app/components/hooks/useScrollAnimation";
 import { PrimaryButton } from "../../shared/Buttons";
 import Link from "next/link";
@@ -12,7 +13,14 @@ export function TrustSection() {
     <section className="relative overflow-hidden bg-white py-12 max-[980px]:py-8 max-[767px]:py-6">
       {/* Background Decorative Image */}
       <div className="absolute right-0 top-0 w-[633px] h-[633px] hidden xl:block rotate-180 opacity-5 pointer-events-none">
-        <img src={'/assets/62829c3128504d8a41beac802c538dc7fd781b84.png'} alt="" className="w-full h-full object-cover" />
+        <Image
+          src="/assets/62829c3128504d8a41beac802c538dc7fd781b84.png"
+          alt=""
+          fill
+          loading="lazy"
+          className="object-cover"
+          sizes="633px"
+        />
       </div>
 
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-20 relative">
@@ -23,19 +31,40 @@ export function TrustSection() {
               {/* 1st Container: Top row with 2 images (1 large, 1 small) */}
               <div className="flex gap-4 items-end max-[1023px]:items-center">
                 {/* Large Square - 325x325px */}
-                <div className="w-[325px] h-[325px] max-[1023px]:w-[calc(50%-8px)] max-[1023px]:h-auto max-[1023px]:aspect-square rounded-[6px] overflow-hidden shadow-lg">
-                  <img src={'/assets/high6 team-3.jpg'} alt="" className="w-full h-full object-cover" />
+                <div className="w-[325px] h-[325px] max-[1023px]:w-[calc(50%-8px)] max-[1023px]:h-auto max-[1023px]:aspect-square rounded-[6px] overflow-hidden shadow-lg relative">
+                  <Image
+                    src="/assets/high6 team-3.jpg"
+                    alt="High6 team member"
+                    fill
+                    loading="lazy"
+                    className="object-cover"
+                    sizes="(max-width: 1023px) 50vw, 325px"
+                  />
                 </div>
                 {/* Small Square - 230x230px */}
-                <div className="w-[230px] h-[230px] max-[1023px]:w-[calc(50%-8px)] max-[1023px]:h-auto max-[1023px]:aspect-square rounded-[6px] overflow-hidden shadow-lg">
-                  <img src={'/assets/high6 team-2.jpg'} alt="" className="w-full h-full object-cover" />
+                <div className="w-[230px] h-[230px] max-[1023px]:w-[calc(50%-8px)] max-[1023px]:h-auto max-[1023px]:aspect-square rounded-[6px] overflow-hidden shadow-lg relative">
+                  <Image
+                    src="/assets/high6 team-2.jpg"
+                    alt="High6 team member"
+                    fill
+                    loading="lazy"
+                    className="object-cover"
+                    sizes="(max-width: 1023px) 50vw, 230px"
+                  />
                 </div>
               </div>
-              
+
               {/* 2nd Container: Bottom row with rectangle - 463x230px */}
               <div className="w-full flex justify-start max-[1023px]:justify-center">
-                <div className="w-[463px] h-[230px] max-[1023px]:w-full max-[1023px]:h-auto max-[1023px]:aspect-[463/230] rounded-[6px] overflow-hidden shadow-lg">
-                  <img src={'/assets/high6 team-4.jpg'} alt="" className="w-full h-full object-cover" />
+                <div className="w-[463px] h-[230px] max-[1023px]:w-full max-[1023px]:h-auto max-[1023px]:aspect-[463/230] rounded-[6px] overflow-hidden shadow-lg relative">
+                  <Image
+                    src="/assets/high6 team-4.jpg"
+                    alt="High6 team member"
+                    fill
+                    loading="lazy"
+                    className="object-cover"
+                    sizes="(max-width: 1023px) 100vw, 463px"
+                  />
                 </div>
               </div>
             </div>

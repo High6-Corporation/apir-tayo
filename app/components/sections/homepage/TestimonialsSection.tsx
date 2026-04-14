@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { useScrollAnimation } from "@/app/components/hooks/useScrollAnimation";
 import { StarIcon } from "../../shared/Icons";
 import { MessageSquare } from "lucide-react";
@@ -42,7 +43,7 @@ export function TestimonialsSection() {
         <div ref={headerRef} className={`flex flex-col items-center text-center mb-12 scroll-animate ${headerVisible ? 'scroll-animate-visible' : ''}`}>
           <div className="flex items-center gap-1 mb-2">
             <div className="h-0 w-14 border-t border-[#5757ff]" />
-            <img src="/assets/testimonials-icon.svg" alt="" className="h-[24px] w-[24px]" />
+            <Image src="/assets/testimonials-icon.svg" alt="" width={24} height={24} loading="lazy" className="h-[24px] w-[24px]" />
             <p className="font-bold text-[13px] tracking-[-0.26px] text-[#5757ff]">TESTIMONIALS</p>
             <div className="h-0 w-14 border-t border-[#5757ff]" />
           </div>
@@ -64,11 +65,14 @@ export function TestimonialsSection() {
                     {/* Image */}
                     <div className="flex justify-center items-center">
                       <div className="border border-[#d7d7d7] rounded-[20px] overflow-hidden w-full max-w-[420px]">
-                        <div className="bg-white h-[280px] overflow-hidden">
-                          <img 
-                            src={testimonial.image} 
-                            alt="Website Preview" 
-                            className="w-full h-auto object-cover object-top"
+                        <div className="bg-white h-[280px] overflow-hidden relative">
+                          <Image
+                            src={testimonial.image}
+                            alt="Website Preview"
+                            fill
+                            loading="lazy"
+                            className="object-cover object-top"
+                            sizes="(max-width: 768px) 100vw, 420px"
                           />
                         </div>
                       </div>

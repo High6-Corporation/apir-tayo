@@ -1,18 +1,32 @@
 import { NextRequest, NextResponse } from "next/server";
 import { unstable_cache } from "next/cache";
 
+// Cache configuration
+const CACHE_TAGS = ["gravity-form"];
+const CACHE_REVALIDATE = 3600; // 1 hour
+
 // Cache form data for 1 hour (3600 seconds)
 const getCachedForm = unstable_cache(
   async (baseUrl: string, credentials: string) => {
     const res = await fetch(`${baseUrl}/wp-json/gf/v2/forms/1`, {
       headers: { Authorization: `Basic ${credentials}` },
-      next: { revalidate: 3600 }, // ISR: regenerate every hour
+      next: { revalidate: CACHE_REVALIDATE, tags: CACHE_TAGS },
     });
     return res.json();
   },
-  ["gravity-form"],
-  { revalidate: 3600 }
+  CACHE_TAGS,
+  { revalidate: CACHE_REVALIDATE }
 );
+
+// Helper function to add cache headers to responses
+function addCacheHeaders(response: NextResponse, maxAge: number = 3600): NextResponse {
+  response.headers.set(
+    "Cache-Control",
+    `public, max-age=${maxAge}, stale-while-revalidate=86400`
+  );
+  response.headers.set("Vary", "Accept-Encoding");
+  return response;
+}
 
 export async function POST(request: NextRequest) {
   const { query, variables } = await request.json();
@@ -25,8 +39,8 @@ export async function POST(request: NextRequest) {
   if (query.includes("form {")) {
     // Use cached form data
     const form = await getCachedForm(baseUrl!, credentials);
-    
-    return NextResponse.json({
+
+    const response = NextResponse.json({
       data: {
         form: {
           id: form.id,
@@ -41,6 +55,8 @@ export async function POST(request: NextRequest) {
         },
       },
     });
+
+    return addCacheHeaders(response, CACHE_REVALIDATE);
   }
 
   if (query.includes("submitForm")) {
@@ -64,7 +80,7 @@ export async function POST(request: NextRequest) {
     const result = await res.json();
     
     if (result.is_valid === false) {
-      return NextResponse.json({
+      const response = NextResponse.json({
         data: {
           submitForm: {
             success: false,
@@ -74,9 +90,12 @@ export async function POST(request: NextRequest) {
           },
         },
       });
+      // Don't cache error responses
+      response.headers.set("Cache-Control", "no-store");
+      return response;
     }
 
-    return NextResponse.json({
+    const response = NextResponse.json({
       data: {
         submitForm: {
           success: true,
@@ -85,7 +104,13 @@ export async function POST(request: NextRequest) {
         },
       },
     });
+
+    // Don't cache form submissions
+    response.headers.set("Cache-Control", "no-store");
+    return response;
   }
 
-  return NextResponse.json({ error: "Unknown query" }, { status: 400 });
+  const errorResponse = NextResponse.json({ error: "Unknown query" }, { status: 400 });
+  errorResponse.headers.set("Cache-Control", "no-store");
+  return errorResponse;
 }
