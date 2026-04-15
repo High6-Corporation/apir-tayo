@@ -15,8 +15,11 @@ const nextConfig: NextConfig = {
 
   // Experimental features for performance
   experimental: {
-    optimizePackageImports: ['lucide-react', '@radix-ui/react-accordion'],
+    optimizePackageImports: ['lucide-react'],
   },
+
+  // Production optimizations
+  reactStrictMode: true,
 
   // Compression
   compress: true,

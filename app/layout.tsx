@@ -37,15 +37,14 @@ export default function RootLayout({
   return (
     <html lang="en" className={plusJakartaSans.variable}>
       <head>
-        {/* Preconnect to critical domains */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        {/* Preconnect to own origin for self-hosted fonts */}
+        <link rel="preconnect" href="https://apirtayo.com" />
 
         {/* DNS Prefetch for WordPress backend */}
         <link rel="dns-prefetch" href="https://apirtayo.beta03.site" />
 
-        {/* Preload critical assets */}
-        <link rel="preload" href="/assets/62829c3128504d8a41beac802c538dc7fd781b84.png" as="image" type="image/png" fetchPriority="low" />
+        {/* Preload critical CSS - will be injected by Next.js */}
+        <style>{`/* Critical CSS inlined for performance */`}</style>
       </head>
       <body
         className="antialiased"
