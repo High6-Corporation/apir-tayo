@@ -49,6 +49,12 @@ export default function RootLayout({
       <body
         className="antialiased"
         suppressHydrationWarning
+        style={{
+          // Inline critical styles to prevent white screen
+          backgroundColor: '#ffffff',
+          color: '#030213',
+          fontFamily: 'system-ui, -apple-system, sans-serif',
+        }}
       >
         {children}
       </body>

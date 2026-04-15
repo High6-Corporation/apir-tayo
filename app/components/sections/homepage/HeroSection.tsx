@@ -5,26 +5,40 @@ import Image from "next/image";
 import { PortfolioGallery } from "@/app/components/sections/homepage/PortfolioGallery";
 import { PrimaryButton } from "@/app/components/shared/Buttons";
 import { Timer } from "lucide-react";
+import { useEffect, useState } from "react";
+
 export function HeroSection() {
+  const [showDecorations, setShowDecorations] = useState(false);
+
+  useEffect(() => {
+    // Load decorative images after LCP
+    const timer = setTimeout(() => setShowDecorations(true), 100);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <section id="top" className="relative overflow-hidden bg-white py-12 max-[980px]:py-8 max-[767px]:py-6">
-      {/* Background Decorative Images - use CSS background to avoid LCP detection */}
-      <div 
-        className="absolute left-0 top-0 w-[633px] h-[633px] scale-y-[-100%] opacity-[0.04] pointer-events-none max-[1180px]:hidden"
-        style={{
-          backgroundImage: 'url(/assets/62829c3128504d8a41beac802c538dc7fd781b84.png)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }}
-      />
-      <div 
-        className="absolute right-0 top-0 w-[633px] h-[633px] rotate-180 opacity-[0.04] pointer-events-none"
-        style={{
-          backgroundImage: 'url(/assets/62829c3128504d8a41beac802c538dc7fd781b84.png)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }}
-      />
+      {/* Background Decorative Images - loaded after LCP to avoid detection */}
+      {showDecorations && (
+        <>
+          <div 
+            className="absolute left-0 top-0 w-[633px] h-[633px] scale-y-[-100%] opacity-[0.04] pointer-events-none max-[1180px]:hidden"
+            style={{
+              backgroundImage: 'url(/assets/62829c3128504d8a41beac802c538dc7fd781b84.png)',
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+            }}
+          />
+          <div 
+            className="absolute right-0 top-0 w-[633px] h-[633px] rotate-180 opacity-[0.04] pointer-events-none"
+            style={{
+              backgroundImage: 'url(/assets/62829c3128504d8a41beac802c538dc7fd781b84.png)',
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+            }}
+          />
+        </>
+      )}
 
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-20 pt-16 lg:pt-16">
         {/* Hero Container - Desktop 2 Column, Below 1181px Stacked with Side Galleries */}
