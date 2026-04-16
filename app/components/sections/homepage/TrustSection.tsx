@@ -4,24 +4,36 @@ import Image from "next/image";
 import { useScrollAnimation } from "@/app/components/hooks/useScrollAnimation";
 import { PrimaryButton } from "../../shared/Buttons";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 export function TrustSection() {
   const { elementRef: contentRef, isVisible: contentVisible } = useScrollAnimation();
   const { elementRef: imagesRef, isVisible: imagesVisible } = useScrollAnimation();
+  const [showDecorations, setShowDecorations] = useState(false);
+
+  useEffect(() => {
+    if ('requestIdleCallback' in window) {
+      const id = requestIdleCallback(() => setShowDecorations(true), { timeout: 3000 });
+      return () => cancelIdleCallback(id);
+    } else {
+      const timer = setTimeout(() => setShowDecorations(true), 2500);
+      return () => clearTimeout(timer);
+    }
+  }, []);
 
   return (
     <section className="relative overflow-hidden bg-white py-12 max-[980px]:py-8 max-[767px]:py-6">
-      {/* Background Decorative Image */}
-      <div className="absolute right-0 top-0 w-[633px] h-[633px] hidden xl:block rotate-180 opacity-5 pointer-events-none">
-        <Image
-          src="/assets/62829c3128504d8a41beac802c538dc7fd781b84.png"
-          alt=""
-          fill
-          loading="lazy"
-          className="object-cover"
-          sizes="633px"
+      {/* Background Decorative Image - deferred */}
+      {showDecorations && (
+        <div
+          className="absolute right-0 top-0 w-[633px] h-[633px] hidden xl:block rotate-180 opacity-5 pointer-events-none"
+          style={{
+            backgroundImage: 'url(/assets/62829c3128504d8a41beac802c538dc7fd781b84.png)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
         />
-      </div>
+      )}
 
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-20 relative">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">

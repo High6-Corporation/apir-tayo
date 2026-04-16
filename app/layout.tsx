@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
+import DeferredAnimationStyles from "./components/shared/DeferredAnimationStyles";
 import "./globals.css";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
@@ -42,9 +43,6 @@ export default function RootLayout({
 
         {/* DNS Prefetch for WordPress backend */}
         <link rel="dns-prefetch" href="https://apirtayo.beta03.site" />
-
-        {/* Preload critical CSS - will be injected by Next.js */}
-        <style>{`/* Critical CSS inlined for performance */`}</style>
       </head>
       <body
         className="antialiased"
@@ -57,6 +55,7 @@ export default function RootLayout({
         }}
       >
         {children}
+        <DeferredAnimationStyles />
       </body>
     </html>
   );

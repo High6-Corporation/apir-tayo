@@ -3,18 +3,37 @@
 import { useScrollAnimation } from "@/app/components/hooks/useScrollAnimation";
 import { PrimaryButton, SecondaryButton } from "../../shared/Buttons";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 export function CTASection() {
   const { elementRef: ctaRef, isVisible: ctaVisible } = useScrollAnimation();
+  const [showBg, setShowBg] = useState(false);
+
+  useEffect(() => {
+    if ('requestIdleCallback' in window) {
+      const id = requestIdleCallback(() => setShowBg(true), { timeout: 3000 });
+      return () => cancelIdleCallback(id);
+    } else {
+      const timer = setTimeout(() => setShowBg(true), 2500);
+      return () => clearTimeout(timer);
+    }
+  }, []);
 
   return (
     <section className="relative overflow-hidden bg-white py-12 max-[980px]:py-8 max-[767px]:py-6">
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-20">
         <div ref={ctaRef} className={`bg-[#030337] rounded-[40px] overflow-hidden relative scroll-animate-scale ${ctaVisible ? 'scroll-animate-visible' : ''}`}>
-          {/* Background Pattern */}
-          <div className="absolute inset-0 opacity-[0.16] pointer-events-none rotate-[15deg] scale-150">
-            <img src={'/assets/06bf200c49a8c78bfba577730d4b6f2d05411e1b.png'} alt="" className="w-full h-full object-cover" />
-          </div>
+          {/* Background Pattern - deferred */}
+          {showBg && (
+            <div
+              className="absolute inset-0 opacity-[0.16] pointer-events-none rotate-[15deg] scale-150"
+              style={{
+                backgroundImage: 'url(/assets/06bf200c49a8c78bfba577730d4b6f2d05411e1b.png)',
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+              }}
+            />
+          )}
 
           {/* Content */}
           <div className="relative z-10 py-16 lg:py-24 px-8 max-[500px]:py-8 max-[500px]:px-4 text-center text-white">

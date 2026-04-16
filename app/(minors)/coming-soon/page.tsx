@@ -6,20 +6,22 @@ export default function ComingSoonPage() {
   return (
     <div className="bg-white min-h-screen relative overflow-hidden">
       {/* Background Decorative Images */}
-      <div className="absolute right-0 top-0 w-[633px] h-[633px] rotate-180 opacity-[0.04] pointer-events-none">
-        <img 
-          src="/assets/62829c3128504d8a41beac802c538dc7fd781b84.png" 
-          alt="" 
-          className="w-full h-full object-cover" 
-        />
-      </div>
-      <div className="absolute left-0 top-0 w-[633px] h-[633px] scale-y-[-1] opacity-[0.04] pointer-events-none">
-        <img 
-          src="/assets/62829c3128504d8a41beac802c538dc7fd781b84.png" 
-          alt="" 
-          className="w-full h-full object-cover" 
-        />
-      </div>
+      <div
+        className="absolute right-0 top-0 w-[633px] h-[633px] rotate-180 opacity-[0.04] pointer-events-none"
+        style={{
+          backgroundImage: 'url(/assets/62829c3128504d8a41beac802c538dc7fd781b84.png)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+      />
+      <div
+        className="absolute left-0 top-0 w-[633px] h-[633px] scale-y-[-1] opacity-[0.04] pointer-events-none"
+        style={{
+          backgroundImage: 'url(/assets/62829c3128504d8a41beac802c538dc7fd781b84.png)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+      />
 
       {/* Content - Centered */}
       <div className="relative flex flex-col items-center justify-center min-h-screen px-4">

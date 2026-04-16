@@ -61,8 +61,9 @@ export function PortfolioSection() {
               <div className="bg-white h-[223px] overflow-hidden rounded-t-[16px] relative">
                 <img 
                   src={project.image} 
-                  alt={project.title} 
-                  className="w-full h-auto object-cover object-top absolute top-0 left-0 transition-transform duration-[3000ms] ease-linear group-hover:translate-y-[calc(-100%+223px)]" 
+                  alt={project.title}
+                  loading="lazy"
+                  className="w-full h-auto object-cover object-top absolute top-0 left-0 transition-transform duration-[3000ms] ease-linear group-hover:translate-y-[calc(-100%+223px)]"
                 />
               </div>
               <div className="h-[64px] rounded-b-[16px] px-[18px] flex items-center">

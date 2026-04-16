@@ -12,13 +12,14 @@ export default function ThankYouPage() {
       {/* Main Content */}
       <main className="relative pt-[100px]">
         {/* Background Decorative Image */}
-        <div className="absolute right-0 top-0 w-[633px] h-[633px] rotate-180 opacity-[0.04] pointer-events-none">
-          <img 
-            src="/assets/62829c3128504d8a41beac802c538dc7fd781b84.png" 
-            alt="" 
-            className="w-full h-full object-cover" 
-          />
-        </div>
+        <div
+          className="absolute right-0 top-0 w-[633px] h-[633px] rotate-180 opacity-[0.04] pointer-events-none"
+          style={{
+            backgroundImage: 'url(/assets/62829c3128504d8a41beac802c538dc7fd781b84.png)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
+        />
 
         {/* Thank You Content */}
         <div className="relative flex flex-col items-center justify-center min-h-[564px] px-4">
@@ -27,7 +28,9 @@ export default function ThankYouPage() {
             <div className="size-[80px]">
               <img 
                 src="/assets/checkmark-icon.svg" 
-                alt="Success" 
+                alt="Success"
+                width={80}
+                height={80}
                 className="w-full h-full"
               />
             </div>

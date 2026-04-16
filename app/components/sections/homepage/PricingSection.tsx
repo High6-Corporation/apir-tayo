@@ -3,20 +3,46 @@
 import { useScrollAnimation } from "@/app/components/hooks/useScrollAnimation";
 import { PrimaryButton } from "../../shared/Buttons";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 export function PricingSection() {
   const { elementRef: headerRef, isVisible: headerVisible } = useScrollAnimation();
   const { elementRef: cardRef, isVisible: cardVisible } = useScrollAnimation();
+  const [showDecorations, setShowDecorations] = useState(false);
+
+  useEffect(() => {
+    if ('requestIdleCallback' in window) {
+      const id = requestIdleCallback(() => setShowDecorations(true), { timeout: 3000 });
+      return () => cancelIdleCallback(id);
+    } else {
+      const timer = setTimeout(() => setShowDecorations(true), 2500);
+      return () => clearTimeout(timer);
+    }
+  }, []);
 
   return (
     <section id="pricing" className="relative overflow-hidden bg-white py-12 max-[980px]:py-8 max-[767px]:py-6">
-      {/* Background Decorative Images */}
-      <div className="absolute left-0 top-0 w-[633px] h-[633px] scale-y-[-100%] opacity-[0.04] pointer-events-none max-[1180px]:hidden">
-        <img src={'/assets/62829c3128504d8a41beac802c538dc7fd781b84.png'} alt="" className="w-full h-full object-cover" />
-      </div>
-      <div className="absolute right-0 top-0 w-[633px] h-[633px] rotate-180 opacity-[0.04] pointer-events-none">
-        <img src={'/assets/62829c3128504d8a41beac802c538dc7fd781b84.png'} alt="" className="w-full h-full object-cover" />
-      </div>
+      {/* Background Decorative Images - deferred to avoid LCP detection */}
+      {showDecorations && (
+        <>
+          <div
+            className="absolute left-0 top-0 w-[633px] h-[633px] scale-y-[-100%] opacity-[0.04] pointer-events-none max-[1180px]:hidden"
+            style={{
+              backgroundImage: 'url(/assets/62829c3128504d8a41beac802c538dc7fd781b84.png)',
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+            }}
+          />
+          <div
+            className="absolute right-0 top-0 w-[633px] h-[633px] rotate-180 opacity-[0.04] pointer-events-none"
+            style={{
+              backgroundImage: 'url(/assets/62829c3128504d8a41beac802c538dc7fd781b84.png)',
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+            }}
+          />
+        </>
+      )}
 
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-20 relative">
         {/* Section Header */}
