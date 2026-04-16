@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useScrollAnimation } from "@/app/components/hooks/useScrollAnimation";
-import { Briefcase } from "lucide-react";
 interface Project {
   image: string;
   title: string;

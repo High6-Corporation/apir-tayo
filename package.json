@@ -9,8 +9,6 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@apollo/client": "^4.1.6",
-    "graphql": "^16.13.0",
     "lucide-react": "^0.562.0",
     "next": "^16.0.7",
     "react": "19.2.3",
@@ -25,5 +23,16 @@
     "eslint-config-next": "^16.0.7",
     "tailwindcss": "^4",
     "typescript": "^5"
-  }
+  },
+  "browserslist": [
+    "chrome >= 87",
+    "firefox >= 78",
+    "safari >= 14",
+    "edge >= 88",
+    "opera >= 80",
+    "ios_saf >= 14.5",
+    "android >= 87",
+    "not dead",
+    "not op_mini all"
+  ]
 }

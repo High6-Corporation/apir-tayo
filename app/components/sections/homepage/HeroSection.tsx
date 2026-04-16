@@ -11,9 +11,14 @@ export function HeroSection() {
   const [showDecorations, setShowDecorations] = useState(false);
 
   useEffect(() => {
-    // Load decorative images after LCP
-    const timer = setTimeout(() => setShowDecorations(true), 100);
-    return () => clearTimeout(timer);
+    // Load decorative images well after LCP measurement
+    if ('requestIdleCallback' in window) {
+      const id = requestIdleCallback(() => setShowDecorations(true), { timeout: 3000 });
+      return () => cancelIdleCallback(id);
+    } else {
+      const timer = setTimeout(() => setShowDecorations(true), 2500);
+      return () => clearTimeout(timer);
+    }
   }, []);
 
   return (
