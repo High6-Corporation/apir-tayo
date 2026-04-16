@@ -25,14 +25,11 @@
     "typescript": "^5"
   },
   "browserslist": [
-    "chrome >= 87",
-    "firefox >= 78",
-    "safari >= 14",
-    "edge >= 88",
-    "opera >= 80",
-    "ios_saf >= 14.5",
-    "android >= 87",
+    "defaults",
+    "not IE 11",
+    "not IE_Mob 11",
+    "not op_mini all",
     "not dead",
-    "not op_mini all"
+    "last 2 years"
   ]
 }

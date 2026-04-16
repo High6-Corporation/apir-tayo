@@ -18,6 +18,11 @@ const nextConfig: NextConfig = {
     optimizePackageImports: ['lucide-react'],
   },
 
+  // SWC compiler options - disable legacy polyfills for modern browsers
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production',
+  },
+
   // Production optimizations
   reactStrictMode: true,
 
