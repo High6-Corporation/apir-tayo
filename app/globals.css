@@ -186,3 +186,9 @@ html {
   scroll-padding-top: 100px;
 }
 
+/* Base animation states - kept in CSS to prevent CLS flash */
+.scroll-animate { opacity: 0; }
+.scroll-animate-left { opacity: 0; }
+.scroll-animate-right { opacity: 0; }
+.scroll-animate-scale { opacity: 0; }
+

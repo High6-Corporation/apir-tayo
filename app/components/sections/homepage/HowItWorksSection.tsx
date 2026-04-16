@@ -51,7 +51,6 @@ export function HowItWorksSection() {
         <div ref={headerRef} className={`flex flex-col items-center text-center mb-8 scroll-animate ${headerVisible ? 'scroll-animate-visible' : ''}`}>
           <div className="flex items-center gap-1 mb-2">
             <div className="h-0 w-14 border-t border-[#5757ff]" />
-            {/* <Settings className="size-6 text-[#5757ff]" /> */}
             <img src="/assets/how-it-works-icon.svg" alt="" className="h-[24px] w-[24px]" />
             <p className="font-bold text-[13px] tracking-[-0.26px] text-[#5757ff]">HOW IT WORKS</p>
             <div className="h-0 w-14 border-t border-[#5757ff]" />

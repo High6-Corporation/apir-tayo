@@ -34,7 +34,7 @@ export function PricingSection() {
             }}
           />
           <div
-            className="absolute right-0 top-0 w-[633px] h-[633px] rotate-180 opacity-[0.04] pointer-events-none"
+            className="absolute right-0 top-0 w-[633px] h-[633px] rotate-180 opacity-[0.04] pointer-events-none max-[1180px]:hidden"
             style={{
               backgroundImage: 'url(/assets/62829c3128504d8a41beac802c538dc7fd781b84.png)',
               backgroundSize: 'cover',
@@ -49,7 +49,6 @@ export function PricingSection() {
         <div ref={headerRef} className={`flex flex-col items-center text-center mb-12 scroll-animate ${headerVisible ? 'scroll-animate-visible' : ''}`}>
           <div className="flex items-center gap-1 mb-2">
             <div className="h-0 w-14 border-t border-[#5757ff]" />
-            {/* <Tag className="size-6 text-[#5757ff]" /> */}
             <img src="/assets/pricing-icon.svg" alt="" className="h-[24px] w-[24px]" />
             <p className="font-bold text-[13px] tracking-[-0.26px] text-[#5757ff]">PRICING</p>
             <div className="h-0 w-14 border-t border-[#5757ff]" />

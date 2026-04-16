@@ -5,7 +5,7 @@ export default function MaintenancePage() {
     <div className="bg-white min-h-screen relative overflow-hidden">
       {/* Background Decorative Images */}
       <div
-        className="absolute right-0 top-0 w-[633px] h-[633px] rotate-180 opacity-[0.04] pointer-events-none"
+        className="absolute right-0 top-0 w-[633px] h-[633px] rotate-180 opacity-[0.04] pointer-events-none max-[1180px]:hidden"
         style={{
           backgroundImage: 'url(/assets/62829c3128504d8a41beac802c538dc7fd781b84.png)',
           backgroundSize: 'cover',
@@ -13,7 +13,7 @@ export default function MaintenancePage() {
         }}
       />
       <div
-        className="absolute left-0 top-0 w-[633px] h-[633px] scale-y-[-1] opacity-[0.04] pointer-events-none"
+        className="absolute left-0 top-0 w-[633px] h-[633px] scale-y-[-1] opacity-[0.04] pointer-events-none max-[1180px]:hidden"
         style={{
           backgroundImage: 'url(/assets/62829c3128504d8a41beac802c538dc7fd781b84.png)',
           backgroundSize: 'cover',

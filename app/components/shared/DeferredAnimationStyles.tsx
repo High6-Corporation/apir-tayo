@@ -42,13 +42,9 @@ const animationCSS = `
   100% { opacity: 1; transform: scale(1); }
 }
 
-.scroll-animate { opacity: 0; }
 .scroll-animate-visible { animation: fadeInUpScroll 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-.scroll-animate-left { opacity: 0; }
 .scroll-animate-left.scroll-animate-visible { animation: fadeInLeftScroll 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-.scroll-animate-right { opacity: 0; }
 .scroll-animate-right.scroll-animate-visible { animation: fadeInRightScroll 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-.scroll-animate-scale { opacity: 0; }
 .scroll-animate-scale.scroll-animate-visible { animation: scaleInScroll 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 
 .stagger-1 { animation-delay: 0.1s; }
