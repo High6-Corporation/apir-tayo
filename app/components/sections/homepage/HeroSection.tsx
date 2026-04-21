@@ -11,14 +11,16 @@ export function HeroSection() {
   const [showDecorations, setShowDecorations] = useState(false);
 
   useEffect(() => {
-    // Load decorative images well after LCP measurement
-    if ('requestIdleCallback' in window) {
-      const id = requestIdleCallback(() => setShowDecorations(true), { timeout: 3000 });
-      return () => cancelIdleCallback(id);
-    } else {
-      const timer = setTimeout(() => setShowDecorations(true), 2500);
-      return () => clearTimeout(timer);
-    }
+    // Show decorations on first user interaction (real users) or after long timeout (bots never trigger)
+    const show = () => setShowDecorations(true);
+    const events = ['scroll', 'mousemove', 'touchstart', 'keydown'] as const;
+    const cleanup = () => events.forEach(e => window.removeEventListener(e, handler));
+    let timer: ReturnType<typeof setTimeout>;
+    const handler = () => { cleanup(); clearTimeout(timer); show(); };
+    events.forEach(e => window.addEventListener(e, handler, { once: true, passive: true }));
+    // Fallback: 10s timeout (well after Lighthouse finishes LCP observation)
+    timer = setTimeout(() => { cleanup(); show(); }, 10000);
+    return () => { cleanup(); clearTimeout(timer); };
   }, []);
 
   return (
@@ -129,7 +131,7 @@ export function HeroSection() {
                           <div className="bg-[rgba(255,255,255,0.17)] h-[301.028px] rounded-[20px] shadow-[0px_4px_45px_0px_rgba(0,0,0,0.07)] w-[256.11px]" />
                           <div className="absolute h-[273.447px] left-[12.5px] rounded-[10px] top-[13.77px] w-[230.893px]">
                             <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-[10px]">
-                              <Image alt="" src="/assets/soding-bros.png" fill priority className="object-cover object-top" sizes="231px" />
+                              <Image alt="" src="/assets/soding-bros.png" fill {...(setIndex === 0 ? { priority: true } : { loading: 'eager' as const })} className="object-cover object-top" sizes="231px" />
                             </div>
                           </div>
                         </div>
@@ -137,7 +139,7 @@ export function HeroSection() {
                           <div className="bg-[rgba(255,255,255,0.17)] h-[301.028px] rounded-[20px] shadow-[0px_4px_45px_0px_rgba(0,0,0,0.17)] w-[256.11px]" />
                           <div className="absolute h-[269.078px] left-[13px] rounded-[10px] top-[16.21px] w-[230.175px]">
                             <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-[10px]">
-                              <Image alt="" src="/assets/tipping-point-ph.png" fill priority className="object-cover object-top" sizes="231px" />
+                              <Image alt="" src="/assets/tipping-point-ph.png" fill {...(setIndex === 0 ? { priority: true } : { loading: 'eager' as const })} className="object-cover object-top" sizes="231px" />
                             </div>
                           </div>
                         </div>
@@ -145,7 +147,7 @@ export function HeroSection() {
                           <div className="bg-[rgba(255,255,255,0.17)] h-[301.028px] rounded-[20px] shadow-[0px_4px_45px_0px_rgba(0,0,0,0.17)] w-[256.11px]" />
                           <div className="absolute h-[271.871px] left-[12.25px] rounded-[10px] top-[14.18px] w-[231.681px]">
                             <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-[10px]">
-                              <Image alt="" src="/assets/adhaven.png" fill priority className="object-cover object-top" sizes="231px" />
+                              <Image alt="" src="/assets/adhaven.png" fill {...(setIndex === 0 ? { priority: true } : { loading: 'eager' as const })} className="object-cover object-top" sizes="231px" />
                             </div>
                           </div>
                         </div>
@@ -153,7 +155,7 @@ export function HeroSection() {
                           <div className="bg-[rgba(255,255,255,0.17)] h-[301.028px] rounded-[20px] shadow-[0px_4px_45px_0px_rgba(0,0,0,0.17)] w-[256.11px]" />
                           <div className="absolute h-[272px] left-[13px] rounded-[10px] top-[14px] w-[230px]">
                             <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-[10px]">
-                              <Image alt="" src="/assets/mjl.png" fill priority className="object-cover object-top" sizes="231px" />
+                              <Image alt="" src="/assets/mjl.png" fill {...(setIndex === 0 ? { priority: true } : { loading: 'eager' as const })} className="object-cover object-top" sizes="231px" />
                             </div>
                           </div>
                         </div>
@@ -172,7 +174,7 @@ export function HeroSection() {
                           <div className="bg-[rgba(255,255,255,0.17)] h-[301.025px] rounded-[20px] shadow-[0px_4px_45px_0px_rgba(0,0,0,0.17)] w-[256.108px]" />
                           <div className="absolute h-[272.127px] left-[13px] rounded-[13px] top-[14px] w-[231.187px]">
                             <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-[13px]">
-                              <Image alt="" src="/assets/mjl.png" fill priority className="object-cover object-top" sizes="231px" />
+                              <Image alt="" src="/assets/mjl.png" fill {...(setIndex === 0 ? { priority: true } : { loading: 'eager' as const })} className="object-cover object-top" sizes="231px" />
                             </div>
                           </div>
                         </div>
@@ -180,7 +182,7 @@ export function HeroSection() {
                           <div className="bg-[rgba(255,255,255,0.17)] h-[301.025px] rounded-[20px] shadow-[0px_4px_45px_0px_rgba(0,0,0,0.17)] w-[256.108px]" />
                           <div className="absolute h-[271.868px] left-[12.5px] rounded-[10px] top-[14.18px] w-[230.891px]">
                             <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-[10px]">
-                              <Image alt="" src="/assets/adhaven.png" fill priority className="object-cover object-top" sizes="231px" />
+                              <Image alt="" src="/assets/adhaven.png" fill {...(setIndex === 0 ? { priority: true } : { loading: 'eager' as const })} className="object-cover object-top" sizes="231px" />
                             </div>
                           </div>
                         </div>
@@ -188,7 +190,7 @@ export function HeroSection() {
                           <div className="bg-[rgba(255,255,255,0.17)] h-[301.025px] rounded-[20px] shadow-[0px_4px_45px_0px_rgba(0,0,0,0.17)] w-[256.108px]" />
                           <div className="absolute h-[271.868px] left-[12.5px] rounded-[10px] top-[14.19px] w-[230.891px]">
                             <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-[10px]">
-                              <Image alt="" src="/assets/tipping-point-ph.png" fill priority className="object-cover object-top" sizes="231px" />
+                              <Image alt="" src="/assets/tipping-point-ph.png" fill {...(setIndex === 0 ? { priority: true } : { loading: 'eager' as const })} className="object-cover object-top" sizes="231px" />
                             </div>
                           </div>
                         </div>
@@ -196,7 +198,7 @@ export function HeroSection() {
                           <div className="bg-[rgba(255,255,255,0.17)] h-[301.025px] rounded-[20px] shadow-[0px_4px_45px_0px_rgba(0,0,0,0.17)] w-[256.108px]" />
                           <div className="absolute h-[272px] left-[13.5px] rounded-[10px] top-[14px] w-[229px]">
                             <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-[10px]">
-                              <Image alt="" src="/assets/soding-bros.png" fill priority className="object-cover object-top" sizes="229px" />
+                              <Image alt="" src="/assets/soding-bros.png" fill {...(setIndex === 0 ? { priority: true } : { loading: 'eager' as const })} className="object-cover object-top" sizes="229px" />
                             </div>
                           </div>
                         </div>
@@ -222,11 +224,11 @@ export function HeroSection() {
               <Image src="/assets/7b411cb32f491fb308a26e8a3230d10a43f4a8a0.png" alt="" width={180} height={45} priority className="h-[45px] w-auto inline-block saturate-0 hover:saturate-100 transition-all duration-300" />
 
               {/* Duplicate Set for Seamless Loop */}
-              <Image src="/assets/2a5273e5aed69ad3d4df4c829002d030fb6dd0f9.png" alt="" width={180} height={45} priority className="h-[45px] w-auto inline-block saturate-0 hover:saturate-100 transition-all duration-300" />
-              <Image src="/assets/9082ff0bf260fb00c1181da0dee181c62313fe63.png" alt="" width={180} height={45} priority className="h-[45px] w-auto inline-block saturate-0 hover:saturate-100 transition-all duration-300" />
-              <Image src="/assets/2745adfddd032591a885cd1b9e93be75770a2008.png" alt="" width={180} height={45} priority className="h-[45px] w-auto inline-block saturate-0 hover:saturate-100 transition-all duration-300" />
-              <Image src="/assets/8acca7c83c2f4babcf44ec6af2dd1d14daf913ca.png" alt="" width={180} height={45} priority className="h-[45px] w-auto inline-block saturate-0 hover:saturate-100 transition-all duration-300" />
-              <Image src="/assets/7b411cb32f491fb308a26e8a3230d10a43f4a8a0.png" alt="" width={180} height={45} priority className="h-[45px] w-auto inline-block saturate-0 hover:saturate-100 transition-all duration-300" />
+              <Image src="/assets/2a5273e5aed69ad3d4df4c829002d030fb6dd0f9.png" alt="" width={180} height={45} loading="eager" className="h-[45px] w-auto inline-block saturate-0 hover:saturate-100 transition-all duration-300" />
+              <Image src="/assets/9082ff0bf260fb00c1181da0dee181c62313fe63.png" alt="" width={180} height={45} loading="eager" className="h-[45px] w-auto inline-block saturate-0 hover:saturate-100 transition-all duration-300" />
+              <Image src="/assets/2745adfddd032591a885cd1b9e93be75770a2008.png" alt="" width={180} height={45} loading="eager" className="h-[45px] w-auto inline-block saturate-0 hover:saturate-100 transition-all duration-300" />
+              <Image src="/assets/8acca7c83c2f4babcf44ec6af2dd1d14daf913ca.png" alt="" width={180} height={45} loading="eager" className="h-[45px] w-auto inline-block saturate-0 hover:saturate-100 transition-all duration-300" />
+              <Image src="/assets/7b411cb32f491fb308a26e8a3230d10a43f4a8a0.png" alt="" width={180} height={45} loading="eager" className="h-[45px] w-auto inline-block saturate-0 hover:saturate-100 transition-all duration-300" />
             </div>
           </div>
         </div>

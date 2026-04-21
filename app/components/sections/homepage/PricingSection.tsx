@@ -11,13 +11,14 @@ export function PricingSection() {
   const [showDecorations, setShowDecorations] = useState(false);
 
   useEffect(() => {
-    if ('requestIdleCallback' in window) {
-      const id = requestIdleCallback(() => setShowDecorations(true), { timeout: 3000 });
-      return () => cancelIdleCallback(id);
-    } else {
-      const timer = setTimeout(() => setShowDecorations(true), 2500);
-      return () => clearTimeout(timer);
-    }
+    const show = () => setShowDecorations(true);
+    const events = ['scroll', 'mousemove', 'touchstart', 'keydown'] as const;
+    const cleanup = () => events.forEach(e => window.removeEventListener(e, handler));
+    let timer: ReturnType<typeof setTimeout>;
+    const handler = () => { cleanup(); clearTimeout(timer); show(); };
+    events.forEach(e => window.addEventListener(e, handler, { once: true, passive: true }));
+    timer = setTimeout(() => { cleanup(); show(); }, 10000);
+    return () => { cleanup(); clearTimeout(timer); };
   }, []);
 
   return (

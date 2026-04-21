@@ -59,11 +59,15 @@ export default function DeferredAnimationStyles() {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    const inject = () => {
+      // Use rAF to batch style injection with next paint, reducing forced reflow
+      requestAnimationFrame(() => setMounted(true));
+    };
     if ('requestIdleCallback' in window) {
-      const id = requestIdleCallback(() => setMounted(true), { timeout: 1000 });
+      const id = requestIdleCallback(inject, { timeout: 1500 });
       return () => cancelIdleCallback(id);
     } else {
-      const timer = setTimeout(() => setMounted(true), 100);
+      const timer = setTimeout(inject, 150);
       return () => clearTimeout(timer);
     }
   }, []);
