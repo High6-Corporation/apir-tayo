@@ -39,16 +39,16 @@ export function Footer() {
 
             {/* Social Media */}
             <div className="flex gap-3">
-              <a href="https://www.facebook.com/high6creatives" target="_blank" rel="noopener noreferrer" className="transition-opacity hover:opacity-70">
+              <a href="https://www.facebook.com/share/1M3Xs6p7uv/" target="_blank" rel="noopener noreferrer" className="transition-opacity hover:opacity-70">
                 <img src="/assets/Facebook.svg" alt="Facebook" className="size-6" />
               </a>
-              <a href="https://www.instagram.com/high6creatives/" target="_blank" rel="noopener noreferrer" className="transition-opacity hover:opacity-70">
+              <a href="https://www.instagram.com/apir.tayo/" target="_blank" rel="noopener noreferrer" className="transition-opacity hover:opacity-70">
                 <img src="/assets/Instagram.svg" alt="Instagram" className="size-6" />
               </a>
               <a href="https://x.com/high6creatives" target="_blank" rel="noopener noreferrer" className="transition-opacity hover:opacity-70">
                 <img src="/assets/X.svg" alt="X" className="size-6" />
               </a>
-              <a href="https://www.linkedin.com/company/high6/posts/?feedView=all" target="_blank" rel="noopener noreferrer" className="transition-opacity hover:opacity-70">
+              <a href="https://www.linkedin.com/company/apirtayo" target="_blank" rel="noopener noreferrer" className="transition-opacity hover:opacity-70">
                 <img src="/assets/LinkedIn.svg" alt="LinkedIn" className="size-6" />
               </a>
             </div>
@@ -88,16 +88,16 @@ export function Footer() {
 
           {/* Social */}
           <div className="flex gap-3">
-            <a href="https://www.facebook.com/high6creatives" target="_blank" rel="noopener noreferrer" className="transition-opacity hover:opacity-70">
+            <a href="https://www.facebook.com/share/1M3Xs6p7uv/" target="_blank" rel="noopener noreferrer" className="transition-opacity hover:opacity-70">
               <img src="/assets/Facebook.svg" alt="Facebook" className="size-6" />
             </a>
-            <a href="https://www.instagram.com/high6creatives/" target="_blank" rel="noopener noreferrer" className="transition-opacity hover:opacity-70">
+            <a href="https://www.instagram.com/apir.tayo/" target="_blank" rel="noopener noreferrer" className="transition-opacity hover:opacity-70">
               <img src="/assets/Instagram.svg" alt="Instagram" className="size-6" />
             </a>
             <a href="https://x.com/high6creatives" target="_blank" rel="noopener noreferrer" className="transition-opacity hover:opacity-70">
               <img src="/assets/X.svg" alt="X" className="size-6" />
             </a>
-            <a href="https://www.linkedin.com/company/high6/posts/?feedView=all" target="_blank" rel="noopener noreferrer" className="transition-opacity hover:opacity-70">
+            <a href="https://www.linkedin.com/company/apirtayo" target="_blank" rel="noopener noreferrer" className="transition-opacity hover:opacity-70">
               <img src="/assets/LinkedIn.svg" alt="LinkedIn" className="size-6" />
             </a>
           </div>

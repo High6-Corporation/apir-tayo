@@ -20,10 +20,10 @@ export function ContactSection({ formFields }: ContactSectionProps) {
               Whether you have a product inquiry, need customer support, or want to explore partnership opportunities.
             </p>
             <div className="flex gap-4 justify-center lg:justify-start">
-              <a href="#"><img src="/assets/Facebook.svg" className="size-6" /></a>
-              <a href="#"><img src="/assets/Instagram.svg" className="size-6" /></a>
-              <a href="#"><img src="/assets/X.svg" className="size-6" /></a>
-              <a href="#"><img src="/assets/LinkedIn.svg" className="size-6" /></a>
+              <a href="https://www.facebook.com/share/1M3Xs6p7uv/" target="_blank" rel="noopener noreferrer"><img src="/assets/Facebook.svg" className="size-6" /></a>
+              <a href="https://www.instagram.com/apir.tayo/" target="_blank" rel="noopener noreferrer"><img src="/assets/Instagram.svg" className="size-6" /></a>
+              <a href="https://x.com/high6creatives" target="_blank" rel="noopener noreferrer"><img src="/assets/X.svg" className="size-6" /></a>
+              <a href="https://www.linkedin.com/company/apirtayo" target="_blank" rel="noopener noreferrer"><img src="/assets/LinkedIn.svg" className="size-6" /></a>
             </div>
           </div>
 
