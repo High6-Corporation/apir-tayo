@@ -22,6 +22,29 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
+  openGraph: {
+    title: "High-Converting Websites - Designed to Launch Fast",
+    description: "We design and build stunning one-page websites in Framer — optimized for speed, clarity, and conversions. Perfect for startups, services, and growing brands.",
+    url: "https://apirtayo.com",
+    siteName: "Apirtayo",
+    locale: "en_US",
+    type: "website",
+    images: [
+      {
+        url: "https://apirtayo.com/assets/apir-tayo-banner.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Apirtayo - High-Converting Websites Designed to Launch Fast",
+        type: "image/jpeg",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "High-Converting Websites - Designed to Launch Fast",
+    description: "We design and build stunning one-page websites in Framer — optimized for speed, clarity, and conversions. Perfect for startups, services, and growing brands.",
+    images: ["https://apirtayo.com/assets/apir-tayo-banner.jpg"],
+  },
 };
 
 export const viewport: Viewport = {
