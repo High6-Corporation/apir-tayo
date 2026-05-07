@@ -13,7 +13,7 @@ async function graphql(query: string, variables?: any) {
   return res.json();
 }
 
-export function ContactForm({ formFields }: { formFields: any[] }) {
+export function ContactForm({ formFields, ctScriptFailed }: { formFields: any[]; ctScriptFailed: boolean }) {
   const router = useRouter();
   const [fields, setFields] = useState<any[]>(formFields);
   const [formData, setFormData] = useState<Record<string, string>>({});
@@ -36,21 +36,54 @@ export function ContactForm({ formFields }: { formFields: any[] }) {
     setIsSubmitting(true);
     setSubmitStatus({ type: null, message: "" });
 
-    const result = await graphql(
-      `mutation($input: FormInput!) { submitForm(input: $input) { success message } }`,
-      { input: formData }
-    );
-
-    if (result.data?.submitForm?.success) {
-      // Redirect to thank you page
-      router.push("/thank-you");
-    } else {
+    // Check if CleanTalk script loaded successfully
+    if (ctScriptFailed) {
       setSubmitStatus({
         type: "error",
-        message: "Something went wrong. Please try again.",
+        message: "Security verification failed. Please refresh the page and try again.",
       });
+      setIsSubmitting(false);
+      return;
     }
-    setIsSubmitting(false);
+
+    try {
+      // Get CleanTalk token from hidden input field (auto-injected by CleanTalk script)
+      const ctTokenInput = document.querySelector(
+        'input[name="ct_bot_detector_event_token"]'
+      ) as HTMLInputElement;
+      const ctToken = ctTokenInput?.value || "";
+
+      // Add CleanTalk token to form data only if it exists
+      const formDataWithCt: { [key: string]: string } = {
+        ...formData,
+      };
+
+      if (ctToken && ctToken.trim() !== "") {
+        formDataWithCt.ct_bot_detector_event_token = ctToken;
+      }
+
+      const result = await graphql(
+        `mutation($input: FormInput!) { submitForm(input: $input) { success message } }`,
+        { input: formDataWithCt }
+      );
+
+      if (result.data?.submitForm?.success) {
+        // Redirect to thank you page
+        router.push("/thank-you");
+      } else {
+        setSubmitStatus({
+          type: "error",
+          message: "Verification failed. Please try again.",
+        });
+      }
+    } catch (err: any) {
+      setSubmitStatus({
+        type: "error",
+        message: err?.message || "Failed to send message. Please try again.",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (loading) {

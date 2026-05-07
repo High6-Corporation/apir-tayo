@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { ContactForm } from "./ContactForm";
 
 interface ContactSectionProps {
@@ -7,6 +8,26 @@ interface ContactSectionProps {
 }
 
 export function ContactSection({ formFields }: ContactSectionProps) {
+  const [ctScriptFailed, setCtScriptFailed] = useState<boolean>(false);
+
+  useEffect(() => {
+    const existingScript = document.querySelector(
+      'script[src="https://fd.cleantalk.org/ct-bot-detector-wrapper.js"]',
+    );
+
+    if (existingScript) {
+      return;
+    }
+
+    const script = document.createElement("script");
+    script.src = "https://fd.cleantalk.org/ct-bot-detector-wrapper.js";
+    script.async = true;
+    script.onerror = () => {
+      setCtScriptFailed(true);
+    };
+    document.body.appendChild(script);
+  }, []);
+
   return (
     <section className="relative overflow-hidden bg-white py-12">
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-20 pt-16">
@@ -29,7 +50,12 @@ export function ContactSection({ formFields }: ContactSectionProps) {
 
           {/* Right - GraphQL Form */}
           <div className="w-full lg:w-[630px] max-w-[630px] m-auto bg-white rounded-[20px] shadow-[0px_4px_25px_0px_rgba(0,0,0,0.25)] p-[20px] md:p-[30px] overflow-hidden">
-            <ContactForm formFields={formFields} />
+            {ctScriptFailed && (
+              <div className="bg-amber-50 border border-amber-300 p-4 mb-6 rounded">
+                <p className="text-sm text-amber-700">Security check unavailable. Please refresh.</p>
+              </div>
+            )}
+            <ContactForm formFields={formFields} ctScriptFailed={ctScriptFailed} />
           </div>
         </div>
       </div>
