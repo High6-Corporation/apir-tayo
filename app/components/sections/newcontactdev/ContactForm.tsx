@@ -1,12 +1,12 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import {
   DynamicFormField,
   submitDynamicFormAction,
 } from "@/app/lib/gravity-forms/contactform";
-import { useCleanTalkBotDetector } from "@/app/lib/cleantalk/cleantalk";
+import { useCleanTalkBotDetector } from "@/app/lib/cleantalk/cleantalkscript";
 
 interface ContactFormProps {
   fields: DynamicFormField[];
