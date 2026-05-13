@@ -1,6 +1,6 @@
 import { Navigation } from "@/app/components/navigation/Navigation";
 import { Footer } from "@/app/components/sections/homepage/Footer";
-import ContactFormSection from "@/app/components/sections/newcontactdev/ContactFormSection";
+import ContactFormSection from "@/app/components/sections/contactdev/ContactFormSection";
 
 
 export default async function ContactPage() {

@@ -410,18 +410,6 @@ async function submitDynamicToGravityForms(
       }
     }
 
-    // Get user's real IP address and referer from headers
-    const headersList = await headers();
-    const userIP = 
-      headersList.get('cf-connecting-ip') ||
-      headersList.get('x-forwarded-for')?.split(',')[0].trim() ||
-      headersList.get('x-real-ip') ||
-      headersList.get('x-client-ip') ||
-      headersList.get('remote-addr') ||
-      'unknown';
-
-    const referer = headersList.get('referer') || headersList.get('referrer') || '';
-
     const response = await fetch(
       `${siteUrl}/wp-json/gf/v2/forms/${targetFormId}/submissions`,
       {
