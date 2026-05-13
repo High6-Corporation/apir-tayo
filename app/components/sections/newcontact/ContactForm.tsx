@@ -2,7 +2,11 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { DynamicFormField, submitDynamicFormAction } from "@/app/lib/gravity-forms/contactform";
+import {
+  DynamicFormField,
+  submitDynamicFormAction,
+} from "@/app/lib/gravity-forms/contactform";
+import { useCleanTalkBotDetector } from "@/app/lib/cleantalk/cleantalk";
 
 interface ContactFormProps {
   fields: DynamicFormField[];
@@ -27,11 +31,13 @@ export default function ContactForm({ fields, formId }: ContactFormProps) {
     message: string;
   }>({ type: null, message: "" });
   const [selectValues, setSelectValues] = useState<Record<string, string>>({});
-  const [ctScriptFailed, setCtScriptFailed] = useState<boolean>(false);
   const formRef = useRef<HTMLFormElement>(null);
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+
+    if (isSubmitting) return;
+
     setIsSubmitting(true);
     setSubmitStatus({ type: null, message: "" });
 
@@ -57,6 +63,7 @@ export default function ContactForm({ fields, formId }: ContactFormProps) {
         formData,
         fields,
         formId,
+        ctToken,
       );
 
       if (result.success) {
@@ -81,7 +88,6 @@ export default function ContactForm({ fields, formId }: ContactFormProps) {
     // Show label based on labelPlacement setting from WordPress
     // const showLabel = field.labelPlacement !== "hidden_label";
     const showLabel = false;
-
 
     // const placeholder = field.isRequired
     //   ? `${field.placeholder}*`
@@ -239,29 +245,7 @@ export default function ContactForm({ fields, formId }: ContactFormProps) {
     }
   }
 
-  useEffect(() => {
-    // Check if script is already loaded
-    const existingScript = document.querySelector(
-      'script[src="https://fd.cleantalk.org/ct-bot-detector-wrapper.js"]',
-    );
-
-    if (existingScript) {
-      // Script already loaded
-      return;
-    }
-
-    const script = document.createElement("script");
-    script.src = "https://fd.cleantalk.org/ct-bot-detector-wrapper.js";
-    script.async = true;
-    script.onload = () => {
-      // Script loaded successfully
-    };
-    script.onerror = () => {
-      console.error("Failed to load CleanTalk bot detector script");
-      setCtScriptFailed(true);
-    };
-    document.body.appendChild(script);
-  }, []);
+  const { scriptFailed: ctScriptFailed } = useCleanTalkBotDetector();
 
   return (
     <section className="relative overflow-hidden bg-white py-12">
@@ -315,14 +299,11 @@ export default function ContactForm({ fields, formId }: ContactFormProps) {
           {/* Right - GraphQL Form */}
           <div className="w-full lg:w-[630px] max-w-[630px] m-auto bg-white rounded-[20px] shadow-[0px_4px_25px_0px_rgba(0,0,0,0.25)] p-[20px] md:p-[30px] overflow-hidden">
             {ctScriptFailed && (
-              <div className="bg-amber-50 border border-amber-300 p-4 mb-6 rounded">
-                <p className="text-sm text-amber-700">
-                  Security check unavailable. Please refresh.
-                </p>
-              </div>
-            )}
-            {ctScriptFailed && (
-              <div className="bg-amber-50 border border-amber-300 p-4 mb-6 rounded">
+              <div
+                role="alert"
+                aria-live="assertive"
+                className="bg-amber-50 border border-amber-300 p-4 mb-6 rounded"
+              >
                 <div className="flex items-start gap-3">
                   <svg
                     className="w-5 h-5 text-amber-600 mt-0.5 flex-shrink-0"
@@ -346,7 +327,7 @@ export default function ContactForm({ fields, formId }: ContactFormProps) {
                     </p>
                     <button
                       onClick={() => window.location.reload()}
-                      className="mt-2 px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white text-sm font-medium rounded transition-colors"
+                      className="mt-2 px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white text-sm font-medium rounded transition-colors cursor-pointer"
                     >
                       Refresh Page
                     </button>
@@ -375,6 +356,8 @@ export default function ContactForm({ fields, formId }: ContactFormProps) {
               {/* Status Message */}
               {submitStatus.type && (
                 <div
+                  role="alert"
+                  aria-live="assertive"
                   className={`p-[14px] rounded-[10px] dmsans text-[14px] ${
                     submitStatus.type === "success"
                       ? "bg-green-100 text-green-800 border border-green-300"
@@ -391,7 +374,9 @@ export default function ContactForm({ fields, formId }: ContactFormProps) {
                   type="submit"
                   disabled={isSubmitting || ctScriptFailed}
                   className={`bg-[#5757ff] hover:bg-[#24247d] flex gap-[10px] items-center justify-center px-[24px] py-[14px] rounded-[100px] text-white font-semibold text-[15px] tracking-[-0.3px] leading-[23px] transition-colors duration-300 ${
-                    isSubmitting ? "opacity-70 cursor-not-allowed" : "cursor-pointer"
+                    isSubmitting
+                      ? "opacity-70 cursor-not-allowed"
+                      : "cursor-pointer"
                   }`}
                 >
                   {isSubmitting ? "Submitting..." : "Submit"}

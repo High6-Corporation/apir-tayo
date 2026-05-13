@@ -216,6 +216,7 @@ export async function submitDynamicFormAction(
   formData: FormData,
   fields: DynamicFormField[],
   formId?: string,
+  ct_bot_detector_event_token?: string,
 ): Promise<FormSubmissionResult> {
   try {
     const honeypot = formData.get("website")?.toString().trim() || "";
@@ -226,30 +227,30 @@ export async function submitDynamicFormAction(
     // Build submission data and validate dynamically
     const missingFields: string[] = [];
 
-    // if (
-    //   !ct_bot_detector_event_token ||
-    //   ct_bot_detector_event_token.trim() === ""
-    // ) {
-    //   console.warn("CleanTalk token not provided - rejecting submission");
-    //   return {
-    //     success: false,
-    //     message: "Verification failed. Please refresh the page and try again.",
-    //   };
-    // }
+    if (
+      !ct_bot_detector_event_token ||
+      ct_bot_detector_event_token.trim() === ""
+    ) {
+      console.warn("CleanTalk token not provided - rejecting submission");
+      return {
+        success: false,
+        message: "Verification failed. Please refresh the page and try again.",
+      };
+    }
 
     // Get user's real IP address from headers (Server Action compatible)
-    // const headersList = await headers();
-    // const userIP = 
-    //   headersList.get('cf-connecting-ip') ||
-    //   headersList.get('x-forwarded-for')?.split(',')[0].trim() ||
-    //   headersList.get('x-real-ip') ||
-    //   headersList.get('x-client-ip') ||
-    //   headersList.get('remote-addr') ||
-    //   'unknown';
+    const headersList = await headers();
+    const userIP = 
+      headersList.get('cf-connecting-ip') ||
+      headersList.get('x-forwarded-for')?.split(',')[0].trim() ||
+      headersList.get('x-real-ip') ||
+      headersList.get('x-client-ip') ||
+      headersList.get('remote-addr') ||
+      'unknown';
 
     // Extract user agent and referrer from request headers
-    // const userAgent = headersList.get('user-agent') || '';
-    // const referrer = headersList.get('referer') || headersList.get('referrer') || '';
+    const userAgent = headersList.get('user-agent') || '';
+    const referrer = headersList.get('referer') || headersList.get('referrer') || '';
 
     // Extract form data from FormData object
     const formFields: { [key: string]: string } = {};
@@ -260,31 +261,33 @@ export async function submitDynamicFormAction(
     }
 
     // Find email field
-    // const emailField = fields.find((f) => f.type === 'email');
-    // const senderEmail = emailField ? (formFields[emailField.name] || '') : '';
+    const emailField = fields.find((f) => f.type === 'email');
+    const senderEmail = emailField ? (formFields[emailField.name] || '') : '';
     
     // Combine all form values for CleanTalk
-    // const allFormValues = Object.values(formFields)
-    //   .filter((val) => val && val.trim() !== '')
-    //   .join(' | ')
-    //   .substring(0, 1024);
+    const sanitize = (str: string) => str.replace(/<[^>]*>/g, '').trim();
+    const allFormValues = Object.values(formFields)
+      .filter((val) => val && val.trim() !== '')
+      .map(sanitize)
+      .join(' | ')
+      .substring(0, 1024);
 
-    // const ctValidationResult = await validateCleanTalkToken(
-    //   ct_bot_detector_event_token, 
-    //   senderEmail,
-    //   allFormValues,
-    //   userIP,
-    //   userAgent,
-    //   referrer
-    // );
+    const ctValidationResult = await validateCleanTalkToken(
+      ct_bot_detector_event_token, 
+      senderEmail,
+      allFormValues,
+      userIP,
+      userAgent,
+      referrer
+    );
     
-    // if (!ctValidationResult.allow) {
-    //   console.warn('CleanTalk validation failed:', ctValidationResult.message);
-    //   return {
-    //     success: false,
-    //     message: "Verification failed. Please refresh the page and try again.",
-    //   };
-    // }
+    if (!ctValidationResult.allow) {
+      console.warn('CleanTalk validation failed:', ctValidationResult.message);
+      return {
+        success: false,
+        message: "Verification failed. Please refresh the page and try again.",
+      };
+    }
 
     for (const field of fields) {
       // Skip file uploads
@@ -425,9 +428,6 @@ async function submitDynamicToGravityForms(
         method: "POST",
         headers: {
           Authorization: `Basic ${auth}`,
-          'X-Forwarded-For': userIP,
-          'X-Real-IP': userIP,
-          'Referer': referer,
         },
         body: gfFormData,
       },
