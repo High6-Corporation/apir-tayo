@@ -3,6 +3,12 @@ import { Plus_Jakarta_Sans } from "next/font/google";
 import DeferredAnimationStyles from "./components/shared/DeferredAnimationStyles";
 import "./globals.css";
 
+import { ConsentProvider } from '@/app/components/consent/ConsentProvider'
+import { CookieConsentBanner } from '@/app/components/consent/CookieConsentBanner'
+import { CookieSettingsLink } from '@/app/components/consent/CookieSettingsLink'
+import { CookieSettingsModal } from '@/app/components/consent/CookieSettingsModal'
+import { ConsentScriptLoader } from '@/app/components/consent/ConsentScriptLoader'
+
 const plusJakartaSans = Plus_Jakarta_Sans({
   variable: "--font-plus-jakarta-sans",
   subsets: ["latin"],
@@ -67,17 +73,22 @@ export default function RootLayout({
         {/* DNS Prefetch for WordPress backend */}
         <link rel="dns-prefetch" href="https://apirtayo.beta03.site" />
       </head>
-      <body
-        className="antialiased"
-        suppressHydrationWarning
+      <body className="antialiased" suppressHydrationWarning
         style={{
           // Inline critical styles to prevent white screen
           backgroundColor: '#ffffff',
           color: '#030213',
-          fontFamily: 'system-ui, -apple-system, sans-serif',
         }}
       >
-        {children}
+
+        <ConsentProvider>
+          {children}
+
+          <CookieConsentBanner />
+          <CookieSettingsLink />
+          <CookieSettingsModal />
+          <ConsentScriptLoader />
+        </ConsentProvider>
         <DeferredAnimationStyles />
       </body>
     </html>
