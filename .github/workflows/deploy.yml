@@ -1,0 +1,28 @@
+name: Deploy to Hostinger VPS
+
+on:
+  push:
+    branches:
+      - staging
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            set -e
+            cd /var/www/apir-tayo
+            git pull https://SSKiyan25:${{ secrets.GH_PAT }}@github.com/High6-Corporation/apir-tayo.git master
+            npm ci
+            npm run build
+            pm2 reload ecosystem.config.cjs --update-env
