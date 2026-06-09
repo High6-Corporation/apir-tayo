@@ -21,8 +21,8 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           script: |
             set -e
-            cd /var/www/apir-tayo
+            cd /home/projects/apirtayo
             git pull https://SSKiyan25:${{ secrets.GH_PAT }}@github.com/High6-Corporation/apir-tayo.git master
             npm ci
             npm run build
-            pm2 reload ecosystem.config.cjs --update-env
+            sudo -u appuserwebsite pm2 reload apirtayo --update-env
