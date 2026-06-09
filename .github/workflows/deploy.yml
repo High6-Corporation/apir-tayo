@@ -19,6 +19,8 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
+          timeout: 60s
+          command_timeout: 15m
           script: |
             set -e
             cd /home/projects/apirtayo
