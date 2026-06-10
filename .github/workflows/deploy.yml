@@ -19,7 +19,7 @@ jobs:
     name: Build on GHA → Deploy to VPS
     runs-on: ubuntu-latest
 
-    # Scope secrets to a named environment (set this up in repo Settings → Environments)
+    # Scope secrets to a named environment
     environment: staging
 
     steps:
@@ -56,7 +56,7 @@ jobs:
             .next/ $SSH_USER@$SSH_HOST:/home/projects/apirtayo/.next/
           rm -f /tmp/deploy_key
 
-      - name: Setup Deploy Key on VPS & Reload PM2
+      - name: Sync source & Reload PM2
         uses: appleboy/ssh-action@v1
         with:
           host: ${{ secrets.SSH_HOST }}
@@ -65,28 +65,12 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           timeout: 2m
           command_timeout: 5m
-          envs: DEPLOY_KEY
           script: |
             set -e
-
-            # Ensure deploy key is available for git pull
-            mkdir -p ~/.ssh
-            echo "$DEPLOY_KEY" > ~/.ssh/apirtayo_repo_key
-            chmod 600 ~/.ssh/apirtayo_repo_key
-
-            cd /home/projects/apirtayo
-
-            # Sync source files (not the build — already transferred via rsync)
-            GIT_SSH_COMMAND="ssh -i ~/.ssh/apirtayo_repo_key -o StrictHostKeyChecking=no" \
-              git pull git@github.com:High6-Corporation/apir-tayo.git master
-
-            # Install production deps only
-            npm ci --omit=dev
-
-            # Reload app under appuserwebsite's PM2
+            sudo -u appuserwebsite bash -c '
+              cd /home/projects/apirtayo &&
+              GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519_vps_git -o StrictHostKeyChecking=no" \
+                git pull git@github.com:High6-Corporation/apir-tayo.git master &&
+              npm ci --omit=dev
+            '
             sudo -u appuserwebsite /usr/local/bin/pm2 reload apirtayo --update-env
-
-            # Cleanup
-            rm -f ~/.ssh/apirtayo_repo_key
-        env:
-          DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
