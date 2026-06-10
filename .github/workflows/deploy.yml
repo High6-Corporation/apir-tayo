@@ -12,6 +12,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Setup Deploy Key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.DEPLOY_KEY }}" > ~/.ssh/apirtayo_repo_key
+          chmod 600 ~/.ssh/apirtayo_repo_key
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
+
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1
         with:
@@ -24,7 +31,7 @@ jobs:
           script: |
             set -e
             cd /home/projects/apirtayo
-            git pull https://SSKiyan25:${{ secrets.GH_PAT }}@github.com/High6-Corporation/apir-tayo.git master
+            GIT_SSH_COMMAND="ssh -i ~/.ssh/apirtayo_repo_key -o StrictHostKeyChecking=no" git pull git@github.com:High6-Corporation/apir-tayo.git master
             npm ci
             npm run build
             sudo -u appuserwebsite pm2 reload apirtayo --update-env
