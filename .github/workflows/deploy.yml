@@ -1,37 +1,91 @@
-name: Deploy to Hostinger VPS
+name: Build & Deploy — apir-tayo
 
 on:
   push:
     branches:
       - staging
 
+# Least-privilege: this workflow only needs to read the repo
+permissions:
+  contents: read
+
+# Prevent overlapping deploys on rapid pushes
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  deploy:
+  build-and-deploy:
+    name: Build on GHA → Deploy to VPS
     runs-on: ubuntu-latest
+
+    # Scope secrets to a named environment (set this up in repo Settings → Environments)
+    environment: staging
+
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
-      - name: Setup Deploy Key
+      - name: Setup Node.js
+        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+        env:
+          NEXT_PUBLIC_GA_ID: ${{ secrets.NEXT_PUBLIC_GA_ID }}
+          NEXT_PUBLIC_GTM_ID: ${{ secrets.NEXT_PUBLIC_GTM_ID }}
+          NEXT_PUBLIC_META_PIXEL_ID: ${{ secrets.NEXT_PUBLIC_META_PIXEL_ID }}
+
+      - name: Transfer build artifact to VPS
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
         run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.DEPLOY_KEY }}" > ~/.ssh/apirtayo_repo_key
-          chmod 600 ~/.ssh/apirtayo_repo_key
-          ssh-keyscan github.com >> ~/.ssh/known_hosts
+          echo "$SSH_PRIVATE_KEY" > /tmp/deploy_key
+          chmod 600 /tmp/deploy_key
+          rsync -az --delete \
+            -e "ssh -i /tmp/deploy_key -p $SSH_PORT -o StrictHostKeyChecking=no" \
+            .next/ $SSH_USER@$SSH_HOST:/home/projects/apirtayo/.next/
+          rm -f /tmp/deploy_key
 
-      - name: Deploy via SSH
-        uses: appleboy/ssh-action@v1
+      - name: Setup Deploy Key on VPS & Reload PM2
+        uses: appleboy/ssh-action@7eaf76671e63f765e8bf2ad1a1b00ea8b24ecc4e # v1.2.0
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
           timeout: 2m
-          command_timeout: 15m
+          command_timeout: 5m
           script: |
             set -e
+
+            # Ensure deploy key is available for git pull
+            mkdir -p ~/.ssh
+            echo "$DEPLOY_KEY" > ~/.ssh/apirtayo_repo_key
+            chmod 600 ~/.ssh/apirtayo_repo_key
+
             cd /home/projects/apirtayo
-            GIT_SSH_COMMAND="ssh -i ~/.ssh/apirtayo_repo_key -o StrictHostKeyChecking=no" git pull git@github.com:High6-Corporation/apir-tayo.git master
-            npm ci
-            npm run build
-            sudo -u appuserwebsite pm2 reload apirtayo --update-env
+
+            # Sync source files (not the build — already transferred via rsync)
+            GIT_SSH_COMMAND="ssh -i ~/.ssh/apirtayo_repo_key -o StrictHostKeyChecking=no" \
+              git pull git@github.com:High6-Corporation/apir-tayo.git master
+
+            # Install production deps only
+            npm ci --omit=dev
+
+            # Reload app under appuserwebsite's PM2
+            sudo -u appuserwebsite /usr/local/bin/pm2 reload apirtayo --update-env
+
+            # Cleanup
+            rm -f ~/.ssh/apirtayo_repo_key
+        env:
+          DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
