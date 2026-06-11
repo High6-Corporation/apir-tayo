@@ -51,7 +51,7 @@ jobs:
         run: |
           echo "$SSH_PRIVATE_KEY" > /tmp/deploy_key
           chmod 600 /tmp/deploy_key
-          rsync -az --omit-dir-times --delete \
+          rsync -rltz --omit-dir-times --no-perms --no-owner --no-group --delete \
             -e "ssh -i /tmp/deploy_key -p $SSH_PORT -o StrictHostKeyChecking=no" \
             .next/ $SSH_USER@$SSH_HOST:/home/projects/apirtayo/.next/
           rm -f /tmp/deploy_key
