@@ -3,7 +3,7 @@ name: Build & Deploy — apir-tayo
 on:
   push:
     branches:
-      - staging
+      - master
 
 # Least-privilege: this workflow only needs to read the repo
 permissions:
@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
 
     # Scope secrets to a named environment
-    environment: staging
+    environment: production
 
     steps:
       - name: Checkout code
