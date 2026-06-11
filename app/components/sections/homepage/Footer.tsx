@@ -103,7 +103,7 @@ export function Footer() {
           </div>
 
           {/* Copyright */}
-          <p className="font-medium text-[15px] tracking-[-0.3px] text-[#59646b]">© {currentYear} Apir Tayo</p>
+          <p className="font-medium text-[15px] tracking-[-0.3px] text-[#59646b]">© {currentYear} Apir' Tayo</p>
         </div>
       </div>
     </footer>
