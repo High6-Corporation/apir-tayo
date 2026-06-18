@@ -1,5 +1,3 @@
-"use client";
-
 export function Footer() {
   const navLinks = ["Why One Page", "Pricing", "How It Works", "Portfolio", "Testimonials", "FAQs"];
   const currentYear = new Date().getFullYear();
@@ -16,8 +14,8 @@ export function Footer() {
             </a>
             <div className="font-medium text-[15px] leading-[normal] tracking-[-0.3px] text-[#59646b]">
               <a href="https://maps.app.goo.gl/vt32cPMHv8aKjvuSA" target="_blank" rel="noopener noreferrer" className="hover:text-[#5757ff] transition-colors block">
-                <p>18 Quezon Street, 6th Avenue, 1400,</p>
-                <p>Caloocan City</p>
+                <span>18 Quezon Street, 6th Avenue, 1400,</span>
+                <span>Caloocan City</span>
               </a>
               <a href="mailto:info@high6.com" className="mt-4 hover:text-[#5757ff] transition-colors block">info@high6.com</a>
               <p className="mt-1">
@@ -54,7 +52,7 @@ export function Footer() {
             </div>
 
             {/* Copyright */}
-            <p className="font-medium text-[15px] tracking-[-0.3px] text-[#59646b]">© {currentYear} Apir Tayo</p>
+            <p className="font-medium text-[15px] tracking-[-0.3px] text-[#59646b]">© {currentYear} Apir&apos; Tayo</p>
           </div>
         </div>
 
@@ -77,8 +75,8 @@ export function Footer() {
           {/* Location & Contacts */}
           <div className="font-medium text-[15px] leading-[normal] tracking-[-0.3px] text-[#59646b]">
             <a href="https://maps.app.goo.gl/vt32cPMHv8aKjvuSA" target="_blank" rel="noopener noreferrer" className="hover:text-[#5757ff] transition-colors block">
-              <p>18 Quezon Street, 6th Avenue, 1400,</p>
-              <p>Caloocan City</p>
+              <span>18 Quezon Street, 6th Avenue, 1400,</span>
+              <span>Caloocan City</span>
             </a>
             <a href="mailto:info@high6.com" className="mt-4 hover:text-[#5757ff] transition-colors block">info@high6.com</a>
             <p className="mt-1">
@@ -103,7 +101,7 @@ export function Footer() {
           </div>
 
           {/* Copyright */}
-          <p className="font-medium text-[15px] tracking-[-0.3px] text-[#59646b]">© {currentYear} Apir' Tayo</p>
+          <p className="font-medium text-[15px] tracking-[-0.3px] text-[#59646b]">© {currentYear} Apir&apos; Tayo</p>
         </div>
       </div>
     </footer>

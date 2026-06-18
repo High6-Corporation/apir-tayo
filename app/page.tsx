@@ -1,6 +1,7 @@
 import dynamic from "next/dynamic";
 import { Navigation } from "@/app/components/navigation/Navigation";
 import { HeroSection } from "@/app/components/sections/homepage/HeroSection";
+import { Footer } from "@/app/components/sections/homepage/Footer";
 
 // Dynamically import below-fold sections for better performance
 const WhyOnePageSection = dynamic(
@@ -40,11 +41,6 @@ const FAQSection = dynamic(
 
 const CTASection = dynamic(
   () => import("@/app/components/sections/homepage/CTASection").then((mod) => mod.CTASection),
-  { ssr: true }
-);
-
-const Footer = dynamic(
-  () => import("@/app/components/sections/homepage/Footer").then((mod) => mod.Footer),
   { ssr: true }
 );
 
