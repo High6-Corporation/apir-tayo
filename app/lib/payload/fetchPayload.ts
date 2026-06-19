@@ -13,7 +13,7 @@ interface PayloadListResponse<T> {
  */
 export async function fetchFromPayload<T>(
   collection: string,
-  tenantId: string,
+  siteId: string,
   sortOrDepth?: string | number,
   depth?: number,
 ): Promise<T[] | null> {
@@ -35,7 +35,7 @@ export async function fetchFromPayload<T>(
   }
 
   try {
-    let url = `${BASE_URL}/api/${collection}?where[tenant][equals]=${tenantId}`;
+    let url = `${BASE_URL}/api/${collection}?where[site][equals]=${siteId}`;
     if (sort) {
       url += `&sort=${sort}`;
     }

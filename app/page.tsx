@@ -76,22 +76,22 @@ const CTASection = dynamic(
 );
 
 export default async function Page() {
-  const tenantId = process.env.PAYLOAD_TENANT_ID;
+  const siteId = process.env.PAYLOAD_SITE_ID;
 
   let faqs: PayloadFAQ[] = [];
   let testimonials: PayloadTestimonial[] = [];
   let projects: PayloadPortfolioItem[] = [];
   let plans: PayloadPricingPlan[] = [];
 
-  if (tenantId) {
+  if (siteId) {
     const [faqsData, testimonialsData, projectsData, plansData] =
       await Promise.all([
-        fetchFromPayload<PayloadFAQ>("faqs", tenantId, "order"),
-        fetchFromPayload<PayloadTestimonial>("testimonials", tenantId, 1),
-        fetchFromPayload<PayloadPortfolioItem>("portfolio-items", tenantId, 1),
+        fetchFromPayload<PayloadFAQ>("faqs", siteId, "order"),
+        fetchFromPayload<PayloadTestimonial>("testimonials", siteId, 1),
+        fetchFromPayload<PayloadPortfolioItem>("portfolio-items", siteId, 1),
         fetchFromPayload<PayloadPricingPlan>(
           "pricing-plans",
-          tenantId,
+          siteId,
           "order",
         ),
       ]);
