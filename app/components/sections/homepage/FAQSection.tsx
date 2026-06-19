@@ -6,20 +6,11 @@ import { PrimaryButton } from "../../shared/Buttons";
 import { ChevronDownIcon } from "../../shared/Icons";
 import Link from "next/link";
 
-interface FAQ {
-  question: string;
-  answer: string;
+interface FAQSectionProps {
+  faqs: { question: string; answer: string }[];
 }
 
-const faqs: FAQ[] = [
-  { question: "Is this custom?", answer: "Yes, every website is custom-designed specifically for your business and brand. We don't use generic templates." },
-  { question: "Can I upgrade later?", answer: "Absolutely! You can upgrade your website at any time to add more pages, features, or functionality as your business grows." },
-  { question: "Is there a contract?", answer: "We offer flexible month-to-month plans with no long-term contracts. You can cancel anytime without penalties." },
-  { question: "What do I need to prepare?", answer: "Just your business information, any existing brand assets (logos, colors), and content you'd like to include on your website." },
-  { question: "Is maintenance included?", answer: "Yes! Regular updates, maintenance, and quarterly check-ins are all included in your monthly subscription." }
-];
-
-export function FAQSection() {
+export function FAQSection({ faqs }: FAQSectionProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const { elementRef: headerRef, isVisible: headerVisible } = useScrollAnimation();
   const { elementRef: faqsRef, isVisible: faqsVisible } = useScrollAnimation();
