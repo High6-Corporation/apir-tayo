@@ -23,6 +23,37 @@ This is a marketing/landing-page site for Apirtayo, a web design agency. It's a 
 
 - `app/(pages)/` — content pages: `/contact`, `/cookie-policy`, `/privacy-policy`
 - `app/(minors)/` — utility pages: `/404`, `/coming-soon`, `/maintenance`, `/thank-you`
+- `app/(portal)/` — **Phase 1:** Portal auth pages: `/portal/login`. Minimal layout (no shared nav/shell).
+
+### Portal Auth (Phase 1)
+
+Client portal authentication against Payload CMS:
+
+- **Login page:** `app/(portal)/portal/login/page.tsx` — client component, calls `POST {PAYLOAD_API_URL}/api/portal-clients/login`, persists session via `/api/portal/session`, redirects to `/portal/chat`
+- **Session API:** `app/api/portal/session/route.ts`
+  - `POST` — sets two httpOnly cookies: `portal_token` (Payload JWT) and `portal_tenant_id` (resolved from `user.tenant.id`)
+  - `DELETE` — clears both cookies (logout)
+- **Collection:** `portal-clients` in payload-poc — auth-enabled, tenant relationship, admin-only access
+- **Env var:** `NEXT_PUBLIC_PAYLOAD_API_URL` (already present in `.env.local`)
+
+### Portal Chat (Phase 2–5)
+
+Protected chat UI that lets authenticated portal clients interact with the Payload CMS AI agent.
+
+- **Middleware:** `middleware.ts` — protects `/portal/chat`, redirects to `/portal/login` when `portal_token` cookie is absent (matcher: `/portal/chat` only)
+- **Chat page:** `app/(portal)/portal/chat/page.tsx` — server component, reads `portal_tenant_id` and `portal_token` from httpOnly cookies, fetches the tenant name from Payload's `/api/tenants/{id}` (using `PAYLOAD_API_URL` server env var with JWT auth), passes `tenantName` and `tenantId` to `<ChatWindow>`. Falls back to "Your Portal" if the fetch fails. Redirects to `/portal/login` if cookie is missing (defense-in-depth).
+- **Tenant name display (Phase 5):** The header shows `"{tenantName} — AI-powered content management"` instead of the generic subtitle.
+- **Capabilities panel (Phase 5):** A "What can I do?" button in the header opens a modal overlay listing supported actions (What I can help you with: 5 items) and unsupported actions (What I cannot do: 5 items with prohibition styling). Replaces the static disclaimer banner from Phase 2–4. Collapsed by default, dismissible via close button or backdrop click.
+- **ChatWindow:** `app/(portal)/portal/chat/ChatWindow.tsx` — client component with message history (scrollable, role-labeled "You"/"Agent"), text input, send button, logout button, paperclip/attach button, and capabilities panel trigger. Accepts `tenantName` and `tenantId` as props. Sends messages to the proxy route at `/api/portal/agent`.
+- **Confirmation flow (Phase 4):** When the agent returns `{ status: "pending_confirmation", proposal: {...} }`, the ChatWindow displays the proposed change (current → new value) and a Confirm button. The user must click Confirm or type "confirm" to execute. Typing anything else cancels the pending proposal with a notice. On confirm, sends `{ message, confirmed: true, proposal }` to the proxy.
+- **ProposalPayload (Phase 5):** Now includes optional `id` field alongside `slug` (for FAQ/testimonial/portfolio actions that use record IDs). Confirmation messages use `id ?? slug` as the record identifier.
+- **Image upload (Phase 5):** Paperclip icon button next to Send opens a hidden `<input accept="image/*">`. On file select: shows thumbnail preview + filename above the input, Send button changes to "Send with Image". On send: uploads the file to `/api/portal/upload` first, receives `{ mediaId, url }`, then sends the message to the agent with `[image mediaId: ${mediaId}]` appended so DeepSeek can emit `link_image` actions. Previews are shown in the message bubble. Upload errors abort the agent call gracefully.
+- **Smart Record Resolution (Phase 6):** When the agent returns `{ status: "needs_selection", records: [...] }`, the ChatWindow displays a numbered list of records (label + preview — internal IDs never shown). The client selects by typing a number or part of the name. On match: appends `[resolved id: <id>]` to the original message invisibly and re-sends it to the agent, which then emits the correct specific action. The `SelectionContext` interface stores `{ collection, records, originalMessage }`. Empty collections show a friendly message (`status: "empty_collection"`). Three placeholder states: default, pending selection, and pending proposal.
+- **Agent proxy:** `app/api/portal/agent/route.ts` — POST handler that reads `portal_token` and `portal_tenant_id` from httpOnly cookies, forwards the request to `POST {PAYLOAD_API_URL}/api/agent` with body `{ message, tenantId, confirmed, proposal }` and header `Authorization: JWT <portal_token>`. Returns 401 if cookies are missing, 502 on upstream error. Passes through `confirmed` and `proposal` fields from the client body.
+- **Upload proxy (Phase 5):** `app/api/portal/upload/route.ts` — POST handler accepting multipart/form-data (`file`), reads `portal_token` and `portal_tenant_id` from cookies, forwards file + tenantId to `POST {PAYLOAD_API_URL}/api/agent-upload` as multipart/form-data with `Authorization: JWT <portal_token>`. Returns `{ mediaId, url }` or 401/502 on error.
+- **Logout:** The logout button in ChatWindow calls `DELETE /api/portal/session` and redirects to `/portal/login`
+
+Auth flow: Login → `/api/portal/session` sets cookies → middleware checks cookie → chat page reads cookie → ChatWindow calls proxy → proxy reads cookies → forwards to Payload agent
 
 The `@/*` TS path alias resolves to the project root.
 
@@ -92,17 +123,20 @@ content in homepage sections. The Payload instance runs separately at `http://lo
 (local) and will be deployed independently in production.
 
 ### Architecture direction
+
 - Payload CMS is the single backend serving multiple frontends (multi-tenant)
 - apir-tayo is the first frontend connected to it, scoped to its own tenant
 - Contact form (Gravity Forms) stays unchanged for now
 
 ### New env vars
-| Variable | Purpose |
-|---|---|
-| `PAYLOAD_API_URL` | Payload CMS base URL (e.g. http://localhost:3000) |
-| `PAYLOAD_TENANT_SLUG` | This site's tenant slug in Payload |
+
+| Variable              | Purpose                                           |
+| --------------------- | ------------------------------------------------- |
+| `PAYLOAD_API_URL`     | Payload CMS base URL (e.g. http://localhost:3000) |
+| `PAYLOAD_TENANT_SLUG` | This site's tenant slug in Payload                |
 
 ### Integration approach
+
 Homepage section components under `app/components/sections/homepage/` will have their
 hardcoded content replaced with data fetched from Payload's REST API, tenant-scoped.
 WordPress is no longer used for content — only Gravity Forms contact submission remains.
