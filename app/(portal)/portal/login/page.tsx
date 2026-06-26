@@ -16,57 +16,30 @@ export default function PortalLoginPage() {
     setLoading(true);
 
     try {
-      const payloadUrl = process.env.NEXT_PUBLIC_PAYLOAD_API_URL;
-      if (!payloadUrl) {
-        setError("Configuration error: API URL is not set.");
-        setLoading(false);
-        return;
-      }
-
-      const loginRes = await fetch(`${payloadUrl}/api/portal-clients/login`, {
+      const res = await fetch("/api/portal/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
 
-      let data: { token?: string; user?: Record<string, unknown>; errors?: Array<{ message: string }>; message?: string };
+      let data: { error?: string };
       try {
-        data = await loginRes.json();
+        data = await res.json();
       } catch {
         setError("Received an invalid response from the server. Please try again.");
         setLoading(false);
         return;
       }
 
-      if (!loginRes.ok) {
-        const message =
-          data?.errors?.[0]?.message ??
-          data?.message ??
-          "Login failed. Please check your credentials.";
-        setError(message);
-        setLoading(false);
-        return;
-      }
-
-      // Persist session via server-side cookies
-      const sessionRes = await fetch("/api/portal/session", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ token: data.token, user: data.user }),
-      });
-
-      if (!sessionRes.ok) {
-        const sessionData = await sessionRes.json().catch(() => ({}));
-        setError(
-          sessionData?.error ?? "Failed to create session. Please try again.",
-        );
+      if (!res.ok) {
+        setError(data?.error ?? "Login failed. Please check your credentials.");
         setLoading(false);
         return;
       }
 
       router.push("/portal/chat");
     } catch (err) {
-      // Distinguish network / CORS errors from other failures
+      // Distinguish network errors from other failures
       if (err instanceof TypeError && err.message.includes("fetch")) {
         setError(
           "Cannot connect to the server. This may be a network or configuration issue. Please try again later.",
