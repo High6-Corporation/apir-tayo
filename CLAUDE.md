@@ -40,7 +40,7 @@ Client portal authentication against Payload CMS:
 
 Protected chat UI that lets authenticated portal clients interact with the Payload CMS AI agent.
 
-- **Middleware:** `middleware.ts` — protects `/portal/chat`, redirects to `/portal/login` when `portal_token` cookie is absent (matcher: `/portal/chat` only)
+- **Proxy:** `proxy.ts` — protects `/portal/chat`, redirects to `/portal/login` when `portal_token` cookie is absent (matcher: `/portal/chat` only)
 - **Chat page:** `app/(portal)/portal/chat/page.tsx` — server component, reads `portal_tenant_id` and `portal_token` from httpOnly cookies, fetches the tenant name from Payload's `/api/tenants/{id}` (using `PAYLOAD_API_URL` server env var with JWT auth), passes `tenantName` and `tenantId` to `<ChatWindow>`. Falls back to "Your Portal" if the fetch fails. Redirects to `/portal/login` if cookie is missing (defense-in-depth).
 - **Tenant name display (Phase 5):** The header shows `"{tenantName} — AI-powered content management"` instead of the generic subtitle.
 - **Capabilities panel (Phase 5):** A "What can I do?" button in the header opens a modal overlay listing supported actions (What I can help you with: 5 items) and unsupported actions (What I cannot do: 5 items with prohibition styling). Replaces the static disclaimer banner from Phase 2–4. Collapsed by default, dismissible via close button or backdrop click.
@@ -53,7 +53,7 @@ Protected chat UI that lets authenticated portal clients interact with the Paylo
 - **Upload proxy (Phase 5):** `app/api/portal/upload/route.ts` — POST handler accepting multipart/form-data (`file`), reads `portal_token` and `portal_tenant_id` from cookies, forwards file + tenantId to `POST {PAYLOAD_API_URL}/api/agent-upload` as multipart/form-data with `Authorization: JWT <portal_token>`. Returns `{ mediaId, url }` or 401/502 on error.
 - **Logout:** The logout button in ChatWindow calls `DELETE /api/portal/session` and redirects to `/portal/login`
 
-Auth flow: Login → `/api/portal/session` sets cookies → middleware checks cookie → chat page reads cookie → ChatWindow calls proxy → proxy reads cookies → forwards to Payload agent
+Auth flow: Login → `/api/portal/session` sets cookies → proxy checks cookie → chat page reads cookie → ChatWindow calls proxy → proxy reads cookies → forwards to Payload agent
 
 The `@/*` TS path alias resolves to the project root.
 
