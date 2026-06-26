@@ -6,20 +6,43 @@ import { PrimaryButton } from "../../shared/Buttons";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-export function TrustSection() {
-  const { elementRef: contentRef, isVisible: contentVisible } = useScrollAnimation();
-  const { elementRef: imagesRef, isVisible: imagesVisible } = useScrollAnimation();
+interface TrustSectionProps {
+  trustSectionTitle?: string | null;
+  trustSectionParagraph?: string | null;
+}
+
+export function TrustSection({
+  trustSectionTitle,
+  trustSectionParagraph,
+}: TrustSectionProps) {
+  const { elementRef: contentRef, isVisible: contentVisible } =
+    useScrollAnimation();
+  const { elementRef: imagesRef, isVisible: imagesVisible } =
+    useScrollAnimation();
   const [showDecorations, setShowDecorations] = useState(false);
 
   useEffect(() => {
     const show = () => setShowDecorations(true);
-    const events = ['scroll', 'mousemove', 'touchstart', 'keydown'] as const;
-    const cleanup = () => events.forEach(e => window.removeEventListener(e, handler));
+    const events = ["scroll", "mousemove", "touchstart", "keydown"] as const;
+    const cleanup = () =>
+      events.forEach((e) => window.removeEventListener(e, handler));
     let timer: ReturnType<typeof setTimeout>;
-    const handler = () => { cleanup(); clearTimeout(timer); show(); };
-    events.forEach(e => window.addEventListener(e, handler, { once: true, passive: true }));
-    timer = setTimeout(() => { cleanup(); show(); }, 10000);
-    return () => { cleanup(); clearTimeout(timer); };
+    const handler = () => {
+      cleanup();
+      clearTimeout(timer);
+      show();
+    };
+    events.forEach((e) =>
+      window.addEventListener(e, handler, { once: true, passive: true }),
+    );
+    timer = setTimeout(() => {
+      cleanup();
+      show();
+    }, 10000);
+    return () => {
+      cleanup();
+      clearTimeout(timer);
+    };
   }, []);
 
   return (
@@ -29,9 +52,10 @@ export function TrustSection() {
         <div
           className="absolute right-0 top-0 w-[633px] h-[633px] hidden xl:block rotate-180 opacity-5 pointer-events-none"
           style={{
-            backgroundImage: 'url(/assets/62829c3128504d8a41beac802c538dc7fd781b84.png)',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
+            backgroundImage:
+              "url(/assets/62829c3128504d8a41beac802c538dc7fd781b84.png)",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
           }}
         />
       )}
@@ -39,7 +63,10 @@ export function TrustSection() {
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-20 relative">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Images Grid with Nested Containers */}
-          <div ref={imagesRef} className={`w-full max-[1023px]:flex max-[1023px]:justify-center max-[1023px] scroll-animate-left ${imagesVisible ? 'scroll-animate-visible' : ''}`}>
+          <div
+            ref={imagesRef}
+            className={`w-full max-[1023px]:flex max-[1023px]:justify-center max-[1023px] scroll-animate-left ${imagesVisible ? "scroll-animate-visible" : ""}`}
+          >
             <div className="flex flex-col gap-4 max-[1023px]:w-full max-[1023px]:max-w-[463px]">
               {/* 1st Container: Top row with 2 images (1 large, 1 small) */}
               <div className="flex gap-4 items-end max-[1023px]:items-center">
@@ -84,22 +111,23 @@ export function TrustSection() {
           </div>
 
           {/* Content */}
-          <div ref={contentRef} className={`flex flex-col gap-6 max-[1023px]:items-center max-[1023px]:text-center scroll-animate-right ${contentVisible ? 'scroll-animate-visible' : ''}`}>
+          <div
+            ref={contentRef}
+            className={`flex flex-col gap-6 max-[1023px]:items-center max-[1023px]:text-center scroll-animate-right ${contentVisible ? "scroll-animate-visible" : ""}`}
+          >
             <h3 className="font-semibold text-[#333]">
-              Built By a Team You Can Trust
+              {trustSectionTitle ?? "Built By a Team You Can Trust"}
             </h3>
             <div className="font-medium text-[15px] leading-[27px] text-[#59646b]">
-              <p>
-                Your website isn't made by random freelancers or generic templates.
-              </p>
-              <p>
-                It's made by the same experienced team behind websites across industries:
-                <br />
-                Healthcare, Education, Construction, Food & Beverage, Automotive, Real Estate, Retail/E-commerce, Government, Professional Services, Travel & Tours, and Non-Profit.
-              </p>
+              <p>{trustSectionParagraph ??
+                "Your website isn’t made by random freelancers or generic templates. It’s made by the same experienced team behind websites across industries: Healthcare, Education, Construction, Food & Beverage, Automotive, Real Estate, Retail/E-commerce, Government, Professional Services, Travel & Tours, and Non-Profit."}</p>
             </div>
             <div>
-              <Link href="/contact"><PrimaryButton>Get a High-Converting Page — ₱2,300/mo</PrimaryButton></Link>
+              <Link href="/contact">
+                <PrimaryButton>
+                  Get a High-Converting Page — ₱2,300/mo
+                </PrimaryButton>
+              </Link>
             </div>
           </div>
         </div>

@@ -29,3 +29,36 @@ export interface PayloadPricingPlan {
   items?: { item: string; id?: string | null }[] | null;
   order?: number | null;
 }
+
+export interface SiteSettings {
+  id: string;
+  site: string | { id: string; name?: string };
+
+  // --- hero tab ---
+  heroHeadline?: string | null;
+  heroSubheadline?: string | null;
+
+  // --- why one page tab ---
+  whyOnePageTitle?: string | null;
+  whyOnePageParagraph?: string | null;
+
+  // --- how it works tab ---
+  howItWorksTitle?: string | null;
+  howItWorksParagraph?: string | null;
+
+  // --- trust tab ---
+  trustSectionTitle?: string | null;
+  trustSectionParagraph?: string | null;
+
+  // --- cta tab ---
+  ctaTitle?: string | null;
+  ctaParagraph?: string | null;
+  ctaButtonText?: string | null;
+  ctaCaption?: string | null;
+
+  // --- footer tab ---
+  footerCopy?: string | null;
+
+  // --- custom tab ---
+  customFields?: { key: string; value: string; id?: string | null }[] | null;
+}
