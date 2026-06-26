@@ -178,15 +178,13 @@ export function useChatSession(tenantId: string, imageUpload: ImageUpload) {
             "[DEBUG awaiting-value chain] → branch: pending_confirmation",
           );
           const p = data.proposal as ProposalPayload;
-          const recordLabel = p.id ?? p.slug ?? "record";
           setPendingProposal(p);
 
-          const collectionLabel = p.collection.replace(/-/g, " ");
           setMessages((prev) => [
             ...prev,
             {
               role: "agent",
-              text: `I'll update the ${collectionLabel} "${recordLabel}" from:\n"${p.currentValue}"\nto:\n"${p.newValue}"\n\nType "confirm" or click Confirm to apply this change.`,
+              text: p.newValue,
             },
           ]);
         } else if (data?.status === "awaiting_fields") {
@@ -443,18 +441,12 @@ export function useChatSession(tenantId: string, imageUpload: ImageUpload) {
             // All fields collected — show proposal
             const p = data.proposal as ProposalPayload;
             setPendingProposal(p);
-            const actionLabels: Record<string, string> = {
-              add_faq: "FAQ",
-              add_testimonial: "testimonial",
-              add_portfolio_item: "portfolio item",
-              add_pricing_plan: "pricing plan",
-            };
-            const label = actionLabels[p.action] ?? "record";
+
             setMessages((prev) => [
               ...prev,
               {
                 role: "agent",
-                text: `I'll create a new ${label} with:\n${p.newValue}\n\nType "confirm" or click Confirm to apply this change.`,
+                text: p.newValue,
               },
             ]);
           } else {
@@ -575,27 +567,15 @@ export function useChatSession(tenantId: string, imageUpload: ImageUpload) {
           );
           // Proposal returned from the resolved-ID message
           const p = data.proposal as ProposalPayload;
-          const recordLabel = p.id ?? p.slug ?? "record";
           setPendingProposal(p);
 
-          if (p.action === "link_image") {
-            setMessages((prev) => [
-              ...prev,
-              {
-                role: "agent",
-                text: `I'll link the image (Media ID: ${p.newValue}) to the ${p.collection.replace(/-/g, " ")} "${recordLabel}".\n\nCurrent: ${p.currentValue}\n\nType "confirm" or click Confirm to apply this change.`,
-              },
-            ]);
-          } else {
-            const collectionLabel = p.collection.replace(/-/g, " ");
-            setMessages((prev) => [
-              ...prev,
-              {
-                role: "agent",
-                text: `I'll update the ${collectionLabel} "${recordLabel}" from:\n"${p.currentValue}"\nto:\n"${p.newValue}"\n\nType "confirm" or click Confirm to apply this change.`,
-              },
-            ]);
-          }
+          setMessages((prev) => [
+            ...prev,
+            {
+              role: "agent",
+              text: p.newValue,
+            },
+          ]);
         } else if (data?.status === "awaiting_value") {
           console.log(
             "[DEBUG selection-resolution chain] → branch: awaiting_value",
@@ -762,7 +742,10 @@ export function useChatSession(tenantId: string, imageUpload: ImageUpload) {
       setAwaitingFields(null);
       setMessages((prev) => [
         ...prev,
-        { role: "agent", text: "Previous request cancelled." },
+        {
+          role: "agent",
+          text: "Got it, I've set that aside. What would you like to do?",
+        },
       ]);
     }
 
@@ -854,27 +837,15 @@ export function useChatSession(tenantId: string, imageUpload: ImageUpload) {
         console.log("[DEBUG normal-send chain] → branch: pending_confirmation");
         // Proposal returned — display it and set pending state
         const p = data.proposal as ProposalPayload;
-        const recordLabel = p.id ?? p.slug ?? "record";
         setPendingProposal(p);
 
-        if (p.action === "link_image") {
-          setMessages((prev) => [
-            ...prev,
-            {
-              role: "agent",
-              text: `I'll link the image (Media ID: ${p.newValue}) to the ${p.collection.replace(/-/g, " ")} "${recordLabel}".\n\nCurrent: ${p.currentValue}\n\nType "confirm" or click Confirm to apply this change.`,
-            },
-          ]);
-        } else {
-          const collectionLabel = p.collection.replace(/-/g, " ");
-          setMessages((prev) => [
-            ...prev,
-            {
-              role: "agent",
-              text: `I'll update the ${collectionLabel} "${recordLabel}" from:\n"${p.currentValue}"\nto:\n"${p.newValue}"\n\nType "confirm" or click Confirm to apply this change.`,
-            },
-          ]);
-        }
+        setMessages((prev) => [
+          ...prev,
+          {
+            role: "agent",
+            text: p.newValue,
+          },
+        ]);
       } else if (data?.status === "needs_selection" && data?.records) {
         console.log("[DEBUG normal-send chain] → branch: needs_selection");
         // Phase 6: record list returned — show numbered list, wait for client selection
