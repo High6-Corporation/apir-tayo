@@ -5,7 +5,18 @@ import { PrimaryButton } from "../../shared/Buttons";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-export function PricingSection() {
+const pricingIconMap: Record<string, string> = {
+  "Website Essentials": "/assets/website-essentials-icon.svg",
+  "Technical Setup": "/assets/technical-setup-icon.svg",
+  "Ongoing Support": "/assets/ongoing-support-icon.svg",
+  "Flexible & Transparent": "/assets/flexible-transparent-icon.svg",
+};
+
+interface PricingSectionProps {
+  plans: { id?: string; label: string; items?: { item: string; id?: string | null }[] | null }[];
+}
+
+export function PricingSection({ plans }: PricingSectionProps) {
   const { elementRef: headerRef, isVisible: headerVisible } = useScrollAnimation();
   const { elementRef: cardRef, isVisible: cardVisible } = useScrollAnimation();
   const [showDecorations, setShowDecorations] = useState(false);
@@ -66,67 +77,21 @@ export function PricingSection() {
           </h4>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 mb-12">
-            {/* Website Essentials */}
-            <div className="max-[640px]:flex max-[640px]:flex-col max-[640px]:items-center max-[640px]:text-center">
-              <div className="flex flex-col">
-                <div className="flex items-center gap-3 mb-4">
-                  <img src="/assets/website-essentials-icon.svg" alt="" className="size-6" />
-                  <h4 className="font-bold text-[#5757ff]">Website Essentials</h4>
+            {plans.map((plan) => (
+              <div key={plan.id || plan.label} className="max-[640px]:flex max-[640px]:flex-col max-[640px]:items-center max-[640px]:text-center">
+                <div className="flex flex-col">
+                  <div className="flex items-center gap-3 mb-4">
+                    <img src={pricingIconMap[plan.label] || "/assets/pricing-icon.svg"} alt="" className="size-6" />
+                    <h4 className="font-bold text-[#5757ff]">{plan.label}</h4>
+                  </div>
+                  <ul className="font-medium text-[15px] leading-[16px] text-[#59646b] space-y-4">
+                    {plan.items?.map((it) => (
+                      <li key={it.id || it.item}>{it.item}</li>
+                    ))}
+                  </ul>
                 </div>
-                <ul className="font-medium text-[15px] leading-[16px] text-[#59646b] space-y-4">
-                  <li>Company overview</li>
-                  <li>Products or services</li>
-                  <li>Testimonials</li>
-                  <li>Contact form</li>
-                </ul>
               </div>
-            </div>
-
-            {/* Technical Setup */}
-            <div className="max-[640px]:flex max-[640px]:flex-col max-[640px]:items-center max-[640px]:text-center">
-              <div className="flex flex-col">
-                <div className="flex items-center gap-3 mb-4">
-                  <img src="/assets/technical-setup-icon.svg" alt="" className="size-6" />
-                  <h4 className="font-bold text-[#5757ff]">Technical Setup</h4>
-                </div>
-                <ul className="font-medium text-[15px] leading-[16px] text-[#59646b] space-y-4">
-                  <li>Mobile-responsive layout</li>
-                  <li>Hosting</li>
-                  <li>Basic security</li>
-                </ul>
-              </div>
-            </div>
-
-            {/* Ongoing Support */}
-            <div className="max-[640px]:flex max-[640px]:flex-col max-[640px]:items-center max-[640px]:text-center">
-              <div className="flex flex-col">
-                <div className="flex items-center gap-3 mb-4">
-                  <img src="/assets/ongoing-support-icon.svg" alt="" className="size-6" />
-                  <h4 className="font-bold text-[#5757ff]">Ongoing Support</h4>
-                </div>
-                <ul className="font-medium text-[15px] leading-[16px] text-[#59646b] space-y-4">
-                  <li>Support & updates</li>
-                  <li>Quarterly check</li>
-                </ul>
-              </div>
-            </div>
-
-            {/* Flexible & Transparent */}
-            <div className="max-[640px]:flex max-[640px]:flex-col max-[640px]:items-center max-[640px]:text-center">
-              <div className="flex flex-col">
-                <div className="flex items-center gap-3 mb-4">
-                  <img src="/assets/flexible-transparent-icon.svg" alt="" className="size-6" />
-                  <h4 className="font-bold text-[#5757ff]">Flexible & Transparent</h4>
-                </div>
-                <ul className="font-medium text-[15px] leading-[16px] text-[#59646b] space-y-4">
-                  <li>Company overview</li>
-                  <li>No hidden fees</li>
-                  <li>Cancel anytime</li>
-                  <li>Testimonials</li>
-                  <li>Contact form</li>
-                </ul>
-              </div>
-            </div>
+            ))}
           </div>
 
           <div className="flex justify-center">

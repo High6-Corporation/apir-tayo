@@ -5,33 +5,62 @@ import { PrimaryButton, SecondaryButton } from "../../shared/Buttons";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-export function CTASection() {
+interface CTASectionProps {
+  ctaTitle?: string | null;
+  ctaParagraph?: string | null;
+  ctaButtonText?: string | null;
+  ctaCaption?: string | null;
+}
+
+export function CTASection({
+  ctaTitle,
+  ctaParagraph,
+  ctaButtonText,
+  ctaCaption,
+}: CTASectionProps) {
   const { elementRef: ctaRef, isVisible: ctaVisible } = useScrollAnimation();
   const [showBg, setShowBg] = useState(false);
 
   useEffect(() => {
     const show = () => setShowBg(true);
-    const events = ['scroll', 'mousemove', 'touchstart', 'keydown'] as const;
-    const cleanup = () => events.forEach(e => window.removeEventListener(e, handler));
+    const events = ["scroll", "mousemove", "touchstart", "keydown"] as const;
+    const cleanup = () =>
+      events.forEach((e) => window.removeEventListener(e, handler));
     let timer: ReturnType<typeof setTimeout>;
-    const handler = () => { cleanup(); clearTimeout(timer); show(); };
-    events.forEach(e => window.addEventListener(e, handler, { once: true, passive: true }));
-    timer = setTimeout(() => { cleanup(); show(); }, 10000);
-    return () => { cleanup(); clearTimeout(timer); };
+    const handler = () => {
+      cleanup();
+      clearTimeout(timer);
+      show();
+    };
+    events.forEach((e) =>
+      window.addEventListener(e, handler, { once: true, passive: true }),
+    );
+    timer = setTimeout(() => {
+      cleanup();
+      show();
+    }, 10000);
+    return () => {
+      cleanup();
+      clearTimeout(timer);
+    };
   }, []);
 
   return (
     <section className="relative overflow-hidden bg-white py-12 max-[980px]:py-8 max-[767px]:py-6">
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-20">
-        <div ref={ctaRef} className={`bg-[#030337] rounded-[40px] overflow-hidden relative scroll-animate-scale ${ctaVisible ? 'scroll-animate-visible' : ''}`}>
+        <div
+          ref={ctaRef}
+          className={`bg-[#030337] rounded-[40px] overflow-hidden relative scroll-animate-scale ${ctaVisible ? "scroll-animate-visible" : ""}`}
+        >
           {/* Background Pattern - deferred */}
           {showBg && (
             <div
               className="absolute inset-0 opacity-[0.16] pointer-events-none rotate-[15deg] scale-150"
               style={{
-                backgroundImage: 'url(/assets/06bf200c49a8c78bfba577730d4b6f2d05411e1b.png)',
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
+                backgroundImage:
+                  "url(/assets/06bf200c49a8c78bfba577730d4b6f2d05411e1b.png)",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
               }}
             />
           )}
@@ -40,20 +69,28 @@ export function CTASection() {
           <div className="relative z-10 py-16 lg:py-24 px-8 max-[500px]:py-8 max-[500px]:px-4 text-center text-white">
             <div className="max-w-[871px] mx-auto flex flex-col gap-8 items-center">
               <div className="flex flex-col gap-4">
-                <h2 className="font-semibold">Start with one page.</h2>
+                <h2 className="font-semibold">{ctaTitle ?? "Start with one page."}</h2>
                 <p className="font-medium text-[15px] leading-[27px]">
-                  Grow steadily, upgrade when you're ready.**
-                  <br />
-                  The easiest way to look professional online — without overspending.
+                  {ctaParagraph ??
+                    "Grow steadily, upgrade when you’re ready. The easiest way to look professional online — without overspending."}
                 </p>
               </div>
 
               <div className="flex flex-col min-[661px]:flex-row gap-4 items-center shadow-[0px_4px_25px_0px_rgba(0,0,0,0.05)]">
-                <Link href="/contact"><PrimaryButton>Get a Professional Web Page - ₱2,300/mo</PrimaryButton></Link>
-                <Link href="/contact"><SecondaryButton>Schedule a Call</SecondaryButton></Link>
+                <Link href="/contact">
+                  <PrimaryButton>
+                    {ctaButtonText ?? "Get a Professional Web Page - ₱2,300/mo"}
+                  </PrimaryButton>
+                </Link>
+                <Link href="/contact">
+                  {/* ctaSecondaryButtonText not yet in SiteSettings schema */}
+                  <SecondaryButton>Schedule a Call</SecondaryButton>
+                </Link>
               </div>
 
-              <p className="font-normal text-[14px]">No large upfront fees.</p>
+              <p className="font-normal text-[14px]">
+                {ctaCaption ?? "No large upfront fees."}
+              </p>
             </div>
           </div>
         </div>

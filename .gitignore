@@ -6,4 +6,5 @@ out
 coverage
 .vscode
 .idea
+.env.local
 .env
