@@ -41,6 +41,9 @@ jobs:
           NEXT_PUBLIC_GA_ID: ${{ secrets.NEXT_PUBLIC_GA_ID }}
           NEXT_PUBLIC_GTM_ID: ${{ secrets.NEXT_PUBLIC_GTM_ID }}
           NEXT_PUBLIC_META_PIXEL_ID: ${{ secrets.NEXT_PUBLIC_META_PIXEL_ID }}
+          PAYLOAD_API_URL: ${{ secrets.PAYLOAD_API_URL }}
+          NEXT_PUBLIC_PAYLOAD_API_URL: ${{ secrets.NEXT_PUBLIC_PAYLOAD_API_URL }}
+          PAYLOAD_SITE_ID: ${{ secrets.PAYLOAD_SITE_ID }}
 
       - name: Transfer build artifact to VPS
         env:
@@ -51,7 +54,7 @@ jobs:
         run: |
           echo "$SSH_PRIVATE_KEY" > /tmp/deploy_key
           chmod 600 /tmp/deploy_key
-          rsync -az --omit-dir-times --delete \
+          rsync -rltz --omit-dir-times --no-perms --no-owner --no-group --delete \
             -e "ssh -i /tmp/deploy_key -p $SSH_PORT -o StrictHostKeyChecking=no" \
             .next/ $SSH_USER@$SSH_HOST:/home/projects/apirtayo/.next/
           rm -f /tmp/deploy_key

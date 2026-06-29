@@ -1,49 +1,61 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import { useScrollAnimation } from "@/app/components/hooks/useScrollAnimation";
 import { StarIcon } from "../../shared/Icons";
-interface Testimonial {
-  image: string;
-  quote: string;
-  name: string;
-  position: string;
-}
-const testimonials: Testimonial[] = [
-  {
-    image: "/assets/gtgo.png",
-    quote: "High6 delivered a clean, modern website that perfectly reflects our brand. The process was smooth, fast, and very well-managed from start to finish.",
-    name: "Jason Go",
-    position: "Vice President, GTGO Enterprises Inc."
-  },
-  {
-    image: "/assets/premiere-builders-corp.png",
-    quote: "Working with High6 was seamless. They understood our requirements clearly and delivered a website that looks professional and performs well across all devices.",
-    name: "Gene Nicolas",
-    position: "Founder, Premiere Builders Corp."
-  },
-  {
-    image: "/assets/all-about-people.png",
-    quote: "High6 transformed our ideas into a functional and engaging website. Their attention to detail and responsiveness made the entire collaboration easy and efficient.",
-    name: "Claudia Soriano",
-    position: "CEO, All About People"
-  }
-];
 
-export function TestimonialsSection() {
+const PAYLOAD_BASE = process.env.NEXT_PUBLIC_PAYLOAD_API_URL || "";
+
+function resolveImageUrl(url: string): string {
+  if (url.startsWith("/api/media/") && PAYLOAD_BASE) {
+    return `${PAYLOAD_BASE}${url}`;
+  }
+  return url;
+}
+
+// const testimonialImageMap: Record<string, string> = {
+//   "Jason Go": "/assets/gtgo.png",
+//   "Gene Nicolas": "/assets/premiere-builders-corp.png",
+//   "Claudia Soriano": "/assets/all-about-people.png",
+// };
+
+interface TestimonialsSectionProps {
+  testimonials: {
+    quote: string;
+    name: string;
+    position: string;
+    image?: { id: string; url: string } | string | null;
+  }[];
+}
+
+export function TestimonialsSection({
+  testimonials,
+}: TestimonialsSectionProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const { elementRef: headerRef, isVisible: headerVisible } = useScrollAnimation();
+  const { elementRef: headerRef, isVisible: headerVisible } =
+    useScrollAnimation();
 
   return (
-    <section id="testimonials" className="relative overflow-hidden bg-white py-12 max-[980px]:py-8 max-[767px]:py-6">
+    <section
+      id="testimonials"
+      className="relative overflow-hidden bg-white py-12 max-[980px]:py-8 max-[767px]:py-6"
+    >
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-20">
         {/* Section Header */}
-        <div ref={headerRef} className={`flex flex-col items-center text-center mb-12 scroll-animate ${headerVisible ? 'scroll-animate-visible' : ''}`}>
+        <div
+          ref={headerRef}
+          className={`flex flex-col items-center text-center mb-12 scroll-animate ${headerVisible ? "scroll-animate-visible" : ""}`}
+        >
           <div className="flex items-center gap-1 mb-2">
             <div className="h-0 w-14 border-t border-[#5757ff]" />
-            <img src="/assets/testimonials-icon.svg" alt="" className="h-[24px] w-[24px]" />
-            <p className="font-bold text-[13px] tracking-[-0.26px] text-[#5757ff]">TESTIMONIALS</p>
+            <img
+              src="/assets/testimonials-icon.svg"
+              alt=""
+              className="h-[24px] w-[24px]"
+            />
+            <p className="font-bold text-[13px] tracking-[-0.26px] text-[#5757ff]">
+              TESTIMONIALS
+            </p>
             <div className="h-0 w-14 border-t border-[#5757ff]" />
           </div>
           <h3 className="font-semibold tracking-[-0.6px] text-[#333] max-w-[413px]">
@@ -53,7 +65,7 @@ export function TestimonialsSection() {
 
         {/* Testimonial Carousel Container */}
         <div className="overflow-hidden">
-          <div 
+          <div
             className="flex transition-transform duration-700 ease-in-out"
             style={{ transform: `translateX(-${currentIndex * 100}%)` }}
           >
@@ -65,13 +77,15 @@ export function TestimonialsSection() {
                     <div className="flex justify-center items-center">
                       <div className="border border-[#d7d7d7] rounded-[20px] overflow-hidden w-full max-w-[420px]">
                         <div className="bg-white h-[280px] overflow-hidden relative">
-                          <Image
-                            src={testimonial.image}
+                          <img
+                            src={resolveImageUrl(
+                              (typeof testimonial.image === "object" &&
+                                testimonial.image?.url) ||
+                              "/assets/placeholder.png"
+                            )}
                             alt="Website Preview"
-                            fill
                             loading="lazy"
-                            className="object-cover object-top"
-                            sizes="(max-width: 768px) 100vw, 420px"
+                            className="absolute inset-0 w-full h-full object-cover object-top"
                           />
                         </div>
                       </div>
@@ -90,8 +104,12 @@ export function TestimonialsSection() {
                       </p>
 
                       <div>
-                        <h4 className="font-bold text-[#5757ff] mb-1">{testimonial.name}</h4>
-                        <p className="font-medium text-[15px] leading-[27px] text-[#59646b]">{testimonial.position}</p>
+                        <h4 className="font-bold text-[#5757ff] mb-1">
+                          {testimonial.name}
+                        </h4>
+                        <p className="font-medium text-[15px] leading-[27px] text-[#59646b]">
+                          {testimonial.position}
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -108,7 +126,9 @@ export function TestimonialsSection() {
               key={index}
               onClick={() => setCurrentIndex(index)}
               className={`w-3 h-3 rounded-full transition-colors duration-300 ${
-                currentIndex === index ? 'bg-[#5757ff]' : 'bg-[#E6E6E6] hover:bg-[#c4c4c4]'
+                currentIndex === index
+                  ? "bg-[#5757ff]"
+                  : "bg-[#E6E6E6] hover:bg-[#c4c4c4]"
               }`}
               aria-label={`View testimonial ${index + 1}`}
             />

@@ -79,6 +79,9 @@ Production-ready configuration with AVIF/WebP image formats, 1-year cache TTL fo
 
 > Legend: 📁 directory 📄 file
 
+📁 .github/
+  📁 workflows/ — GitHub Actions CI/CD workflows
+    📄 deploy.yml — Build and deploy to VPS on push to master branch (Node 22, npm ci, build, SSH transfer, PM2 restart)
 📄 .env — Environment variables (CleanTalk, WordPress API, analytics IDs) — **not committed**
 📄 .gitignore — Git ignore rules (node_modules, .next, logs, IDE configs)
 📄 ecosystem.config.cjs — PM2 deployment config (port 3002, production environment)
@@ -164,6 +167,7 @@ Production-ready configuration with AVIF/WebP image formats, 1-year cache TTL fo
     📁 consent/ — Consent management utilities
       📄 consent-config.ts — Per-site consent configuration
       📄 consent-storage.ts — localStorage read/write with versioning
+      📄 consent-theme.ts — Centralized consent UI theme configuration (colors, text labels, layout options)
       📄 consent-types.ts — TypeScript types for consent system
     
     📁 gravity-forms/ — WordPress Gravity Forms API integration
@@ -181,6 +185,8 @@ Production-ready configuration with AVIF/WebP image formats, 1-year cache TTL fo
 
 ## Audit log
 
-| Date       | Type       | Summary                                       |
-| ---------- | ---------- | --------------------------------------------- |
-| 2026-06-08 | Full audit | Initial generation for CI/CD pipeline context |
+| Date       | Type           | Summary                                                              |
+| ---------- | -------------- | -------------------------------------------------------------------- |
+| 2026-06-08 | Full audit     | Initial generation for CI/CD pipeline context                         |
+| 2026-06-11 | Incremental    | Added 2 new files: .github/workflows/deploy.yml, consent-theme.ts    |
+| 2026-06-17 | Incremental    | No new files. 2 modified: Footer.tsx (copyright update), page.tsx. 0 removals. |
