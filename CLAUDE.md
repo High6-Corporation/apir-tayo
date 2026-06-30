@@ -126,7 +126,10 @@ content in homepage sections. The Payload instance runs separately at `http://lo
 
 - Payload CMS is the single backend serving multiple frontends (multi-tenant)
 - apir-tayo is the first frontend connected to it, scoped to its own tenant
-- Contact form (Gravity Forms) stays unchanged for now
+- Contact form (Gravity Forms) stays unchanged for now — migration path:
+  - Payload's `/api/form-submissions` endpoint is now tenant-scoped (Phase 16) with auto-populated `site` field from the parent form
+  - CleanTalk anti-spam runs at the Payload layer via a `beforeChange` hook on `form-submissions` — no longer needs `CLEANTALK_API_KEY` in apir-tayo
+  - When apir-tayo migrates from Gravity Forms to Payload form-submissions, the proxy route MUST forward `x-forwarded-for` and `user-agent` headers for spam detection
 
 ### New env vars
 

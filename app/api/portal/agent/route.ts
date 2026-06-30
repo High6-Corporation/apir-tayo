@@ -58,6 +58,7 @@ export async function POST(request: Request) {
       body: JSON.stringify({
         message: body.message,
         tenantId,
+        siteId: process.env.PAYLOAD_SITE_ID,
         confirmed: body.confirmed,
         proposal: body.proposal,
         mediaId: body.mediaId,
