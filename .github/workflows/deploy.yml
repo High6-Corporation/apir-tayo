@@ -53,7 +53,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            sudo chown -R appuserwebsite:appuserwebsite /home/projects/apirtayo/.next
+            sudo rm -rf /home/projects/apirtayo/.next
 
       - name: Transfer build artifact to VPS
         env:
