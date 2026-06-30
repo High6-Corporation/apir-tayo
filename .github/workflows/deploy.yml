@@ -45,6 +45,16 @@ jobs:
           NEXT_PUBLIC_PAYLOAD_API_URL: ${{ secrets.NEXT_PUBLIC_PAYLOAD_API_URL }}
           PAYLOAD_SITE_ID: ${{ secrets.PAYLOAD_SITE_ID }}
 
+      - name: Fix .next ownership before rsync
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            sudo chown -R appuserwebsite:appuserwebsite /home/projects/apirtayo/.next
+
       - name: Transfer build artifact to VPS
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
