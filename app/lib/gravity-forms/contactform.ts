@@ -111,7 +111,7 @@ export async function getContactFormDefinition(
         headers: {
           Authorization: `Basic ${auth}`,
         },
-        next: { revalidate: 60 }, // Cache for 1 minute
+        cache: 'no-store',
       },
     );
 
