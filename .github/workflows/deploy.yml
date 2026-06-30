@@ -72,6 +72,7 @@ jobs:
           command_timeout: 5m
           script: |
             set -e
+            sudo chown -R appuserwebsite:appuserwebsite /home/projects/apirtayo/.next
             sudo -u appuserwebsite bash -c '
               cd /home/projects/apirtayo &&
               GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519_vps_git -o StrictHostKeyChecking=no" \
