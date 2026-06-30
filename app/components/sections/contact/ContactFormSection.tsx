@@ -1,11 +1,14 @@
-import { getDynamicFormFields } from '@/app/lib/gravity-forms/contactform';
+import type { DynamicFormField } from "@/app/lib/gravity-forms/contactform";
 import ContactForm from "./ContactForm";
 
-export default async function ContactFormSection() {
-  // Fetch form fields from WordPress Gravity Forms (Form ID 1 - default contact form)
-  const fields = await getDynamicFormFields(process.env.WP_GRAVITY_FORM_CONTACT_ID);
+interface ContactFormSectionProps {
+  fields: DynamicFormField[];
+  formId?: string;
+}
 
-  return (
-    <ContactForm fields={fields} formId={process.env.WP_GRAVITY_FORM_CONTACT_ID} />
-  );
+export default async function ContactFormSection({
+  fields,
+  formId,
+}: ContactFormSectionProps) {
+  return <ContactForm fields={fields} formId={formId} />;
 }
