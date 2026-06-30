@@ -8,3 +8,5 @@ coverage
 .idea
 .env.local
 .env
+graphify-out
+.claude
