@@ -2,10 +2,8 @@
 
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
-import {
-  DynamicFormField,
-  submitDynamicFormAction,
-} from "@/app/lib/gravity-forms/contactform";
+import { DynamicFormField } from "@/app/lib/gravity-forms/contactform";
+import { submitPayloadFormAction } from "@/app/lib/payload/submitPayloadForm";
 import { useCleanTalkBotDetector } from "@/app/lib/cleantalk/cleantalkscript";
 
 interface ContactFormProps {
@@ -51,20 +49,19 @@ export default function ContactForm({ fields, formId }: ContactFormProps) {
       return;
     }
 
+    if (!formId) {
+      setSubmitStatus({
+        type: "error",
+        message: "Form configuration error. Please try again later.",
+      });
+      setIsSubmitting(false);
+      return;
+    }
+
     const formData = new FormData(event.currentTarget);
 
     try {
-      const ctToken =
-        formData.get("ct_bot_detector_event_token")?.toString() || "";
-
-      formData.delete("ct_bot_detector_event_token");
-
-      const result = await submitDynamicFormAction(
-        formData,
-        fields,
-        formId,
-        ctToken,
-      );
+      const result = await submitPayloadFormAction(formData, fields, formId);
 
       if (result.success) {
         router.push("/thank-you");

@@ -74,6 +74,7 @@ function transformField(
     type: mappedType,
     label: field.label,
     name: `input_${fieldId}`,
+    payloadName: field.name, // original Payload block name (e.g. "full-name", "email")
     isRequired: field.required || false,
     placeholder: field.placeholder || field.label || "",
     choices,
