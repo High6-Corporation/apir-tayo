@@ -30,6 +30,31 @@ export interface PayloadPricingPlan {
   order?: number | null;
 }
 
+/** A single field definition inside a CustomCollection's `fields` JSON array. */
+export interface CustomCollectionField {
+  name: string;
+  type: "text" | "richtext" | "number" | "media" | "url" | "toggle";
+  required: boolean;
+  label?: string;
+}
+
+/** A custom-collections document — defines the dynamic schema for one collection. */
+export interface CustomCollection {
+  id: string;
+  site: string | { id: string; name?: string };
+  name: string;
+  slug?: string | null;
+  fields: CustomCollectionField[];
+}
+
+/** A custom-collection-entries document — one row of data under a collection. */
+export interface CustomCollectionEntry {
+  id: string;
+  site: string | { id: string; name?: string };
+  parentCollection: string | { id: string; name?: string };
+  data: Record<string, unknown>;
+}
+
 export interface SiteSettings {
   id: string;
   site: string | { id: string; name?: string };

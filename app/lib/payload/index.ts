@@ -3,7 +3,15 @@ export {
   fetchSiteSettings,
   getCustomField,
 } from "./fetchPayload";
+export {
+  fetchCustomCollections,
+  fetchCustomCollectionEntries,
+  fetchMediaUrl,
+} from "./fetchCustomCollection";
 export type {
+  CustomCollection,
+  CustomCollectionEntry,
+  CustomCollectionField,
   PayloadFAQ,
   PayloadTestimonial,
   PayloadPortfolioItem,

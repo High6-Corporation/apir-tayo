@@ -1,6 +1,6 @@
-'use server';
+"use server";
 
-import { headers } from 'next/headers';
+import { headers } from "next/headers";
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -63,6 +63,7 @@ export interface DynamicFormField {
   type: GravityFieldType;
   label: string;
   name: string;
+  payloadName?: string; // original Payload field block name for form-submissions
   isRequired: boolean;
   placeholder: string;
   choices?: { value: string; label: string }[];
@@ -111,7 +112,7 @@ export async function getContactFormDefinition(
         headers: {
           Authorization: `Basic ${auth}`,
         },
-        cache: 'no-store',
+        cache: "no-store",
       },
     );
 
@@ -240,49 +241,51 @@ export async function submitDynamicFormAction(
 
     // Get user's real IP address from headers (Server Action compatible)
     const headersList = await headers();
-    const userIP = 
-      headersList.get('cf-connecting-ip') ||
-      headersList.get('x-forwarded-for')?.split(',')[0].trim() ||
-      headersList.get('x-real-ip') ||
-      headersList.get('x-client-ip') ||
-      headersList.get('remote-addr') ||
-      'unknown';
+    const userIP =
+      headersList.get("cf-connecting-ip") ||
+      headersList.get("x-forwarded-for")?.split(",")[0].trim() ||
+      headersList.get("x-real-ip") ||
+      headersList.get("x-client-ip") ||
+      headersList.get("remote-addr") ||
+      "unknown";
 
     // Extract user agent and referrer from request headers
-    const userAgent = headersList.get('user-agent') || '';
-    const referrer = headersList.get('referer') || headersList.get('referrer') || '';
+    const userAgent = headersList.get("user-agent") || "";
+    const referrer =
+      headersList.get("referer") || headersList.get("referrer") || "";
 
     // Extract form data from FormData object
     const formFields: { [key: string]: string } = {};
     for (const [key, value] of formData.entries()) {
-      if (key !== 'website') { // Exclude honeypot
+      if (key !== "website") {
+        // Exclude honeypot
         formFields[key] = value.toString();
       }
     }
 
     // Find email field
-    const emailField = fields.find((f) => f.type === 'email');
-    const senderEmail = emailField ? (formFields[emailField.name] || '') : '';
-    
+    const emailField = fields.find((f) => f.type === "email");
+    const senderEmail = emailField ? formFields[emailField.name] || "" : "";
+
     // Combine all form values for CleanTalk
-    const sanitize = (str: string) => str.replace(/<[^>]*>/g, '').trim();
+    const sanitize = (str: string) => str.replace(/<[^>]*>/g, "").trim();
     const allFormValues = Object.values(formFields)
-      .filter((val) => val && val.trim() !== '')
+      .filter((val) => val && val.trim() !== "")
       .map(sanitize)
-      .join(' | ')
+      .join(" | ")
       .substring(0, 1024);
 
     const ctValidationResult = await validateCleanTalkToken(
-      ct_bot_detector_event_token, 
+      ct_bot_detector_event_token,
       senderEmail,
       allFormValues,
       userIP,
       userAgent,
-      referrer
+      referrer,
     );
-    
+
     if (!ctValidationResult.allow) {
-      console.warn('CleanTalk validation failed:', ctValidationResult.message);
+      console.warn("CleanTalk validation failed:", ctValidationResult.message);
       return {
         success: false,
         message: "Verification failed. Please refresh the page and try again.",
@@ -350,12 +353,17 @@ export async function submitDynamicFormAction(
       }
 
       // Validate max length (use field maxLength if set, otherwise use defaults)
-      const maxLength = (field.maxLength && field.maxLength > 0) 
-        ? field.maxLength 
-        : (field.type === 'textarea' ? 512 : 256);
-      
+      const maxLength =
+        field.maxLength && field.maxLength > 0
+          ? field.maxLength
+          : field.type === "textarea"
+            ? 512
+            : 256;
+
       if (value.length > maxLength) {
-        console.error(`${field.label} too long: ${value.length} > ${maxLength}`);
+        console.error(
+          `${field.label} too long: ${value.length} > ${maxLength}`,
+        );
         return {
           success: false,
           message: `${field.label} exceeds maximum length (${maxLength} characters)`,
@@ -446,21 +454,22 @@ async function submitDynamicToGravityForms(
   }
 }
 
-
 // CleanTalk API
-async function validateCleanTalkToken(
-  token: string, 
+export async function validateCleanTalkToken(
+  token: string,
   senderEmail: string,
   message: string,
   userIP: string,
-  userAgent: string = '',
-  referrer: string = ''
+  userAgent: string = "",
+  referrer: string = "",
 ): Promise<{ allow: boolean; message?: string; code?: string }> {
   try {
     const apiKey = process.env.CLEANTALK_API_KEY;
     if (!apiKey) {
-      console.warn('CLEANTALK_API_KEY not configured (development mode) - rejecting submission');
-      return { allow: false, message: 'Api Key not configured' };
+      console.warn(
+        "CLEANTALK_API_KEY not configured (development mode) - rejecting submission",
+      );
+      return { allow: false, message: "Api Key not configured" };
     }
 
     // Create abort controller for timeout
@@ -469,13 +478,13 @@ async function validateCleanTalkToken(
 
     try {
       // Use the correct CleanTalk API endpoint
-      const response = await fetch('https://moderate.cleantalk.org/api2.0', {
-        method: 'POST',
+      const response = await fetch("https://moderate.cleantalk.org/api2.0", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          method_name: 'check_message',
+          method_name: "check_message",
           auth_key: apiKey,
           event_token: token,
           event_token_enabled: 1,
@@ -484,19 +493,26 @@ async function validateCleanTalkToken(
           message: message,
           sender_info: JSON.stringify({
             REFFERRER: referrer,
-            USER_AGENT: userAgent
-          })
+            USER_AGENT: userAgent,
+          }),
         }),
-        signal: controller.signal
+        signal: controller.signal,
       });
 
       clearTimeout(timeout);
       // Check if API response is OK
       if (!response.ok) {
-        console.error('CleanTalk API error:', response.status, response.statusText);
-        
+        console.error(
+          "CleanTalk API error:",
+          response.status,
+          response.statusText,
+        );
+
         // Fail closed - block submission when API is down
-        return { allow: false, message: 'Verification service unavailable. Please try again later.' };
+        return {
+          allow: false,
+          message: "Verification service unavailable. Please try again later.",
+        };
       }
 
       const result = await response.json();
@@ -505,29 +521,38 @@ async function validateCleanTalkToken(
       if (result.allow === 1 || result.allow === true) {
         return { allow: true };
       } else {
-        console.warn('CleanTalk blocked:', result.codes);
+        console.warn("CleanTalk blocked:", result.codes);
         return {
           allow: false,
-          message: result.comment || 'Verification failed',
-          code: result.codes || result.code
+          message: result.comment || "Verification failed",
+          code: result.codes || result.code,
         };
       }
     } catch (fetchError: any) {
       clearTimeout(timeout);
-      
+
       // Handle timeout specifically
-      if (fetchError.name === 'AbortError') {
-        console.error('CleanTalk API request timed out');
+      if (fetchError.name === "AbortError") {
+        console.error("CleanTalk API request timed out");
       } else {
-        console.error('CleanTalk validation network error:', fetchError.message);
+        console.error(
+          "CleanTalk validation network error:",
+          fetchError.message,
+        );
       }
-      
+
       // Fail closed - block submission on network errors
-      return { allow: false, message: 'Verification service unavailable. Please try again later.' };
+      return {
+        allow: false,
+        message: "Verification service unavailable. Please try again later.",
+      };
     }
   } catch (error: any) {
-    console.error('CleanTalk validation unexpected error:', error.message);
+    console.error("CleanTalk validation unexpected error:", error.message);
     // Fail closed - block submission on unexpected errors
-    return { allow: false, message: 'Verification service unavailable. Please try again later.' };
+    return {
+      allow: false,
+      message: "Verification service unavailable. Please try again later.",
+    };
   }
 }
