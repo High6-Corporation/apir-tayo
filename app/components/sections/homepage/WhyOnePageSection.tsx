@@ -2,6 +2,7 @@
 
 import { useScrollAnimation } from "@/app/components/hooks/useScrollAnimation";
 import { PrimaryButton } from "../../shared/Buttons";
+import { RichTextRenderer } from "@/app/components/shared/RichTextRenderer";
 import Link from "next/link";
 
 interface WhyOnePageSectionProps {
@@ -78,8 +79,11 @@ export function WhyOnePageSection({
 
             {/* Description Text */}
             <p className="font-medium text-[15px] leading-[27px] text-[#59646b] mb-8">
-              {whyOnePageParagraph ??
-                "Every section is intentionally crafted to guide visitors from interest to action. By removing distractions and focusing on clarity, one well-designed page delivers stronger engagement, faster load times, and higher conversions."}
+              {whyOnePageParagraph ? (
+                <RichTextRenderer data={whyOnePageParagraph} as="span" />
+              ) : (
+                "Every section is intentionally crafted to guide visitors from interest to action. By removing distractions and focusing on clarity, one well-designed page delivers stronger engagement, faster load times, and higher conversions."
+              )}
             </p>
 
             {/* CTA Button */}

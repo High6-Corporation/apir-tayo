@@ -61,6 +61,13 @@ export async function fetchFromPayload<T>(
 }
 
 import type { SiteSettings } from "./payload-types";
+import { serializeLexical } from "./serializeLexical";
+
+/** Convert a richText value to an HTML string, or null if empty/missing. */
+const richTextToHTML = (val: unknown): string | null => {
+  const html = serializeLexical(val);
+  return html || null;
+};
 
 /**
  * Fetch the single SiteSettings document for the given site.
@@ -98,41 +105,19 @@ export async function fetchSiteSettings(
       typeof doc.site === "string"
         ? doc.site
         : String((doc.site as { id?: string })?.id ?? ""),
-    heroHeadline:
-      typeof hero?.heroHeadline === "string" ? hero.heroHeadline : null,
-    heroSubheadline:
-      typeof hero?.heroSubheadline === "string" ? hero.heroSubheadline : null,
-    whyOnePageTitle:
-      typeof whyOnePage?.whyOnePageTitle === "string"
-        ? whyOnePage.whyOnePageTitle
-        : null,
-    whyOnePageParagraph:
-      typeof whyOnePage?.whyOnePageParagraph === "string"
-        ? whyOnePage.whyOnePageParagraph
-        : null,
-    howItWorksTitle:
-      typeof howItWorks?.howItWorksTitle === "string"
-        ? howItWorks.howItWorksTitle
-        : null,
-    howItWorksParagraph:
-      typeof howItWorks?.howItWorksParagraph === "string"
-        ? howItWorks.howItWorksParagraph
-        : null,
-    trustSectionTitle:
-      typeof trust?.trustSectionTitle === "string"
-        ? trust.trustSectionTitle
-        : null,
-    trustSectionParagraph:
-      typeof trust?.trustSectionParagraph === "string"
-        ? trust.trustSectionParagraph
-        : null,
-    ctaTitle: typeof cta?.ctaTitle === "string" ? cta.ctaTitle : null,
-    ctaParagraph:
-      typeof cta?.ctaParagraph === "string" ? cta.ctaParagraph : null,
+    heroHeadline: richTextToHTML(hero?.heroHeadline),
+    heroSubheadline: richTextToHTML(hero?.heroSubheadline),
+    whyOnePageTitle: richTextToHTML(whyOnePage?.whyOnePageTitle),
+    whyOnePageParagraph: richTextToHTML(whyOnePage?.whyOnePageParagraph),
+    howItWorksTitle: richTextToHTML(howItWorks?.howItWorksTitle),
+    howItWorksParagraph: richTextToHTML(howItWorks?.howItWorksParagraph),
+    trustSectionTitle: richTextToHTML(trust?.trustSectionTitle),
+    trustSectionParagraph: richTextToHTML(trust?.trustSectionParagraph),
+    ctaTitle: richTextToHTML(cta?.ctaTitle),
+    ctaParagraph: richTextToHTML(cta?.ctaParagraph),
     ctaButtonText:
       typeof cta?.ctaButtonText === "string" ? cta.ctaButtonText : null,
-    ctaCaption:
-      typeof cta?.ctaCaption === "string" ? cta.ctaCaption : null,
+    ctaCaption: typeof cta?.ctaCaption === "string" ? cta.ctaCaption : null,
     footerCopy:
       typeof footer?.footerCopy === "string" ? footer.footerCopy : null,
     customFields: Array.isArray(custom?.customFields)

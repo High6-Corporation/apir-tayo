@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { PortfolioGallery } from "@/app/components/sections/homepage/PortfolioGallery";
 import { PrimaryButton } from "@/app/components/shared/Buttons";
+import { RichTextRenderer } from "@/app/components/shared/RichTextRenderer";
 import { Timer } from "lucide-react";
 import { useEffect, useState } from "react";
 
@@ -92,7 +93,11 @@ export function HeroSection({
               {/* Heading */}
               <h1 className="max-[981px]:max-w-[550px] font-semibold tracking-[-1.1px] mb-6">
                 {heroHeadline ? (
-                  <span className="text-[#333]">{heroHeadline}</span>
+                  <RichTextRenderer
+                    data={heroHeadline}
+                    as="span"
+                    className="text-[#333]"
+                  />
                 ) : (
                   <>
                     <span className="text-[#333]">Professional Website. </span>
@@ -105,8 +110,11 @@ export function HeroSection({
 
               {/* Description */}
               <p className="font-medium text-[15px] leading-[30px] tracking-[-0.3px] text-[#333] mb-8">
-                {heroSubheadline ??
-                  "We design and build stunning one-page websites in Framer — optimized for speed, clarity, and conversions. Perfect for startups, services, and growing brands."}
+                {heroSubheadline ? (
+                  <RichTextRenderer data={heroSubheadline} as="span" />
+                ) : (
+                  "We design and build stunning one-page websites in Framer — optimized for speed, clarity, and conversions. Perfect for startups, services, and growing brands."
+                )}
               </p>
 
               {/* CTA Button */}
@@ -139,7 +147,11 @@ export function HeroSection({
               {/* Heading */}
               <h1 className="font-semibold tracking-[-1.1px] mb-6 text-[#333]">
                 {heroHeadline ? (
-                  <span className="text-[#333]">{heroHeadline}</span>
+                  <RichTextRenderer
+                    data={heroHeadline}
+                    as="span"
+                    className="text-[#333]"
+                  />
                 ) : (
                   <>
                     <span className="text-[#333]">Professional Website. </span>
@@ -152,8 +164,11 @@ export function HeroSection({
 
               {/* Description */}
               <p className="font-medium text-[15px] leading-[30px] tracking-[-0.3px] text-[#333] mb-8">
-                {heroSubheadline ??
-                  "We design and build stunning one-page websites in Framer — optimized for speed, clarity, and conversions. Perfect for startups, services, and growing brands."}
+                {heroSubheadline ? (
+                  <RichTextRenderer data={heroSubheadline} as="span" />
+                ) : (
+                  "We design and build stunning one-page websites in Framer — optimized for speed, clarity, and conversions. Perfect for startups, services, and growing brands."
+                )}
               </p>
 
               {/* CTA Button */}

@@ -2,6 +2,7 @@
 
 import { useScrollAnimation } from "@/app/components/hooks/useScrollAnimation";
 import { PrimaryButton, SecondaryButton } from "../../shared/Buttons";
+import { RichTextRenderer } from "@/app/components/shared/RichTextRenderer";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -69,10 +70,19 @@ export function CTASection({
           <div className="relative z-10 py-16 lg:py-24 px-8 max-[500px]:py-8 max-[500px]:px-4 text-center text-white">
             <div className="max-w-[871px] mx-auto flex flex-col gap-8 items-center">
               <div className="flex flex-col gap-4">
-                <h2 className="font-semibold">{ctaTitle ?? "Start with one page."}</h2>
+                <h2 className="font-semibold">
+                  {ctaTitle ? (
+                    <RichTextRenderer data={ctaTitle} as="span" />
+                  ) : (
+                    "Start with one page."
+                  )}
+                </h2>
                 <p className="font-medium text-[15px] leading-[27px]">
-                  {ctaParagraph ??
-                    "Grow steadily, upgrade when you’re ready. The easiest way to look professional online — without overspending."}
+                  {ctaParagraph ? (
+                    <RichTextRenderer data={ctaParagraph} as="span" />
+                  ) : (
+                    "Grow steadily, upgrade when you're ready. The easiest way to look professional online — without overspending."
+                  )}
                 </p>
               </div>
 
