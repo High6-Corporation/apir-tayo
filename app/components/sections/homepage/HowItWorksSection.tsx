@@ -1,6 +1,7 @@
 "use client";
 
 import { useScrollAnimation } from "@/app/components/hooks/useScrollAnimation";
+import { RichTextRenderer } from "@/app/components/shared/RichTextRenderer";
 
 interface HowItWorksSectionProps {
   howItWorksTitle?: string | null;
@@ -83,7 +84,11 @@ export function HowItWorksSection({
           </div>
           <h3 className="font-semibold tracking-[-0.6px] text-center max-w-[413px]">
             {howItWorksTitle ? (
-              <span className="text-[#333]">{howItWorksTitle}</span>
+              <RichTextRenderer
+                data={howItWorksTitle}
+                as="span"
+                className="text-[#333]"
+              />
             ) : (
               <>
                 <span className="text-[#333]">Our Simple </span>
@@ -94,8 +99,11 @@ export function HowItWorksSection({
         </div>
 
         <p className="font-medium text-[15px] leading-[27px] text-[#59646b] text-center max-w-[841px] mx-auto mb-12">
-          {howItWorksParagraph ??
-            "Our process is simple, structured, and built to save you time. We guide you from onboarding to launch with clear steps and regular updates, so there’s no confusion or overwhelm. You get a professional website without the usual stress."}
+          {howItWorksParagraph ? (
+            <RichTextRenderer data={howItWorksParagraph} as="span" />
+          ) : (
+            "Our process is simple, structured, and built to save you time. We guide you from onboarding to launch with clear steps and regular updates, so there's no confusion or overwhelm. You get a professional website without the usual stress."
+          )}
         </p>
 
         {/* Steps Grid */}

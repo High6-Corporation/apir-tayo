@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useScrollAnimation } from "@/app/components/hooks/useScrollAnimation";
 import { PrimaryButton } from "../../shared/Buttons";
+import { RichTextRenderer } from "@/app/components/shared/RichTextRenderer";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -116,11 +117,25 @@ export function TrustSection({
             className={`flex flex-col gap-6 max-[1023px]:items-center max-[1023px]:text-center scroll-animate-right ${contentVisible ? "scroll-animate-visible" : ""}`}
           >
             <h3 className="font-semibold text-[#333]">
-              {trustSectionTitle ?? "Built By a Team You Can Trust"}
+              {trustSectionTitle ? (
+                <RichTextRenderer data={trustSectionTitle} as="span" />
+              ) : (
+                "Built By a Team You Can Trust"
+              )}
             </h3>
             <div className="font-medium text-[15px] leading-[27px] text-[#59646b]">
-              <p>{trustSectionParagraph ??
-                "Your website isn’t made by random freelancers or generic templates. It’s made by the same experienced team behind websites across industries: Healthcare, Education, Construction, Food & Beverage, Automotive, Real Estate, Retail/E-commerce, Government, Professional Services, Travel & Tours, and Non-Profit."}</p>
+              {trustSectionParagraph ? (
+                <RichTextRenderer data={trustSectionParagraph} as="p" />
+              ) : (
+                <p>
+                  Your website isn't made by random freelancers or generic
+                  templates. It's made by the same experienced team behind
+                  websites across industries: Healthcare, Education,
+                  Construction, Food & Beverage, Automotive, Real Estate,
+                  Retail/E-commerce, Government, Professional Services, Travel &
+                  Tours, and Non-Profit.
+                </p>
+              )}
             </div>
             <div>
               <Link href="/contact">
