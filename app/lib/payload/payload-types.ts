@@ -33,7 +33,8 @@ export interface PayloadPricingPlan {
 /** A single field definition inside a CustomCollection's `fields` JSON array. */
 export interface CustomCollectionField {
   name: string;
-  type: "text" | "richtext" | "number" | "media" | "url" | "toggle";
+  type:
+    "text" | "richtext" | "number" | "media" | "category" | "url" | "toggle";
   required: boolean;
   label?: string;
 }

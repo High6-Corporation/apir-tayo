@@ -122,3 +122,59 @@ export async function fetchMediaUrl(mediaId: string): Promise<string | null> {
     return null;
   }
 }
+
+/**
+ * Resolve an array of Payload category document IDs to their titles.
+ *
+ * Custom-collection entries with a `category` field type store an array of
+ * raw category IDs inside their `data` JSON (e.g. `{ "category": ["id1", "id2"] }`).
+ * Unlike regular collections where `depth > 0` populates relationship objects
+ * inline, dynamic JSON fields always store just the ID — so we need a separate
+ * round-trip to resolve them into human-readable names.
+ *
+ * Returns a `Record<categoryId, title>` mapping on success, `null` on any
+ * failure so the page can fall back to displaying raw IDs.
+ */
+export async function fetchCategoryNames(
+  categoryIds: string[],
+): Promise<Record<string, string> | null> {
+  if (!BASE_URL) {
+    console.error("[fetchCategoryNames] PAYLOAD_API_URL is not set");
+    return null;
+  }
+
+  if (categoryIds.length === 0) return {};
+
+  try {
+    const results = await Promise.all(
+      categoryIds.map(async (id) => {
+        try {
+          const url = `${BASE_URL}/api/categories/${id}?depth=0`;
+          const res = await fetch(url, { next: { revalidate: 3600 } });
+
+          if (!res.ok) {
+            console.error(
+              `[fetchCategoryNames] categories/${id}: HTTP ${res.status} ${res.statusText}`,
+            );
+            return { id, title: null };
+          }
+
+          const doc = (await res.json()) as { title?: string };
+          return { id, title: (doc.title as string) || id };
+        } catch {
+          console.error(`[fetchCategoryNames] categories/${id}: fetch failed`);
+          return { id, title: null };
+        }
+      }),
+    );
+
+    const names: Record<string, string> = {};
+    for (const { id, title } of results) {
+      if (title) names[id] = title;
+    }
+    return names;
+  } catch (error) {
+    console.error("[fetchCategoryNames] fetch failed", error);
+    return null;
+  }
+}
