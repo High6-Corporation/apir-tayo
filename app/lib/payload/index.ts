@@ -7,6 +7,7 @@ export {
   fetchCustomCollections,
   fetchCustomCollectionEntries,
   fetchMediaUrl,
+  fetchCategoryNames,
 } from "./fetchCustomCollection";
 export type {
   CustomCollection,

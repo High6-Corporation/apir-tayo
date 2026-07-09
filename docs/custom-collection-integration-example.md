@@ -48,6 +48,21 @@ This document is a reference for wiring custom collections into any Next.js page
 │  media document IDs inside their `data` JSON. Unlike regular │
 │  collections where `depth > 0` populates the media object    │
 │  inline, dynamic JSON fields always store just the ID.       │
+└──────────────────────────┬──────────────────────────────────┘
+                           │ for each category-type field
+                           ▼
+┌─────────────────────────────────────────────────────────────┐
+│  fetchCategoryNames(categoryIds)                              │
+│    GET /api/categories/{id}?depth=0  (parallel per id)       │
+│    → Record<string, string> | null  (id → title mapping)     │
+│                                                              │
+│  Category fields store an array of Payload category          │
+│  document IDs (e.g. ["661f8b5d...", "671a1b2c..."]).         │
+│  fetchCategoryNames() resolves them in parallel to           │
+│  human-readable titles — same null-on-failure contract       │
+│  as fetchMediaUrl(). Categories are hierarchical via the     │
+│  nested-docs plugin; storing IDs preserves the full          │
+│  parent/child chain for each category.                       │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -62,7 +77,8 @@ All three functions return `null` on any failure (missing env var, network error
 
 interface CustomCollectionField {
   name: string; // kebab-case, e.g. "full-name"
-  type: "text" | "richtext" | "number" | "media" | "url" | "toggle";
+  type:
+    "text" | "richtext" | "number" | "media" | "category" | "url" | "toggle";
   required: boolean;
   label?: string; // human-readable, e.g. "Full Name"
 }
@@ -130,6 +146,18 @@ const renderFieldValue = (field: CustomCollectionField, rawValue: unknown) => {
       );
     }
 
+    case "category": {
+      const categoryNames = /* lookup from pre-resolved categoryNameMap */;
+      if (!categoryNames) return <span>[categories unavailable]</span>;
+      const ids: string[] = Array.isArray(rawValue) ? rawValue : [];
+      if (ids.length === 0) return <span>—</span>;
+      return (
+        <span>
+          {ids.map((id) => categoryNames[id] || id).join(", ")}
+        </span>
+      );
+    }
+
     default:
       return <span>{String(rawValue ?? "—")}</span>;
   }
@@ -159,6 +187,31 @@ for (const { id, url } of results) {
 }
 ```
 
+**Category pre-resolution pattern** — collect all category field values across all entries, flatten the arrays, deduplicate, and resolve in parallel before rendering:
+
+```tsx
+import { fetchCategoryNames } from "@/app/lib/payload";
+
+const categoryNameMap = new Map<string, string>();
+const categoryFieldNames = new Set(
+  collection.fields.filter((f) => f.type === "category").map((f) => f.name),
+);
+const categoryIds = entries.flatMap((e) =>
+  categoryFieldNames
+    .map((name) => (e.data as Record<string, unknown>)[name])
+    .filter((v): v is string[] => Array.isArray(v))
+    .flat(),
+);
+if (categoryIds.length > 0) {
+  const names = await fetchCategoryNames([...new Set(categoryIds)]);
+  if (names) {
+    for (const [id, title] of Object.entries(names)) {
+      categoryNameMap.set(id, title);
+    }
+  }
+}
+```
+
 ---
 
 ## 5. ISR Revalidation
@@ -182,6 +235,7 @@ import {
   fetchCustomCollections,
   fetchCustomCollectionEntries,
   fetchMediaUrl,
+  fetchCategoryNames,
 } from "@/app/lib/payload";
 import type { CustomCollection } from "@/app/lib/payload";
 
@@ -200,7 +254,7 @@ export default async function MyPage() {
   const entries = await fetchCustomCollectionEntries(siteId, collection.id);
   if (!entries?.length) return <p>No entries yet</p>;
 
-  // 3. Render (with media pre-resolution as shown in §4)
+  // 3. Render (with media + category pre-resolution as shown in §4)
   return (/* your rendering here */);
 }
 ```
@@ -209,13 +263,13 @@ export default async function MyPage() {
 
 ## 7. Files Reference
 
-| File                                       | Role                                                                            |
-| ------------------------------------------ | ------------------------------------------------------------------------------- |
-| `app/lib/payload/payload-types.ts`         | `CustomCollection`, `CustomCollectionEntry`, `CustomCollectionField` interfaces |
-| `app/lib/payload/fetchCustomCollection.ts` | `fetchCustomCollections()`, `fetchCustomCollectionEntries()`, `fetchMediaUrl()` |
-| `app/lib/payload/index.ts`                 | Barrel re-exports (all three functions + types)                                 |
+| File                                       | Role                                                                                                    |
+| ------------------------------------------ | ------------------------------------------------------------------------------------------------------- |
+| `app/lib/payload/payload-types.ts`         | `CustomCollection`, `CustomCollectionEntry`, `CustomCollectionField` interfaces                         |
+| `app/lib/payload/fetchCustomCollection.ts` | `fetchCustomCollections()`, `fetchCustomCollectionEntries()`, `fetchMediaUrl()`, `fetchCategoryNames()` |
+| `app/lib/payload/index.ts`                 | Barrel re-exports (all four functions + types)                                                          |
 
-All three utilities follow the same contract as the existing `fetchFromPayload<T>()` in `fetchPayload.ts`: `BASE_URL` from `PAYLOAD_API_URL`, `null` on failure, `console.error` prefix convention, no throwing.
+All four utilities follow the same contract as the existing `fetchFromPayload<T>()` in `fetchPayload.ts`: `BASE_URL` from `PAYLOAD_API_URL`, `null` on failure, `console.error` prefix convention, no throwing.
 
 ---
 
@@ -224,3 +278,4 @@ All three utilities follow the same contract as the existing `fetchFromPayload<T
 - **Test route removed.** An earlier test page at `/test-custom-collection` validated the round trip against real Payload admin data. It was removed to avoid leaving a live public route with a raw-data debug panel. This document is the reusable reference.
 - **Richtext is plain text.** The `richtext` field type in `EntryDataField` (payload-poc) is a generic `<textarea>` input — not a real lexical/HTML editor. Rendering as HTML would be unsafe. When a proper rich-text editor is added to payload-poc, the rendering switch here should be updated to use `dangerouslySetInnerHTML` with appropriate sanitization.
 - **Media is always a doc ID, and `fetchMediaUrl()` returns an absolute URL.** Unlike `testimonial.image` or `portfolio.image` — where setting `depth > 0` on the fetch populates the full media object inline — custom collection entries store raw IDs inside arbitrary JSON. Always resolve via `fetchMediaUrl()`, which fetches the media document and prepends `PAYLOAD_API_URL` to the relative path, matching the `resolveImageUrl()` convention used in section components.
+- **Categories are an array of IDs, resolved via `fetchCategoryNames()`.** The `category` field type stores an array of Payload category document IDs (matching the `hasMany: true` pattern from Posts). Use `fetchCategoryNames(categoryIds)` to resolve them in parallel to a `Record<id, title>` mapping. Categories are hierarchical via the nested-docs plugin — storing IDs rather than names preserves the full parent/child chain for each category.
