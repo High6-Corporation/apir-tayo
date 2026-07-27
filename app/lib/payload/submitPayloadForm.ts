@@ -105,6 +105,9 @@ export async function submitPayloadFormAction(
     const tenantId = formDoc?.tenant;
 
     // --- POST to Payload ---
+    // Forward real client IP/UA/referrer so the Payload-side CleanTalk hook
+    // scores the visitor, not the VPS. The hook reads clientInfo.ip /
+    // clientInfo.userAgent / clientInfo.referrer when present.
     const response = await fetch(`${BASE_URL}/api/form-submissions`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -112,6 +115,11 @@ export async function submitPayloadFormAction(
         form: formId,
         submissionData,
         tenant: tenantId,
+        clientInfo: {
+          ip: userIP,
+          userAgent,
+          referrer,
+        },
       }),
     });
 
