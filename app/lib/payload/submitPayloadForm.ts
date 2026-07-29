@@ -86,10 +86,52 @@ export async function submitPayloadFormAction(
     }
 
     // --- Build submissionData using payloadName ---
-    const submissionData = fields.map((field) => ({
-      field: field.payloadName ?? field.name,
-      value: formData.get(field.name)?.toString().trim() || "",
-    }));
+    // For file upload fields: upload the file to Payload Media first,
+    // then store the media document ID as the submission value.
+    // form-submissions doesn't accept multipart — this is the confirmed pattern.
+    const submissionData: { field: string; value: string }[] = []
+
+    for (const field of fields) {
+      if (field.type === 'fileupload') {
+        const file = formData.get(field.name) as File | null
+        if (file && file.size > 0) {
+          try {
+            const uploadForm = new FormData()
+            uploadForm.append('file', file)
+
+            const uploadRes = await fetch(`${BASE_URL}/api/media`, {
+              method: 'POST',
+              body: uploadForm,
+            })
+
+            if (uploadRes.ok) {
+              const created = await uploadRes.json()
+              const mediaId = created?.doc?.id ?? ''
+              if (mediaId) {
+                submissionData.push({
+                  field: field.payloadName ?? field.name,
+                  value: mediaId,
+                })
+              }
+            } else {
+              console.error(
+                `[submitPayloadForm] Media upload failed for ${field.name}: HTTP ${uploadRes.status}`,
+              )
+            }
+          } catch (err) {
+            console.error(
+              `[submitPayloadForm] Media upload error for ${field.name}:`,
+              err,
+            )
+          }
+        }
+      } else {
+        submissionData.push({
+          field: field.payloadName ?? field.name,
+          value: formData.get(field.name)?.toString().trim() || '',
+        })
+      }
+    };
 
     // --- Resolve tenant from the form document ---
     if (!BASE_URL) {

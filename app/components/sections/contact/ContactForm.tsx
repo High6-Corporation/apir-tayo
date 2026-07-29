@@ -191,6 +191,31 @@ export default function ContactForm({ fields, formId }: ContactFormProps) {
           </div>
         );
 
+      case "fileupload":
+        return (
+          <div key={field.id} className="space-y-2">
+            {showLabel && (
+              <label className="block text-sm font-semibold text-gray-800 mb-2">
+                {field.label}{" "}
+                {field.isRequired && <span className="text-red-500">*</span>}
+              </label>
+            )}
+            <div>
+              <input
+                id={fieldName}
+                name={fieldName}
+                type="file"
+                required={field.isRequired}
+                className="block w-full text-[15px] tracking-[-0.45px] text-[#585858] file:mr-3 file:py-2 file:px-4 file:rounded-[5px] file:border-0 file:text-sm file:font-medium file:bg-[#5757ff] file:text-white hover:file:bg-[#24247d] file:transition-colors file:cursor-pointer"
+                aria-label={field.label || undefined}
+              />
+              {field.description && (
+                <p className="text-xs text-gray-400 mt-1">{field.description}</p>
+              )}
+            </div>
+          </div>
+        );
+
       case "textarea":
         return (
           <div key={field.id} className="space-y-2">
