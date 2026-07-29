@@ -33,6 +33,20 @@ interface PayloadForm {
 // ============================================================================
 // Type mapping — Payload blockType → GravityFieldType
 // ============================================================================
+//
+// REFERENCE — adding a file upload field to a form:
+//
+// 1. Payload admin → Forms → edit the form → add a field:
+//    { "blockType": "upload", "name": "attachment", "label": "Attachment",
+//      "uploadCollection": "media" }
+//
+// 2. This mapping (upload → "fileupload") routes it to ContactForm.tsx's
+//    fileupload render case, which shows a styled file input.
+//
+// 3. On submit, submitPayloadForm.ts uploads the file to
+//    /api/public-form-upload (see payload-poc) first, then includes the
+//    returned media document ID in the JSON payload to /api/form-submissions.
+// ============================================================================
 
 function mapBlockType(blockType: string): GravityFieldType {
   const typeMap: Record<string, GravityFieldType> = {
@@ -40,6 +54,7 @@ function mapBlockType(blockType: string): GravityFieldType {
     email: "email",
     number: "phone", // Payload seed data uses blockType: 'number' for phone fields
     textarea: "textarea",
+    upload: "fileupload",
     select: "select",
     checkbox: "checkbox",
     radio: "radio",
