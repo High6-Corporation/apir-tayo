@@ -98,15 +98,16 @@ export async function submitPayloadFormAction(
           try {
             const uploadForm = new FormData()
             uploadForm.append('file', file)
+            uploadForm.append('formId', formId)
 
-            const uploadRes = await fetch(`${BASE_URL}/api/media`, {
+            const uploadRes = await fetch(`${BASE_URL}/api/public-form-upload`, {
               method: 'POST',
               body: uploadForm,
             })
 
             if (uploadRes.ok) {
               const created = await uploadRes.json()
-              const mediaId = created?.doc?.id ?? ''
+              const mediaId = created?.id ?? ''
               if (mediaId) {
                 submissionData.push({
                   field: field.payloadName ?? field.name,
