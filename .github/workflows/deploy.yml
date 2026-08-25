@@ -86,7 +86,7 @@ jobs:
             sudo -u appuserwebsite bash -c '
               cd /home/projects/apirtayo &&
               GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519_vps_git -o StrictHostKeyChecking=no" \
-                git pull git@github.com:High6-Corporation/apir-tayo.git master &&
+                git pull git@github.com:High6-Corporation/apir-tayo-frontend.git master &&
               npm ci --omit=dev
             '
             sudo -u appuserwebsite /usr/local/bin/pm2 reload apirtayo --update-env
