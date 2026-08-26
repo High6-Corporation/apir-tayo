@@ -1,8 +1,8 @@
 module.exports = {
   apps: [{
     name: 'apirtayo',
-    script: 'npm',
-    args: 'start -- -p 3002',
+    script: '/home/projects/apirtayo/node_modules/next/dist/bin/next',
+    args: 'start -p 3002',
     cwd: '/home/projects/apirtayo',
     instances: 1,
     autorestart: true,
@@ -10,6 +10,7 @@ module.exports = {
     max_memory_restart: '1G',
     env: {
       NODE_ENV: 'production'
+      // WP_SITE_URL, WP_GRAVITY_* etc. come from .env (untracked) — do not commit secrets here
     }
   }]
 };
